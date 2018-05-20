@@ -1,0 +1,80 @@
+@charset "UTF-8";
+
+
+#AnchorPane_top{
+	-fx-background-color: #1b1d20;
+	-fx-border-color:  #bfbfbf;
+	-fx-border-width: 0 0 2 0;
+}
+
+.AnchorPane_topline{
+	-fx-background-color: #1b1d20;
+	-fx-border-color: #bfbfbf;
+	-fx-border-width: 1 0 0 0;
+}
+
+#AnchorPane_bottom{
+	-fx-background-color: #1b1d20;
+	-fx-border-width: 2 0 0 0;
+	-fx-border-color: #bfbfbf;
+}
+
+
+
+.split-pane{
+   -fx-padding: 0;
+}
+.split-pane > .split-pane-divider {  
+    -fx-padding: 0 0.01em 0 0.01em;     
+} 
+
+
+.black-backgroud {
+   -fx-background-color: #1b1d20;
+}
+
+
+.titled-pane 
+{ 
+   -fx-text-fill: #ffffff;
+   -fx-border-width: 0 0 0 0;
+}
+
+.titled-pane > .title {
+
+ -fx-background-color: #1b1d20
+
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: #1b1d20; 
+}
+
+.tab-pane>.tab-header-area> .tab-header-background {
+   -fx-background-color: -fx-outer-border,-fx-text-box-border, #1b1d20;
+}
+
+.noborder{  
+    -fx-padding: 0;  
+    -fx-background-insets: 0;  
+}  
+
+
+
+.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill:  #ffffff;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:top {
+    -fx-background-color: -fx-outer-border, -fx-inner-border, #1b1d20;
+}
+
+
+
+
+
+
+
+
+

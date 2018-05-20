@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="592.0" prefWidth="1037.0" styleClass="black-backgroud" stylesheets="@../css/main/MainPageCSS.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <AnchorPane fx:id="AnchorPane_top" prefHeight="84.0" prefWidth="1037.0" BorderPane.alignment="CENTER" />
+   </top>
+   <bottom>
+      <AnchorPane fx:id="AnchorPane_bottom" prefHeight="34.0" prefWidth="736.0" BorderPane.alignment="CENTER" />
+   </bottom>
+   <center>
+      <SplitPane dividerPositions="0.35" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+          <AnchorPane fx:id="SplitLeft" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="black-backgroud" SplitPane.resizableWithParent="false">
+               <children>
+                  <SplitPane dividerPositions="0.3" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="64.0" prefWidth="157.0" styleClass="black-backgroud" SplitPane.resizableWithParent="false" />
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="black-backgroud">
+                           <children>
+                              <Accordion prefHeight="162.0" prefWidth="201.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
+                                <panes>
+                                  <TitledPane animated="false" prefHeight="119.0" prefWidth="232.0" styleClass="black-backgroud" text="工程名称">
+                                       <content>
+                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                            <content>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                            </content>
+                                          </ScrollPane>
+                                       </content>
+                                  </TitledPane>
+                                  <TitledPane animated="false" styleClass="noborder" text="辅助功能">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="95.0" prefWidth="231.0">
+                                             <styleClass>
+                                                <String fx:value="black-backgroud" />
+                                                <String fx:value="noborder" />
+                                             </styleClass>
+                                          </AnchorPane>
+                                    </content>
+                                  </TitledPane>
+                                </panes>
+                              </Accordion>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="black-backgroud">
+               <children>
+                  <TabPane layoutX="-10.0" layoutY="37.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <tabs>
+                      <Tab text="使用说明">
+                           <content>
+                              <AnchorPane prefHeight="445.0" prefWidth="622.0">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <children>
+                                    <Label layoutX="31.0" layoutY="14.0" prefHeight="120.0" prefWidth="323.0" text="欢迎使用本系统！" textFill="WHITE">
+                                       <font>
+                                          <Font size="32.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </center>
+</BorderPane>
