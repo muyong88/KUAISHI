@@ -1,5 +1,3 @@
-@charset "UTF-8";
-
 
 #AnchorPane_top{
 	-fx-background-color: #1b1d20;
@@ -19,8 +17,19 @@
 	-fx-border-color: #bfbfbf;
 }
 
+.button{
+	-fx-background-color: transparent;
+}
 
+.text-field{
+	-fx-text-fill: #ffffff;
+	-fx-background-color : null;
+	-fx-border-color: #bfbfbf;
+}
 
+.label{
+    -fx-text-fill: #ffffff;
+}
 .split-pane{
    -fx-padding: 0;
 }
@@ -71,10 +80,46 @@
 }
 
 
+#Label_Title{
+	-fx-background-image: url("Title.png")
+}
+#Label_head{
+	-fx-background-image: url("Head.png");
 
+}
 
+#Button_minimize{
+	-fx-background-image: url("MinmizeDark.png")
+}
+#Button_minimize:hover{
+	-fx-background-image: url("Minmize.png")
+}
 
+#Button_close{
+	-fx-background-image: url("CloseDark.png");
+}
+#Button_close:hover{
+	-fx-background-image: url("Close.png")
+}
+#Button_setting{
+	-fx-background-image: url("SettingDark.png")
+}
 
+#Button_setting:hover{
+	-fx-background-image: url("Setting.png")
+}
 
+#Button_maxmize{
+	-fx-background-image: url("MaxmizeDark.png");
+}
 
+#Button_maxmize:hover{
+	-fx-background-image: url("Maxmize.png");
+}
+#Button_search {
+	-fx-background-image: url("SearchDark.png")
+}
 
+#Button_search:hover{
+	-fx-background-image: url("Search.png")
+}
