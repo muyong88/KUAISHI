@@ -1,0 +1,142 @@
+
+#AnchorPane_top{
+	-fx-background-color: #1b1d20;
+	-fx-border-color:  #bfbfbf;
+	-fx-border-width: 0 0 2 0;
+}
+
+.AnchorPane_topline{
+	-fx-background-color: #1b1d20;
+	-fx-border-color: #bfbfbf;
+	-fx-border-width: 1 0 0 0;
+}
+
+#AnchorPane_bottom{
+	-fx-background-color: #1b1d20;
+	-fx-border-width: 2 0 0 0;
+	-fx-border-color: #bfbfbf;
+}
+
+.button{
+	-fx-background-color: transparent;
+}
+
+.text-field{
+	-fx-text-fill: #ffffff;
+	-fx-background-color : null;
+	-fx-border-color: #bfbfbf;
+}
+
+.label{
+    -fx-text-fill: #ffffff;
+}
+.split-pane{
+   -fx-padding: 0;
+}
+.split-pane > .split-pane-divider {  
+    -fx-padding: 0 0.01em 0 0.01em;     
+} 
+
+
+.black-backgroud {
+   -fx-background-color: #1b1d20 ;
+
+}
+
+
+.titled-pane 
+{ 
+   -fx-text-fill: #1b1d20;
+   -fx-border-width: 0 0 0 0;
+}
+
+.titled-pane > .title {
+
+ -fx-background-color: #1b1d20, -fx-inner-border, -fx-body-color;
+
+}
+
+
+.titled-pane > .title > .arrow-button > .arrow {
+    -fx-background-color: #1b1d20;
+ }
+
+.scroll-pane > .viewport {
+    -fx-background-color: #1b1d20; 
+}
+
+.tab-pane>.tab-header-area> .tab-header-background {
+   -fx-background-color: -fx-outer-border,-fx-text-box-border, #1b1d20;
+}
+
+.noborder{  
+    -fx-padding: 0;  
+    -fx-background-insets: 0;  
+}  
+
+
+
+.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill:  #ffffff;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:top {
+    -fx-background-color: -fx-outer-border, -fx-inner-border, #1b1d20;
+}
+
+
+#Label_Title{
+	-fx-background-image: url("Title.png")
+}
+#Label_head{
+	-fx-background-image: url("Head.png");
+
+}
+
+#Button_minimize{
+	-fx-background-image: url("MinmizeDark.png")
+}
+#Button_minimize:hover{
+	-fx-background-image: url("Minmize.png")
+}
+
+#Button_close{
+	-fx-background-image: url("CloseDark.png");
+}
+#Button_close:hover{
+	-fx-background-image: url("Close.png")
+}
+#Button_setting{
+	-fx-background-image: url("SettingDark.png")
+}
+
+#Button_setting:hover{
+	-fx-background-image: url("Setting.png")
+}
+
+#Button_maxmize{
+	-fx-background-image: url("MaxmizeDark.png");
+}
+
+#Button_maxmize:hover{
+	-fx-background-image: url("Maxmize.png");
+}
+#Button_search {
+	-fx-background-image: url("SearchDark.png")
+}
+
+#Button_search:hover{
+	-fx-background-image: url("Search.png")
+}
+
+.tree-view, .tree-cell {
+    -fx-background-color: #1b1d20 ;
+    -fx-text-fill: #ffffff ;
+}
+.tree-cell .tree-disclosure-node .arrow {
+ -fx-background-color:#ffffff;
+  -fx-border-color: #ffffff;
+}
+
+
