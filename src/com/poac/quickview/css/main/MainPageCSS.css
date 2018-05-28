@@ -17,8 +17,53 @@
 	-fx-border-color: #bfbfbf;
 }
 
-.button{
+
+#button_Setting,#button_Minimize,#button_Maxmize,#button_Close,#button_Search{
 	-fx-background-color: transparent;
+}
+
+.button_WhiteBorder {
+    -fx-padding: 5 22 5 22;   
+    -fx-border-color: #e2e2e2;
+    -fx-border-width: 2;
+    -fx-background-radius: 0;
+    -fx-background-color: #1d1d1d;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 11pt;
+    -fx-text-fill: #d8d8d8;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+}
+
+.button_WhiteBorder:hover {
+    -fx-background-color: #3a3a3a;
+}
+
+.button_WhiteBorder:pressed, .button_WhiteBorder:default:hover:pressed {
+  -fx-background-color: white;
+  -fx-text-fill: #1d1d1d;
+}
+
+.button_WhiteBorder:focused {
+    -fx-border-color: white, white;
+    -fx-border-width: 1, 1;
+    -fx-border-style: solid, segments(1, 1);
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+.button_WhiteBorder:disabled, .button_WhiteBorder:default:disabled {
+    -fx-opacity: 0.4;
+    -fx-background-color: #1d1d1d;
+    -fx-text-fill: white;
+}
+
+.button_WhiteBorder:default {
+    -fx-background-color: -fx-focus-color;
+    -fx-text-fill: #ffffff;
+}
+
+.button_WhiteBorder:default:hover {
+    -fx-background-color: derive(-fx-focus-color,30%);
 }
 
 .text-field{
@@ -26,6 +71,8 @@
 	-fx-background-color : null;
 	-fx-border-color: #bfbfbf;
 }
+
+
 
 .label{
     -fx-text-fill: #ffffff;
@@ -86,47 +133,47 @@
 }
 
 
-#Label_Title{
+#label_Title{
 	-fx-background-image: url("Title.png")
 }
-#Label_head{
+#Label_Head{
 	-fx-background-image: url("Head.png");
 
 }
 
-#Button_minimize{
+#button_Minimize{
 	-fx-background-image: url("MinmizeDark.png")
 }
-#Button_minimize:hover{
+#button_Minimize:hover{
 	-fx-background-image: url("Minmize.png")
 }
 
-#Button_close{
+#button_Close{
 	-fx-background-image: url("CloseDark.png");
 }
-#Button_close:hover{
+#button_Close:hover{
 	-fx-background-image: url("Close.png")
 }
-#Button_setting{
+#button_Setting{
 	-fx-background-image: url("SettingDark.png")
 }
 
-#Button_setting:hover{
+#button_Setting:hover{
 	-fx-background-image: url("Setting.png")
 }
 
-#Button_maxmize{
+#button_Maxmize{
 	-fx-background-image: url("MaxmizeDark.png");
 }
 
-#Button_maxmize:hover{
+#button_Maxmize:hover{
 	-fx-background-image: url("Maxmize.png");
 }
-#Button_search {
+#button_Search {
 	-fx-background-image: url("SearchDark.png")
 }
 
-#Button_search:hover{
+#button_Search:hover{
 	-fx-background-image: url("Search.png")
 }
 

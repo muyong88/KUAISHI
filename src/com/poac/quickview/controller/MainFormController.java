@@ -10,6 +10,8 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import com.poac.quickview.gui.MainApp;;
+
 
 public class MainFormController {
 	
@@ -23,10 +25,24 @@ public class MainFormController {
 	private TitledPane titledPane;
 	
 	@FXML
+	private MainApp mainApp; 
+	
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+    }
+    
+	@FXML
 	private void onButtonClose(ActionEvent event){//°´Å¥¡°¹Ø±Õ³ÌÐò¡±id
 		Platform.exit();
 		System.exit(0);
 	}
+	
+	@FXML
+	private void onButtonSubscribe() {
+		mainApp.showSubscribe();
+	}
+	
+	
 
 	@FXML
     private void initialize() {
