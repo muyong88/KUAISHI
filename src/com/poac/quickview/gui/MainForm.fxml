@@ -35,13 +35,12 @@
         <items>
           <AnchorPane fx:id="SplitLeft" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="black-backgroud" SplitPane.resizableWithParent="false">
                <children>
-                  <SplitPane dividerPositions="0.2" layoutY="-30.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane dividerPositions="0.15" layoutY="-30.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="64.0" prefWidth="157.0" styleClass="black-backgroud" SplitPane.resizableWithParent="false">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="62.0" prefWidth="279.0" styleClass="black-backgroud" SplitPane.resizableWithParent="false">
                            <children>
-                              <TextField layoutX="24.0" layoutY="14.0" prefHeight="31.0" prefWidth="195.0" promptText="参数代号" />
-                              <Button fx:id="button_Search" layoutX="227.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" />
-                              <Button fx:id="buttonSubscribe" layoutX="24.0" layoutY="51.0" mnemonicParsing="false" onAction="#onButtonSubscribe" prefHeight="33.0" prefWidth="195.0" styleClass="button_WhiteBorder" text="数据订阅" />
+                              <TextField layoutX="24.0" layoutY="22.0" prefHeight="31.0" prefWidth="195.0" promptText="参数代号" />
+                              <Button fx:id="button_Search" layoutX="227.0" layoutY="23.0" mnemonicParsing="false" onAction="#onButtonSubscribe" prefHeight="30.0" prefWidth="30.0" />
                            </children></AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="black-backgroud">
                            <children>
@@ -51,7 +50,7 @@
                                        <content>
                                           <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="black-backgroud">
                                              <children>
-                                                <TreeView fx:id="treeView_project" layoutX="-17.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <TreeView fx:id="treeView_project" layoutX="-17.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="-15.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-10.0" AnchorPane.topAnchor="-10.0" />
                                              </children>
                                           </AnchorPane>
                                        </content>
@@ -90,6 +89,8 @@
                                           <Font size="32.0" />
                                        </font>
                                     </Label>
+                                    <TextField layoutX="34.0" layoutY="124.0" prefHeight="37.0" prefWidth="263.0" text="第一周实现主页面布局UI" />
+                                    <TextField layoutX="34.0" layoutY="171.0" prefHeight="37.0" prefWidth="338.0" text="第二周实现导航栏右键菜单，以及添加参数页面" />
                                  </children>
                               </AnchorPane>
                            </content>

@@ -24,8 +24,7 @@ public class MainApp extends Application {
 	private double xOffset = 0;  
     private double yOffset = 0;  
     private MainFormController mainCon = null;
-   
-
+  
     
 	@Override
 	public void start(Stage primaryStage) {
@@ -92,6 +91,7 @@ public class MainApp extends Application {
 		// Show the dialog and wait until the user closes it
 		dialogStage.showAndWait();
 
+		
     	return true;
 		} catch (IOException e) {
 			e.printStackTrace();

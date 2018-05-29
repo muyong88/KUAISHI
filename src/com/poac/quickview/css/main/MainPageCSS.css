@@ -18,6 +18,10 @@
 }
 
 
+.menu-item >.label {
+    -fx-text-fill:  #1b1d20 ;
+}
+
 #button_Setting,#button_Minimize,#button_Maxmize,#button_Close,#button_Search{
 	-fx-background-color: transparent;
 }
@@ -178,8 +182,9 @@
 }
 
 .tree-view, .tree-cell {
-    -fx-background-color: #1b1d20 ;
+    -fx-background-color: -fx-box-border, -fx-control-inner-background,#1b1d20 ;
     -fx-text-fill: #ffffff ;
+   
 }
 .tree-cell .tree-disclosure-node .arrow {
  -fx-background-color:#ffffff;
