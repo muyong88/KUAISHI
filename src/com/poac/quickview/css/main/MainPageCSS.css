@@ -26,49 +26,6 @@
 	-fx-background-color: transparent;
 }
 
-.button_WhiteBorder {
-    -fx-padding: 5 22 5 22;   
-    -fx-border-color: #e2e2e2;
-    -fx-border-width: 2;
-    -fx-background-radius: 0;
-    -fx-background-color: #1d1d1d;
-    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-    -fx-font-size: 11pt;
-    -fx-text-fill: #d8d8d8;
-    -fx-background-insets: 0 0 0 0, 0, 1, 2;
-}
-
-.button_WhiteBorder:hover {
-    -fx-background-color: #3a3a3a;
-}
-
-.button_WhiteBorder:pressed, .button_WhiteBorder:default:hover:pressed {
-  -fx-background-color: white;
-  -fx-text-fill: #1d1d1d;
-}
-
-.button_WhiteBorder:focused {
-    -fx-border-color: white, white;
-    -fx-border-width: 1, 1;
-    -fx-border-style: solid, segments(1, 1);
-    -fx-border-radius: 0, 0;
-    -fx-border-insets: 1 1 1 1, 0;
-}
-
-.button_WhiteBorder:disabled, .button_WhiteBorder:default:disabled {
-    -fx-opacity: 0.4;
-    -fx-background-color: #1d1d1d;
-    -fx-text-fill: white;
-}
-
-.button_WhiteBorder:default {
-    -fx-background-color: -fx-focus-color;
-    -fx-text-fill: #ffffff;
-}
-
-.button_WhiteBorder:default:hover {
-    -fx-background-color: derive(-fx-focus-color,30%);
-}
 
 .text-field{
 	-fx-text-fill: #ffffff;
@@ -88,12 +45,10 @@
     -fx-padding: 0 0.01em 0 0.01em;     
 } 
 
-
 .black-backgroud {
    -fx-background-color: #1b1d20 ;
 
 }
-
 
 .titled-pane 
 { 

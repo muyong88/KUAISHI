@@ -3,6 +3,8 @@ package com.poac.quickview.controller;
 
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -10,11 +12,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
+
+import java.util.ArrayList;
 
 import com.poac.quickview.gui.MainApp;;
 
@@ -33,6 +41,9 @@ public class MainFormController {
 	@FXML
 	private MainApp mainApp; 
 	
+	@FXML
+	private TabPane tabPanel;
+	
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
@@ -43,10 +54,7 @@ public class MainFormController {
 		System.exit(0);
 	}
 	
-	@FXML
-	private void onButtonSubscribe() {
-		mainApp.showSubscribe();
-	}
+
 	
 	
 
@@ -71,11 +79,51 @@ public class MainFormController {
          treeView_project.setCellFactory(new Callback<TreeView<String>,TreeCell<String>>(){
              @Override
              public TreeCell<String> call(TreeView<String> p) {
-                 return new TreeViewCellImpl();
+            	 TreeViewCellImpl tC=new TreeViewCellImpl(mainApp);
+            	 tC.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                     @Override
+                     public void handle(MouseEvent event) {
+                         if (event.getClickCount() == 2) {
+                             TreeCell c = (TreeCell) event.getSource();
+                             String tempS=c.getText();
+                             if(tempS.equals("天和")| tempS.equals("流体柜")| tempS.equals("液桥")| tempS.equals("空间三相多液滴迁移行为研究")) {
+                                 
+                                 }else {
+                                	 boolean bb=false;
+                                	 for(Tab t:tabPanel.getTabs()){
+                                		 if(t.getText().equals(tempS))
+                                			 bb=true;
+                                	 }
+                                	 if(bb==false){
+                                	 Tab tab = new Tab();
+                                     tab.setText(tempS);
+                                     tabPanel.getTabs().add(tab);
+                                     SingleSelectionModel<Tab> selectionModel = tabPanel.getSelectionModel();
+                                     selectionModel.select(tab);
+                                	 }
+                                 }     
+                         }
+                     }
+                 });
+                 return tC;
+                 
              }
          });
+//         treeView_project.getSelectionModel().selectedItemProperty().addListener( new ChangeListener() {
+//
+//             @Override
+//             public void changed(ObservableValue observable, Object oldValue,
+//                     Object newValue) {
+//
+//                 TreeItem<String> selectedItem = (TreeItem<String>) newValue;
+//                 System.out.println("Selected Text : " + selectedItem.getValue());
+//                 // do what ever you want 
+//             }
+//
+//           });
 
 	}
+
 
 
 }
@@ -84,8 +132,11 @@ final class TreeViewCellImpl extends TreeCell<String> {
 	 
     private ContextMenu addMenu1 = new ContextMenu();
     private ContextMenu addMenu2 = new ContextMenu();
+    private MainApp mainApp; 
 
-    public TreeViewCellImpl() {
+
+    public TreeViewCellImpl(MainApp mainApp) {
+    	this.mainApp=mainApp;
         MenuItem addMenuItem1 = new MenuItem("增加页面");
         MenuItem addMenuItem2 = new MenuItem("增加容器");
         MenuItem addMenuItem3 = new MenuItem("增加参数");
@@ -94,12 +145,21 @@ final class TreeViewCellImpl extends TreeCell<String> {
         addMenu2.getItems().add(addMenuItem3);
         addMenuItem1.setOnAction(new EventHandler() {
             public void handle(Event t) {
-                TreeItem newEmployee = 
+                TreeItem newPage = 
                     new TreeItem<String>("新页面");
-                        getTreeItem().getChildren().add(newEmployee);
+                        getTreeItem().getChildren().add(newPage);
             }
-        });   
+        }); 
+        addMenuItem3.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+            	mainApp.showSubscribe();
+            }
+        }); 
+        
     }
+    
+    
+    
         @Override
         public void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
@@ -126,6 +186,10 @@ final class TreeViewCellImpl extends TreeCell<String> {
         private String getString() {
             return getItem() == null ? "" : getItem().toString();
         }
+       
+        
+
+
  
     
 }

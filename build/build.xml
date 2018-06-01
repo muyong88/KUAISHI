@@ -21,6 +21,11 @@
 	
 		<copy todir="externalLibs">
 			<fileset dir="E:\git\QuickView\lib">
+				<filename name="controlsfx-8.40.14.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="E:\git\QuickView\lib">
 				<filename name="jfoenix-8.0.4.jar"/>
 			</fileset>
 		</copy>
@@ -44,6 +49,7 @@
 		<copy todir="build/libs">
 			<fileset dir="externalLibs">
 				<include name="jfoenix-8.0.4.jar"/>
+				<include name="controlsfx-8.40.14.jar"/>
 			</fileset>
 		</copy>
 	
