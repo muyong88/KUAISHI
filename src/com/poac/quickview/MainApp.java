@@ -1,10 +1,12 @@
-package com.poac.quickview.gui;
+package com.poac.quickview;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.poac.quickview.controller.AddPageController;
 import com.poac.quickview.controller.MainFormController;
 import com.poac.quickview.controller.SubscribeController;
+import com.poac.quickview.model.Page;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -24,7 +26,7 @@ public class MainApp extends Application {
 	private double xOffset = 0;
 	private double yOffset = 0;
 	private MainFormController mainCon = null;
-
+	private AddPageController  addPageCon = null;
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -51,21 +53,14 @@ public class MainApp extends Application {
 	 */
 	public void initRootLayout() {
 		try {
-			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("MainForm.fxml"));
+			loader.setLocation(MainApp.class.getResource("gui/MainForm.fxml"));
 			rootLayout = (BorderPane) loader.load();
 			mainCon = loader.getController();
 			mainCon.setMainApp(this);
-			// Show the scene containing the root layout.
 			Scene scene = new Scene(rootLayout);
 			primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.setScene(scene);
-	        //使css文件载入
-//	        ArrayList<String> cssList = new ArrayList<>();
-//	        cssList.add("com/poac/quickview/css/main/MainPageCSS.css");
-//	        cssList.add("com/poac/quickview/css/subscribe/SubscribeCss.css");
-//	        scene.getStylesheets().addAll(cssList);
 			primaryStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -74,30 +69,52 @@ public class MainApp extends Application {
 
 	public boolean showSubscribe() {
 		try {
-			// Load the fxml file and create a new stage for the popup dialog.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("Subscribe.fxml"));
+			loader.setLocation(MainApp.class.getResource("gui/Subscribe.fxml"));
 			AnchorPane page = (AnchorPane) loader.load();
-			// Create the dialog Stage.
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("数据订阅");
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.initOwner(primaryStage);
 			Scene scene = new Scene(page);
 			dialogStage.setScene(scene);
-			//dialogStage.initStyle(StageStyle.UNDECORATED);
-			// Set the person into the controller.
 			SubscribeController controller = loader.getController();
 			controller.initData();
-			// Show the dialog and wait until the user closes it
 			dialogStage.showAndWait();			
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}
+	}	
+	public boolean showAddPage(Page page) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("gui/AddPage.fxml"));
+			AnchorPane page_AnchorPane = (AnchorPane) loader.load();
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("增加页面");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(page_AnchorPane);
+			dialogStage.setScene(scene);
+			addPageCon = loader.getController();
+			addPageCon.setDialogStage(dialogStage);
+			addPageCon.setPage(page);
+			addPageCon.setMainApp(this);
+			dialogStage.showAndWait();			
+			return addPageCon.isOkClicked();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
-
+	public AddPageController getAddPageController() {
+		return addPageCon;
+	}
+	public MainFormController getMainFormController() {
+		return mainCon;
+	}
 	public static void main(String[] args) {
 		launch(args);
 	}

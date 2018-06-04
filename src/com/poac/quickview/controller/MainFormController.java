@@ -24,42 +24,37 @@ import javafx.util.Callback;
 
 import java.util.ArrayList;
 
-import com.poac.quickview.gui.MainApp;;
+import com.poac.quickview.MainApp;
+import com.poac.quickview.model.Page;;
 
 
 public class MainFormController {
 	
 	@FXML
-	private TreeView treeView_project;
-	
+	private TreeView treeView_project;	
 	@FXML
-	private Accordion accordion_1;
-	
+	private Accordion accordion_1;	
 	@FXML
-	private TitledPane titledPane;
-	
+	private TitledPane titledPane;	
 	@FXML
-	private MainApp mainApp; 
-	
+	private MainApp mainApp; 	
 	@FXML
-	private TabPane tabPanel;
-	
+	private TabPane tabPanel;	
+	private ArrayList<String> pageList = new ArrayList<>();	
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
-    }
-    
+    }    
 	@FXML
-	private void onButtonClose(ActionEvent event){//按钮“关闭程序”id
+	private void onButtonClose(ActionEvent event){
 		Platform.exit();
 		System.exit(0);
-	}
-	
-
-	
-	
-
+	}	
 	@FXML
     private void initialize() {
+		pageList.add("数值");
+		pageList.add("自定义页面");
+		pageList.add("自定义页面1");
+		pageList.add("曲线");
         TreeItem<String> item = new TreeItem<>("天和");
          treeView_project.setRoot(item);
          item.setExpanded(true);    
@@ -86,9 +81,7 @@ public class MainFormController {
                          if (event.getClickCount() == 2) {
                              TreeCell c = (TreeCell) event.getSource();
                              String tempS=c.getText();
-                             if(tempS.equals("天和")| tempS.equals("流体柜")| tempS.equals("液桥")| tempS.equals("空间三相多液滴迁移行为研究")) {
-                                 
-                                 }else {
+                             if(pageList.contains(tempS)) {                            	 
                                 	 boolean bb=false;
                                 	 for(Tab t:tabPanel.getTabs()){
                                 		 if(t.getText().equals(tempS))
@@ -108,7 +101,7 @@ public class MainFormController {
                  return tC;
                  
              }
-         });
+         });         
 //         treeView_project.getSelectionModel().selectedItemProperty().addListener( new ChangeListener() {
 //
 //             @Override
@@ -121,20 +114,17 @@ public class MainFormController {
 //             }
 //
 //           });
-
 	}
-
-
-
+	public boolean isExsitPageName(String pageName) {
+		if(pageList.contains(pageName))
+			return true;
+		return false;
+	}	
 }
-
-final class TreeViewCellImpl extends TreeCell<String> {
-	 
+final class TreeViewCellImpl extends TreeCell<String> {	 
     private ContextMenu addMenu1 = new ContextMenu();
     private ContextMenu addMenu2 = new ContextMenu();
     private MainApp mainApp; 
-
-
     public TreeViewCellImpl(MainApp mainApp) {
     	this.mainApp=mainApp;
         MenuItem addMenuItem1 = new MenuItem("增加页面");
@@ -145,51 +135,43 @@ final class TreeViewCellImpl extends TreeCell<String> {
         addMenu2.getItems().add(addMenuItem3);
         addMenuItem1.setOnAction(new EventHandler() {
             public void handle(Event t) {
-                TreeItem newPage = 
-                    new TreeItem<String>("新页面");
-                        getTreeItem().getChildren().add(newPage);
+            	Page page=new Page();
+            	if(mainApp.showAddPage(page)) {
+            		TreeItem newPage = new TreeItem<String>(page.getPageName());
+                    getTreeItem().getChildren().add(newPage);
+            	}
             }
         }); 
         addMenuItem3.setOnAction(new EventHandler() {
             public void handle(Event t) {
             	mainApp.showSubscribe();
             }
-        }); 
-        
-    }
-    
-    
-    
-        @Override
-        public void updateItem(String item, boolean empty) {
-            super.updateItem(item, empty);
- 
-            if (empty) {
-                setText(null);
-                setGraphic(null);
-            } else {
-                if (isEditing()) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    setText(getString());
-                    setGraphic(getTreeItem().getGraphic());
-                    if(getString().equals("天和")| getString().equals("流体柜")| getString().equals("液桥")| getString().equals("空间三相多液滴迁移行为研究")) {
-                    setContextMenu(addMenu1);
-                    }else {
-                    	setContextMenu(addMenu2);
-                    }
-                   
-                }
-            }
-        }
-        private String getString() {
-            return getItem() == null ? "" : getItem().toString();
-        }
-       
-        
+        });         
+    }          
+	@Override
+	public void updateItem(String item, boolean empty) {
+		super.updateItem(item, empty);
 
+		if (empty) {
+			setText(null);
+			setGraphic(null);
+		} else {
+			if (isEditing()) {
+				setText(null);
+				setGraphic(null);
+			} else {
+				setText(getString());
+				setGraphic(getTreeItem().getGraphic());
+				if (mainApp.getMainFormController().isExsitPageName(getString())) {
+					setContextMenu(addMenu2);
+				} else {
+					setContextMenu(addMenu1);
+				}
 
- 
-    
+			}
+		}
+	}
+	private String getString() {
+		return getItem() == null ? "" : getItem().toString();
+	}
 }

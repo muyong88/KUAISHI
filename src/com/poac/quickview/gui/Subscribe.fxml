@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import org.controlsfx.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="AnchorPane_1" prefHeight="387.0" prefWidth="453.0" styleClass="black-backgroud" stylesheets="@../css/subscribe/SubscribeCss.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.poac.quickview.controller.SubscribeController">
+<AnchorPane fx:id="AnchorPane_1" prefHeight="387.0" prefWidth="453.0" styleClass="black-backgroud" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.poac.quickview.controller.SubscribeController">
    <children>
       <CheckTreeView fx:id="checkTV_subscribe" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <HBox layoutX="321.0" layoutY="296.0" prefHeight="33.0" prefWidth="225.0" spacing="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
@@ -16,4 +17,8 @@
          </children>
       </HBox>
    </children>
+   <stylesheets>
+      <URL value="@../css/subscribe/SubscribeCss.css" />
+      <URL value="@../css/common/DarkThemCss.css" />
+   </stylesheets>
 </AnchorPane>

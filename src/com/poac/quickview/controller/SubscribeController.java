@@ -2,7 +2,7 @@ package com.poac.quickview.controller;
 
 import org.controlsfx.control.CheckTreeView;
 
-import com.poac.quickview.gui.MainApp;
+import com.poac.quickview.MainApp;
 import com.poac.quickview.model.Page;
 
 import javafx.application.Platform;
