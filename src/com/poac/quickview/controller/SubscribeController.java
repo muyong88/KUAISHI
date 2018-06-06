@@ -1,15 +1,17 @@
 package com.poac.quickview.controller;
 
+import org.controlsfx.control.CheckListView;
 import org.controlsfx.control.CheckTreeView;
 
 import com.poac.quickview.MainApp;
 import com.poac.quickview.model.Page;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBoxTreeItem;
-import javafx.scene.control.TreeItem;
 
 public class SubscribeController {
 	
@@ -17,6 +19,8 @@ public class SubscribeController {
 	private MainApp mainApp; 
 	@FXML
 	private CheckTreeView checkTV_subscribe;
+	@FXML
+	private CheckListView checkListView_1;
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
@@ -48,38 +52,40 @@ public class SubscribeController {
     	CheckBoxTreeItem<String> item9 = new CheckBoxTreeItem<>("Topic:流体实验柜-工程数据-实验柜控制器A1"); 
     	item4.getChildren().add(item9);
     	item4.setExpanded(true);
-    	CheckBoxTreeItem<String> item10 = new CheckBoxTreeItem<>("Data_Name：俯仰姿态角度估值");  
-    	CheckBoxTreeItem<String> item11 = new CheckBoxTreeItem<>("Data_Name：偏航姿态角度估值");  
-    	CheckBoxTreeItem<String> item12 = new CheckBoxTreeItem<>("Data_Name：滚动姿态角度估值");  
-    	CheckBoxTreeItem<String> item13 = new CheckBoxTreeItem<>("Data_Name：俯仰角速度预估");  
-    	item7.getChildren().add(item10);
-    	item7.getChildren().add(item11);
-    	item7.getChildren().add(item12);
-    	item7.getChildren().add(item13);
-    	item7.setExpanded(true);
-    	CheckBoxTreeItem<String> item14 = new CheckBoxTreeItem<>("Data_Name：A1温度1");  
-    	CheckBoxTreeItem<String> item15 = new CheckBoxTreeItem<>("Data_Name：A1温度2"); 
-    	item6.getChildren().add(item14);
-    	item6.getChildren().add(item15);
-    	item6.setExpanded(true);
-    	CheckBoxTreeItem<String> item16 = new CheckBoxTreeItem<>("Data_Name：液滴温度1");  
-    	CheckBoxTreeItem<String> item17 = new CheckBoxTreeItem<>("Data_Name：液滴温度2"); 
-    	item5.getChildren().add(item16);
-    	item5.getChildren().add(item17);
-    	item5.setExpanded(true);
-    	CheckBoxTreeItem<String> item18 = new CheckBoxTreeItem<>("Data_Name：温度1"); 
-    	CheckBoxTreeItem<String> item19 = new CheckBoxTreeItem<>("Data_Name：温度2"); 
-    	CheckBoxTreeItem<String> item20 = new CheckBoxTreeItem<>("Data_Name：高等植物图像"); 
-    	item8.getChildren().add(item18);
-    	item8.getChildren().add(item19);
-    	item8.getChildren().add(item20);
-    	item8.setExpanded(true);
-    	CheckBoxTreeItem<String> item21 = new CheckBoxTreeItem<>("Data_Name：#0000ff");  
-    	CheckBoxTreeItem<String> item22 = new CheckBoxTreeItem<>("Data_Name：#ff8040"); 
-    	item9.getChildren().add(item21);
-    	item9.getChildren().add(item22);
-    	item9.setExpanded(true);
-    	
+//    	CheckBoxTreeItem<String> item10 = new CheckBoxTreeItem<>("Data_Name：俯仰姿态角度估值");  
+//    	CheckBoxTreeItem<String> item11 = new CheckBoxTreeItem<>("Data_Name：偏航姿态角度估值");  
+//    	CheckBoxTreeItem<String> item12 = new CheckBoxTreeItem<>("Data_Name：滚动姿态角度估值");  
+//    	CheckBoxTreeItem<String> item13 = new CheckBoxTreeItem<>("Data_Name：俯仰角速度预估");  
+//    	item7.getChildren().add(item10);
+//    	item7.getChildren().add(item11);
+//    	item7.getChildren().add(item12);
+//    	item7.getChildren().add(item13);
+//    	item7.setExpanded(true);
+//    	CheckBoxTreeItem<String> item14 = new CheckBoxTreeItem<>("Data_Name：A1温度1");  
+//    	CheckBoxTreeItem<String> item15 = new CheckBoxTreeItem<>("Data_Name：A1温度2"); 
+//    	item6.getChildren().add(item14);
+//    	item6.getChildren().add(item15);
+//    	item6.setExpanded(true);
+//    	CheckBoxTreeItem<String> item16 = new CheckBoxTreeItem<>("Data_Name：液滴温度1");  
+//    	CheckBoxTreeItem<String> item17 = new CheckBoxTreeItem<>("Data_Name：液滴温度2"); 
+//    	item5.getChildren().add(item16);
+//    	item5.getChildren().add(item17);
+//    	item5.setExpanded(true);
+//    	CheckBoxTreeItem<String> item18 = new CheckBoxTreeItem<>("Data_Name：温度1"); 
+//    	CheckBoxTreeItem<String> item19 = new CheckBoxTreeItem<>("Data_Name：温度2"); 
+//    	CheckBoxTreeItem<String> item20 = new CheckBoxTreeItem<>("Data_Name：高等植物图像"); 
+//    	item8.getChildren().add(item18);
+//    	item8.getChildren().add(item19);
+//    	item8.getChildren().add(item20);
+//    	item8.setExpanded(true);
+//    	CheckBoxTreeItem<String> item21 = new CheckBoxTreeItem<>("Data_Name：#0000ff");  
+//    	CheckBoxTreeItem<String> item22 = new CheckBoxTreeItem<>("Data_Name：#ff8040"); 
+//    	item9.getChildren().add(item21);
+//    	item9.getChildren().add(item22);
+//    	item9.setExpanded(true); 
+  
+    	ObservableList<String> strList = FXCollections.observableArrayList("俯仰姿态角度估值","偏航姿态角度估值","滚动姿态角度估值","俯仰角速度预估");  
+    	checkListView_1.setItems(strList);
     } 
 
 }

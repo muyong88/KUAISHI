@@ -66,7 +66,6 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-
 	public boolean showSubscribe() {
 		try {
 			FXMLLoader loader = new FXMLLoader();

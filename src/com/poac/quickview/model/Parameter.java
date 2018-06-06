@@ -3,12 +3,12 @@ package com.poac.quickview.model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Page implements BaseNode {
+public class Parameter implements BaseNode {
 	private StringProperty  name=new SimpleStringProperty();
-	public Page(String value) {
+	public Parameter(String value) {
 		name.set(value);
 	} 
-	public Page() {}
+	public Parameter() {}
 	public void setName(String value) {
 		name.set(value);
 	}

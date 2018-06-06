@@ -29,11 +29,11 @@ public class AddPageController {
     @FXML
     private void handleOk() {
     	if(mainApp.getMainFormController().isExsitPageName(page_TextField.getText())) {
-    		label_exist.setText("已存在");
+    		label_exist.setText("已存在!");
     		return;
     	}
     	okClicked = true;
-    	page.setPageName(page_TextField.getText());
+    	page.setName(page_TextField.getText());
     	dialogStage.close();        
     }
     @FXML

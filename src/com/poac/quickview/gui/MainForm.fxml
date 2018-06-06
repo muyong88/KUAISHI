@@ -91,7 +91,7 @@
                                     </Label>
                                     <TextField layoutX="34.0" layoutY="124.0" prefHeight="37.0" prefWidth="263.0" text="第一周实现主页面布局UI" />
                                     <TextField layoutX="34.0" layoutY="171.0" prefHeight="37.0" prefWidth="511.0" text="第二周实现导航栏右键菜单，以及添加参数UI、添加页面（示意）功能,双击页面增加Tab" />
-                                    <TextField layoutX="34.0" layoutY="222.0" prefHeight="37.0" prefWidth="511.0" text="第三周实现添加页面UI(纠正不可重复)，添加参数UI布局修改" />
+                                    <TextField layoutX="34.0" layoutY="222.0" prefHeight="37.0" prefWidth="511.0" text="第三周实现添加页面UI(并纠正不可重复)，添加参数UI布局修改，重构代码" />
                                  </children>
                               </AnchorPane>
                            </content>

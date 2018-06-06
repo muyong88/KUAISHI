@@ -25,8 +25,11 @@ import javafx.util.Callback;
 import java.util.ArrayList;
 
 import com.poac.quickview.MainApp;
-import com.poac.quickview.model.Page;;
-
+import com.poac.quickview.model.BaseNode;
+import com.poac.quickview.model.Cabinet;
+import com.poac.quickview.model.Capsule;
+import com.poac.quickview.model.Page;
+import com.poac.quickview.model.Payload;;
 
 public class MainFormController {
 	
@@ -50,78 +53,78 @@ public class MainFormController {
 		System.exit(0);
 	}	
 	@FXML
-    private void initialize() {
+	private void initialize() {
 		pageList.add("数值");
 		pageList.add("自定义页面");
 		pageList.add("自定义页面1");
 		pageList.add("曲线");
-        TreeItem<String> item = new TreeItem<>("天和");
-         treeView_project.setRoot(item);
-         item.setExpanded(true);    
-         TreeItem<String> i1 = new TreeItem<>("数值");
-         TreeItem<String> i2 = new TreeItem<>("自定义页面");
-         TreeItem<String> i3 = new TreeItem<>("流体柜");
-         item.getChildren().addAll(i1,i2,i3);
-         TreeItem<String> i4 = new TreeItem<>("空间三相多液滴迁移行为研究");
-         TreeItem<String> i5 = new TreeItem<>("液桥");
-         i3.setExpanded(true);
-         i3.getChildren().addAll(i4,i5);
-         TreeItem<String> i6 = new TreeItem<>("自定义页面1");
-         TreeItem<String> i7 = new TreeItem<>("曲线");
-         i5.getChildren().addAll(i6,i7);         
-         i5.setExpanded(true);
-         accordion_1.setExpandedPane(titledPane);
-         treeView_project.setCellFactory(new Callback<TreeView<String>,TreeCell<String>>(){
-             @Override
-             public TreeCell<String> call(TreeView<String> p) {
-            	 TreeViewCellImpl tC=new TreeViewCellImpl(mainApp);
-            	 tC.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                     @Override
-                     public void handle(MouseEvent event) {
-                         if (event.getClickCount() == 2) {
-                             TreeCell c = (TreeCell) event.getSource();
-                             String tempS=c.getText();
-                             if(pageList.contains(tempS)) {                            	 
-                                	 boolean bb=false;
-                                	 for(Tab t:tabPanel.getTabs()){
-                                		 if(t.getText().equals(tempS))
-                                			 bb=true;
-                                	 }
-                                	 if(bb==false){
-                                	 Tab tab = new Tab();
-                                     tab.setText(tempS);
-                                     tabPanel.getTabs().add(tab);
-                                     SingleSelectionModel<Tab> selectionModel = tabPanel.getSelectionModel();
-                                     selectionModel.select(tab);
-                                	 }
-                                 }     
-                         }
-                     }
-                 });
-                 return tC;
-                 
-             }
-         });         
-//         treeView_project.getSelectionModel().selectedItemProperty().addListener( new ChangeListener() {
-//
-//             @Override
-//             public void changed(ObservableValue observable, Object oldValue,
-//                     Object newValue) {
-//
-//                 TreeItem<String> selectedItem = (TreeItem<String>) newValue;
-//                 System.out.println("Selected Text : " + selectedItem.getValue());
-//                 // do what ever you want 
-//             }
-//
-//           });
+		TreeItem<BaseNode> item = new TreeItem<>(new Capsule("天和"));
+		treeView_project.setRoot(item);
+		item.setExpanded(true);
+		TreeItem<BaseNode> i1 = new TreeItem<>(new Page("数值"));
+		TreeItem<BaseNode> i2 = new TreeItem<>(new Page("自定义页面"));
+		TreeItem<BaseNode> i3 = new TreeItem<>(new Cabinet("流体柜"));
+		item.getChildren().addAll(i1, i2, i3);
+		TreeItem<BaseNode> i4 = new TreeItem<>(new Payload("空间三相多液滴迁移行为研究"));
+		TreeItem<BaseNode> i5 = new TreeItem<>(new Payload("液桥"));
+		i3.setExpanded(true);
+		i3.getChildren().addAll(i4, i5);
+		TreeItem<BaseNode> i6 = new TreeItem<>(new Page("自定义页面1"));
+		TreeItem<BaseNode> i7 = new TreeItem<>(new Page("曲线"));
+		i5.getChildren().addAll(i6, i7);
+		i5.setExpanded(true);		
+		accordion_1.setExpandedPane(titledPane);
+		treeView_project.setCellFactory(new Callback<TreeView<BaseNode>, TreeCell<BaseNode>>() {
+			@Override
+			public TreeCell<BaseNode> call(TreeView<BaseNode> p) {
+				TreeViewCellImpl tC = new TreeViewCellImpl(mainApp);
+				tC.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent event) {
+						if (event.getClickCount() == 2) {
+							TreeCell c = (TreeCell) event.getSource();
+							String tempS = c.getText();
+							if (pageList.contains(tempS)) {
+								boolean bb = false;
+								for (Tab t : tabPanel.getTabs()) {
+									if (t.getText().equals(tempS))
+										bb = true;
+								}
+								if (bb == false) {
+									Tab tab = new Tab();
+									tab.setText(tempS);
+									tabPanel.getTabs().add(tab);
+									SingleSelectionModel<Tab> selectionModel = tabPanel.getSelectionModel();
+									selectionModel.select(tab);
+								}
+							}
+						}
+					}
+				});
+				return tC;
+			}
+		});
+//		 treeView_project.getSelectionModel().selectedItemProperty().addListener( new
+//		 ChangeListener() {		
+//		 @Override
+//		 public void changed(ObservableValue observable, Object oldValue,
+//		 Object newValue) {		
+//		 TreeItem<BaseNode> selectedItem = (TreeItem<BaseNode>) newValue;
+//		 System.out.println("Selected Text : " + selectedItem.getValue().getClass().getName());
+//		 // do what ever you want
+//		 }		
+//		 });
 	}
 	public boolean isExsitPageName(String pageName) {
 		if(pageList.contains(pageName))
 			return true;
 		return false;
 	}	
+	public void addPageName(String pageName) {
+		pageList.add(pageName);
+	}		
 }
-final class TreeViewCellImpl extends TreeCell<String> {	 
+final class TreeViewCellImpl extends TreeCell<BaseNode> {	 
     private ContextMenu addMenu1 = new ContextMenu();
     private ContextMenu addMenu2 = new ContextMenu();
     private MainApp mainApp; 
@@ -137,9 +140,10 @@ final class TreeViewCellImpl extends TreeCell<String> {
             public void handle(Event t) {
             	Page page=new Page();
             	if(mainApp.showAddPage(page)) {
-            		TreeItem newPage = new TreeItem<String>(page.getPageName());
+            		TreeItem newPage = new TreeItem<String>(page.getName());
                     getTreeItem().getChildren().add(newPage);
             	}
+            	mainApp.getMainFormController().addPageName(page.getName());
             }
         }); 
         addMenuItem3.setOnAction(new EventHandler() {
@@ -149,7 +153,7 @@ final class TreeViewCellImpl extends TreeCell<String> {
         });         
     }          
 	@Override
-	public void updateItem(String item, boolean empty) {
+	public void updateItem(BaseNode item, boolean empty) {
 		super.updateItem(item, empty);
 
 		if (empty) {
@@ -162,7 +166,7 @@ final class TreeViewCellImpl extends TreeCell<String> {
 			} else {
 				setText(getString());
 				setGraphic(getTreeItem().getGraphic());
-				if (mainApp.getMainFormController().isExsitPageName(getString())) {
+				if (item.getClass().getName().contains("Page")) {
 					setContextMenu(addMenu2);
 				} else {
 					setContextMenu(addMenu1);
@@ -172,6 +176,7 @@ final class TreeViewCellImpl extends TreeCell<String> {
 		}
 	}
 	private String getString() {
-		return getItem() == null ? "" : getItem().toString();
+		return getItem() == null ? "" : getItem().getName().toString();
 	}
 }
+
