@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -11,7 +13,13 @@
       <HBox layoutX="14.0" layoutY="14.0" prefHeight="48.0" prefWidth="306.0" spacing="8.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
             <Label prefHeight="37.0" prefWidth="102.0" text="Page Name" />
-            <TextField fx:id="page_TextField" prefHeight="23.0" prefWidth="195.0" />
+            <TextField fx:id="page_TextField" prefHeight="16.0" prefWidth="189.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin></TextField>
             <Label fx:id="label_exist" prefHeight="36.0" prefWidth="54.0" textFill="#f2060d" />
          </children>
       </HBox>

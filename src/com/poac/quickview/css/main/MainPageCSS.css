@@ -33,8 +33,6 @@
 	-fx-border-color: #bfbfbf;
 }
 
-
-
 .label{
     -fx-text-fill: #ffffff;
 }
@@ -80,16 +78,6 @@
     -fx-background-insets: 0;  
 }  
 
-
-
-.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
-    -fx-alignment: CENTER;
-    -fx-text-fill:  #ffffff;
-}
-
-.tab-pane > .tab-header-area > .headers-region > .tab:top {
-    -fx-background-color: -fx-outer-border, -fx-inner-border, #1b1d20;
-}
 
 
 #label_Title{

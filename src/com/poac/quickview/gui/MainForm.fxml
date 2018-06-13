@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="592.0" prefWidth="933.0" styleClass="black-backgroud" stylesheets="@../css/main/MainPageCSS.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.poac.quickview.controller.MainFormController">
+<BorderPane fx:id="borderPane" prefHeight="658.0" prefWidth="1114.0" styleClass="black-backgroud" stylesheets="@../css/main/MainPageCSS.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.poac.quickview.controller.MainFormController">
    <top>
       <AnchorPane fx:id="AnchorPane_top" prefHeight="49.0" prefWidth="1037.0" BorderPane.alignment="CENTER">
          <children>
@@ -40,7 +41,7 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="62.0" prefWidth="279.0" styleClass="black-backgroud" SplitPane.resizableWithParent="false">
                            <children>
                               <TextField layoutX="24.0" layoutY="22.0" prefHeight="31.0" prefWidth="195.0" promptText="参数代号" />
-                              <Button fx:id="button_Search" layoutX="227.0" layoutY="23.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" />
+                              <Button fx:id="button_Search" layoutX="227.0" layoutY="25.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="31.0" />
                            </children></AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="black-backgroud">
                            <children>
@@ -73,32 +74,7 @@
                   </SplitPane>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="black-backgroud">
-               <children>
-                  <TabPane fx:id="tabPanel" layoutX="-10.0" layoutY="37.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <tabs>
-                      <Tab text="使用说明">
-                           <content>
-                              <AnchorPane prefHeight="445.0" prefWidth="622.0">
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                                 <children>
-                                    <Label layoutX="31.0" layoutY="14.0" prefHeight="120.0" prefWidth="323.0" text="欢迎使用本系统！" textFill="WHITE">
-                                       <font>
-                                          <Font size="32.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField layoutX="34.0" layoutY="124.0" prefHeight="37.0" prefWidth="263.0" text="第一周实现主页面布局UI" />
-                                    <TextField layoutX="34.0" layoutY="171.0" prefHeight="37.0" prefWidth="511.0" text="第二周实现导航栏右键菜单，以及添加参数UI、添加页面（示意）功能,双击页面增加Tab" />
-                                    <TextField layoutX="34.0" layoutY="222.0" prefHeight="37.0" prefWidth="511.0" text="第三周实现添加页面UI(并纠正不可重复)，添加参数UI布局修改，重构代码" />
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </Tab>
-                    </tabs>
-                  </TabPane>
-               </children>
+          <AnchorPane fx:id="split_RightAnchor" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
             </AnchorPane>
         </items>
       </SplitPane>

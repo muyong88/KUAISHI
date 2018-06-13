@@ -9,21 +9,33 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import com.jfoenix.controls.JFXMasonryPane;
 import com.poac.quickview.MainApp;
 import com.poac.quickview.model.BaseNode;
 import com.poac.quickview.model.Cabinet;
@@ -31,8 +43,7 @@ import com.poac.quickview.model.Capsule;
 import com.poac.quickview.model.Page;
 import com.poac.quickview.model.Payload;;
 
-public class MainFormController {
-	
+public class MainFormController {		
 	@FXML
 	private TreeView treeView_project;	
 	@FXML
@@ -42,8 +53,12 @@ public class MainFormController {
 	@FXML
 	private MainApp mainApp; 	
 	@FXML
-	private TabPane tabPanel;	
+	private BorderPane borderPane;
+	@FXML
+	private AnchorPane split_RightAnchor;
 	private ArrayList<String> pageList = new ArrayList<>();	
+	@FXML
+	private TabPane tabPanel;	
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }    
@@ -91,9 +106,9 @@ public class MainFormController {
 										bb = true;
 								}
 								if (bb == false) {
-									Tab tab = new Tab();
+									Tab tab=(Tab)mainApp.getNode("gui/TabTemplate.fxml");
 									tab.setText(tempS);
-									tabPanel.getTabs().add(tab);
+									tabPanel.getTabs().add(tab);								
 									SingleSelectionModel<Tab> selectionModel = tabPanel.getSelectionModel();
 									selectionModel.select(tab);
 								}
@@ -103,17 +118,18 @@ public class MainFormController {
 				});
 				return tC;
 			}
-		});
-//		 treeView_project.getSelectionModel().selectedItemProperty().addListener( new
-//		 ChangeListener() {		
-//		 @Override
-//		 public void changed(ObservableValue observable, Object oldValue,
-//		 Object newValue) {		
-//		 TreeItem<BaseNode> selectedItem = (TreeItem<BaseNode>) newValue;
-//		 System.out.println("Selected Text : " + selectedItem.getValue().getClass().getName());
-//		 // do what ever you want
-//		 }		
-//		 });
+		});				
+	}
+	
+	public void LoadTabPanel(Object tabP) {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(MainApp.class.getResource("gui/TabPane.fxml"));
+		tabPanel=(TabPane)tabP;		
+		split_RightAnchor.getChildren().add(tabPanel);
+		split_RightAnchor.setTopAnchor(tabPanel,0.0);		
+		split_RightAnchor.setRightAnchor(tabPanel,0.0);
+		split_RightAnchor.setBottomAnchor(tabPanel,0.0);
+		split_RightAnchor.setLeftAnchor(tabPanel,0.0);
 	}
 	public boolean isExsitPageName(String pageName) {
 		if(pageList.contains(pageName))
@@ -130,9 +146,9 @@ final class TreeViewCellImpl extends TreeCell<BaseNode> {
     private MainApp mainApp; 
     public TreeViewCellImpl(MainApp mainApp) {
     	this.mainApp=mainApp;
-        MenuItem addMenuItem1 = new MenuItem("增加页面");
-        MenuItem addMenuItem2 = new MenuItem("增加容器");
-        MenuItem addMenuItem3 = new MenuItem("增加参数");
+        MenuItem addMenuItem1 = new MenuItem("添加页面");
+        MenuItem addMenuItem2 = new MenuItem("添加表格容器");
+        MenuItem addMenuItem3 = new MenuItem("添加参数");
         addMenu1.getItems().add(addMenuItem1);
         addMenu2.getItems().add(addMenuItem2);
         addMenu2.getItems().add(addMenuItem3);
@@ -150,7 +166,12 @@ final class TreeViewCellImpl extends TreeCell<BaseNode> {
             public void handle(Event t) {
             	mainApp.showSubscribe();
             }
-        });         
+        }); 
+        addMenuItem2.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+            	mainApp.showAddTableContainer();
+            }
+        });   
     }          
 	@Override
 	public void updateItem(BaseNode item, boolean empty) {

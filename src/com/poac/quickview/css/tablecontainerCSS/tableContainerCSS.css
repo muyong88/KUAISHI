@@ -1,0 +1,6 @@
+#button_save{
+	-fx-background-image: url("save.gif")
+}
+#button_print{
+	-fx-background-image: url("print.gif")
+}

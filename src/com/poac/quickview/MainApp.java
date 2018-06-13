@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.poac.quickview.controller.AddPageController;
+import com.poac.quickview.controller.AddTableContainerController;
 import com.poac.quickview.controller.MainFormController;
 import com.poac.quickview.controller.SubscribeController;
 import com.poac.quickview.model.Page;
@@ -11,22 +12,26 @@ import com.poac.quickview.model.Page;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class MainApp extends Application {
-
+	
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private double xOffset = 0;
 	private double yOffset = 0;
 	private MainFormController mainCon = null;
-	private AddPageController  addPageCon = null;
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -45,12 +50,11 @@ public class MainApp extends Application {
 				primaryStage.setY(event.getScreenY() - yOffset);
 			}
 		});
-		//primaryStage.setMaximized(true);
-	}
-
+		primaryStage.setMaximized(true);
+	}	
 	/**
 	 * Initializes the root layout.
-	 */
+	 */			
 	public void initRootLayout() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -58,6 +62,7 @@ public class MainApp extends Application {
 			rootLayout = (BorderPane) loader.load();
 			mainCon = loader.getController();
 			mainCon.setMainApp(this);
+			mainCon.LoadTabPanel(getNode("gui/TabPane.fxml"));
 			Scene scene = new Scene(rootLayout);
 			primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.setScene(scene);
@@ -97,7 +102,7 @@ public class MainApp extends Application {
 			dialogStage.initOwner(primaryStage);
 			Scene scene = new Scene(page_AnchorPane);
 			dialogStage.setScene(scene);
-			addPageCon = loader.getController();
+			AddPageController  addPageCon = loader.getController();
 			addPageCon.setDialogStage(dialogStage);
 			addPageCon.setPage(page);
 			addPageCon.setMainApp(this);
@@ -108,8 +113,37 @@ public class MainApp extends Application {
 			return false;
 		}
 	}
-	public AddPageController getAddPageController() {
-		return addPageCon;
+	public boolean showAddTableContainer() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("gui/AddTableContainer.fxml"));
+			AnchorPane container_AnchorPane = (AnchorPane) loader.load();
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("增加表格容器");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(container_AnchorPane);
+			dialogStage.setScene(scene);
+			AddTableContainerController  addTableContainerCon = loader.getController();
+			addTableContainerCon.setDialogStage(dialogStage);
+			addTableContainerCon.setMainApp(this);
+			dialogStage.showAndWait();			
+			return addTableContainerCon.isOkClicked();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public Object getNode(String str) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource(str));
+			return loader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	public MainFormController getMainFormController() {
 		return mainCon;
@@ -118,3 +152,4 @@ public class MainApp extends Application {
 		launch(args);
 	}
 }
+
