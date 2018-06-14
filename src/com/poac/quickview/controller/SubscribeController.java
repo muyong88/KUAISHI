@@ -11,7 +11,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 
-public class SubscribeController {
+public class SubscribeController implements IController {
 	
 	@FXML
 	private MainApp mainApp; 
@@ -21,8 +21,7 @@ public class SubscribeController {
 	private CheckListView checkListView_1;
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
-    }
-    
+    }    
     
     public void initData() {
     	TreeItem<String> item = new TreeItem<>("Group£ºÁ¦Ñ§Ëù");    	

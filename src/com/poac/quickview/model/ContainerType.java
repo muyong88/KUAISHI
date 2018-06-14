@@ -3,7 +3,7 @@ package com.poac.quickview.model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class ContainerType implements BaseNode {
+public class ContainerType implements IBaseNode {
 	private StringProperty  name=new SimpleStringProperty();
 	public ContainerType(String value) {
 		name.set(value);

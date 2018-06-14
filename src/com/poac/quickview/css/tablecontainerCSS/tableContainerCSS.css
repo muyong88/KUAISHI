@@ -4,3 +4,7 @@
 #button_print{
 	-fx-background-image: url("print.gif")
 }
+#anchor_table{
+		-fx-border-width: 2 2 2 2;
+		-fx-border-color: #bfbfbf;
+}

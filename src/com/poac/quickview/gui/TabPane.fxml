@@ -7,20 +7,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.Tab?>
 
-<TabPane prefHeight="551.0" prefWidth="658.0" stylesheets="@../css/common/DarkThemCss.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane fx:id="tabPane" prefHeight="543.0" prefWidth="972.0" stylesheets="@../css/common/DarkThemCss.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="com.poac.quickview.controller.TabPaneController">
 	<tabs>
 		<Tab text="使用说明">
          <content>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="black-backgroud" stylesheets="@../css/common/DarkThemCss.css">
                <children>
-                  <Label layoutX="14.0" layoutY="14.0" prefHeight="39.0" prefWidth="272.0" text="欢迎使用本系统">
-                     <font>
-                        <Font size="30.0" />
-                     </font>
-                  </Label>
-                  <TextField layoutX="14.0" layoutY="63.0" prefHeight="34.0" prefWidth="513.0" text="第一周实现主页面布局UI" />
-                  <TextField layoutX="14.0" layoutY="110.0" prefHeight="37.0" prefWidth="640.0" text="第二周实现导航栏右键菜单，以及添加参数UI、添加页面（示意）功能,双击页面增加Tab" />
-                  <TextField layoutX="14.0" layoutY="161.0" prefHeight="31.0" prefWidth="682.0" text="第三周实现添加页面UI(并纠正不可重复)，添加参数UI布局修改(因为添加容器功能尚未实现，暂时还是右击页面展示)，重构代码" />
+                  <TextField layoutX="14.0" layoutY="32.0" prefHeight="34.0" prefWidth="513.0" text="第一周实现主页面布局UI" />
+                  <TextField layoutX="14.0" layoutY="80.0" prefHeight="37.0" prefWidth="710.0" text="第二周实现导航栏右键菜单，以及添加参数UI、添加页面（示意）功能,双击页面增加Tab" />
+                  <TextField layoutX="14.0" layoutY="128.0" prefHeight="37.0" prefWidth="941.0" text="第三周实现添加页面UI(并纠正不可重复)，添加参数UI布局修改(因为添加容器功能尚未实现，暂时还是右击页面展示)，重构代码" />
                </children>
             </AnchorPane>
          </content></Tab>

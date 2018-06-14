@@ -7,6 +7,7 @@ import com.poac.quickview.controller.AddPageController;
 import com.poac.quickview.controller.AddTableContainerController;
 import com.poac.quickview.controller.MainFormController;
 import com.poac.quickview.controller.SubscribeController;
+import com.poac.quickview.controller.TabPaneController;
 import com.poac.quickview.model.Page;
 
 import javafx.application.Application;
@@ -14,7 +15,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -32,6 +36,7 @@ public class MainApp extends Application {
 	private double xOffset = 0;
 	private double yOffset = 0;
 	private MainFormController mainCon = null;
+	private TabPaneController tabPaneCon = null;
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -50,7 +55,7 @@ public class MainApp extends Application {
 				primaryStage.setY(event.getScreenY() - yOffset);
 			}
 		});
-		primaryStage.setMaximized(true);
+		//primaryStage.setMaximized(true);
 	}	
 	/**
 	 * Initializes the root layout.
@@ -62,7 +67,7 @@ public class MainApp extends Application {
 			rootLayout = (BorderPane) loader.load();
 			mainCon = loader.getController();
 			mainCon.setMainApp(this);
-			mainCon.LoadTabPanel(getNode("gui/TabPane.fxml"));
+			mainCon.LoadTabPanel(loadTabPane());
 			Scene scene = new Scene(rootLayout);
 			primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.setScene(scene);
@@ -70,6 +75,25 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	public TabPane loadTabPane() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("gui/TabPane.fxml"));
+			TabPane tP=(TabPane)loader.load();
+			tabPaneCon= loader.getController();
+			tabPaneCon.setMainApp(this);
+			return tP;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public void createTab(String tabName) {
+		tabPaneCon.createTab(tabName);
+	}
+	public void openTab(String tabName) {
+		tabPaneCon.openTab(tabName);
 	}
 	public boolean showSubscribe() {
 		try {
@@ -134,7 +158,6 @@ public class MainApp extends Application {
 			return false;
 		}
 	}
-	
 	public Object getNode(String str) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -144,6 +167,9 @@ public class MainApp extends Application {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	public void AddContainer(String pageName) {
+		tabPaneCon.AddContainer(pageName, (AnchorPane)getNode("gui/TableContainer.fxml"));
 	}
 	public MainFormController getMainFormController() {
 		return mainCon;

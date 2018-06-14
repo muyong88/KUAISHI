@@ -4,7 +4,7 @@ import com.poac.quickview.MainApp;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
-public class AddTableContainerController {
+public class AddTableContainerController  implements IController {
     private boolean okClicked = false;
     private Stage dialogStage;
     private MainApp mainApp;    
@@ -26,5 +26,4 @@ public class AddTableContainerController {
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
-
 }
