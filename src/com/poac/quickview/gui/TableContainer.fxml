@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchor_table" prefHeight="440.0" prefWidth="584.0" stylesheets="@../css/tablecontainerCSS/tableContainerCSS.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="anchor_table" prefHeight="520.0" prefWidth="705.0" stylesheets="@../css/tablecontainerCSS/tableContainerCSS.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.poac.quickview.controller.TableContainerController">
    <children>
-      <TableView layoutX="3.0" layoutY="54.0" prefHeight="321.0" prefWidth="578.0" AnchorPane.bottomAnchor="93.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="54.0">
+      <TableView fx:id="tableView" layoutX="3.0" layoutY="54.0" prefHeight="321.0" prefWidth="578.0" AnchorPane.bottomAnchor="93.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="54.0">
         <columns>
           <TableColumn prefWidth="75.0" text="参数代号" />
           <TableColumn prefWidth="75.0" text="参数名称" />
@@ -18,8 +18,11 @@
             <TableColumn prefWidth="75.0" text="超限" />
             <TableColumn prefWidth="75.0" text="范围" />
         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
       </TableView>
-      <Label alignment="CENTER" layoutX="3.0" layoutY="1.0" prefHeight="15.0" prefWidth="578.0" text="液桥工程数据" />
+      <Label fx:id="label_head" alignment="CENTER" layoutX="3.0" layoutY="1.0" prefHeight="15.0" prefWidth="578.0" text="容器名称" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <HBox layoutX="3.0" layoutY="384.0" prefHeight="84.0" prefWidth="578.0" />
    </children>
 </AnchorPane>

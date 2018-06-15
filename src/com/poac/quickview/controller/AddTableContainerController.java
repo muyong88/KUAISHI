@@ -2,9 +2,13 @@ package com.poac.quickview.controller;
 
 import com.poac.quickview.MainApp;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class AddTableContainerController  implements IController {
+	@FXML
+	private TextField txtf_Name;
     private boolean okClicked = false;
     private Stage dialogStage;
     private MainApp mainApp;    
@@ -25,5 +29,8 @@ public class AddTableContainerController  implements IController {
     }
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
+    }
+    public String getConName() {
+    	return txtf_Name.getText();
     }
 }

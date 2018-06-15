@@ -8,3 +8,10 @@
 		-fx-border-width: 2 2 2 2;
 		-fx-border-color: #bfbfbf;
 }
+.table-view, .table-cell {
+    -fx-background-color: #1b1d20 ;
+   
+}
+.table-view .column-header .label{
+    -fx-text-fill: black;
+}

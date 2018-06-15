@@ -8,6 +8,7 @@ import com.poac.quickview.controller.AddTableContainerController;
 import com.poac.quickview.controller.MainFormController;
 import com.poac.quickview.controller.SubscribeController;
 import com.poac.quickview.controller.TabPaneController;
+import com.poac.quickview.controller.TableContainerController;
 import com.poac.quickview.model.Page;
 
 import javafx.application.Application;
@@ -37,6 +38,7 @@ public class MainApp extends Application {
 	private double yOffset = 0;
 	private MainFormController mainCon = null;
 	private TabPaneController tabPaneCon = null;
+	private String containerName=null;
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -55,7 +57,7 @@ public class MainApp extends Application {
 				primaryStage.setY(event.getScreenY() - yOffset);
 			}
 		});
-		//primaryStage.setMaximized(true);
+		primaryStage.setMaximized(true);
 	}	
 	/**
 	 * Initializes the root layout.
@@ -151,7 +153,8 @@ public class MainApp extends Application {
 			AddTableContainerController  addTableContainerCon = loader.getController();
 			addTableContainerCon.setDialogStage(dialogStage);
 			addTableContainerCon.setMainApp(this);
-			dialogStage.showAndWait();			
+			dialogStage.showAndWait();	
+			containerName=addTableContainerCon.getConName();
 			return addTableContainerCon.isOkClicked();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -168,8 +171,23 @@ public class MainApp extends Application {
 			return null;
 		}
 	}
+	public AnchorPane getTableContainer() {
+		try {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(MainApp.class.getResource("gui/TableContainer.fxml"));
+		AnchorPane container_AnchorPane = (AnchorPane) loader.load();
+		TableContainerController tCC=loader.getController();
+		tCC.setMainApp(this);
+		tCC.setHeadText(containerName);
+		return container_AnchorPane;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
 	public void AddContainer(String pageName) {
-		tabPaneCon.AddContainer(pageName, (AnchorPane)getNode("gui/TableContainer.fxml"));
+		tabPaneCon.AddContainer(pageName, getTableContainer());
 	}
 	public MainFormController getMainFormController() {
 		return mainCon;
@@ -178,4 +196,3 @@ public class MainApp extends Application {
 		launch(args);
 	}
 }
-

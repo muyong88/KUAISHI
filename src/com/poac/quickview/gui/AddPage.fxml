@@ -32,6 +32,6 @@
    </children>
    <stylesheets>
       <URL value="@../css/common/DarkThemCss.css" />
-      <URL value="@../css/addPage/AddPageCss.css" />
+      <URL value="@../css/add/AddCss.css" />
    </stylesheets>
 </AnchorPane>

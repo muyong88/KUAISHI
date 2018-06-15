@@ -1,23 +1,39 @@
-
-
-.tree-view, .tree-cell {
-    -fx-background-color: -fx-box-border, -fx-control-inner-background,#1b1d20 ;
-    -fx-text-fill: #ffffff ;
-   
+#label_exist{
+	-fx-text-fill: red;
 }
-.tree-cell .tree-disclosure-node .arrow {
- -fx-background-color:#ffffff;
-  -fx-border-color: #ffffff;
+.text-field {
+    -fx-font-size: 12pt;
+    -fx-font-family: "Segoe UI Semibold";
+}
+.combo-box  {
+    -fx-font-size: 12pt;
+    -fx-font-family: "Segoe UI Semibold";
+}
+.label {
+    -fx-font-size: 11pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+    -fx-opacity: 0.6;
 }
 
-.list-view, .list-cell {
-    -fx-background-color: -fx-box-border, -fx-control-inner-background,#1b1d20 ;
-    -fx-text-fill: #ffffff ;
-   
+.label-bright {
+    -fx-font-size: 11pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+    -fx-opacity: 1;
 }
-.split-pane > .split-pane-divider {  
-    -fx-padding: 0 0.01em 0 0.01em;     
-} 
+
+.label-header {
+    -fx-font-size: 32pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+/* 
+ * Metro style Push Button
+ * Author: Pedro Duque Vieira
+ * http://pixelduke.wordpress.com/2012/10/23/jmetro-windows-8-controls-on-java/
+ */
 .button {
     -fx-padding: 5 22 5 22;   
     -fx-border-color: #e2e2e2;
@@ -61,3 +77,4 @@
 .button:default:hover {
     -fx-background-color: derive(-fx-focus-color,30%);
 }
+

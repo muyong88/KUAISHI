@@ -131,32 +131,24 @@ final class TreeViewCellImpl extends TreeCell<IBaseNode> {
     public TreeViewCellImpl(MainApp mainApp) {
     	this.mainApp=mainApp;
         MenuItem addMenuItem1 = new MenuItem("添加页面");
-        MenuItem addMenuItem2 = new MenuItem("添加表格容器");
-        MenuItem addMenuItem3 = new MenuItem("添加参数");
-        
+        MenuItem addMenuItem2 = new MenuItem("添加表格容器");        
         addMenu1.getItems().add(addMenuItem1);
         addMenu2.getItems().add(addMenuItem2);
-        addMenu2.getItems().add(addMenuItem3);
         addMenuItem1.setOnAction(new EventHandler() {
             public void handle(Event t) {
             	Page page=new Page();
             	if(mainApp.showAddPage(page)) {
-            		TreeItem newPage = new TreeItem<String>(page.getName());
+            		TreeItem<IBaseNode> newPage = new TreeItem<>(page);
                     getTreeItem().getChildren().add(newPage);
+                    mainApp.createTab(page.getName());
             	}
             	mainApp.getMainFormController().addPageName(page.getName());
-            }
-        }); 
-        addMenuItem3.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-            	mainApp.showSubscribe();
             }
         }); 
         addMenuItem2.setOnAction(new EventHandler() {
             public void handle(Event t) {
             	if(mainApp.showAddTableContainer()) {
-            		mainApp.AddContainer(getString());
-            		
+            		mainApp.AddContainer(getString());            		
             	}
             }
         });   
@@ -180,7 +172,6 @@ final class TreeViewCellImpl extends TreeCell<IBaseNode> {
 				} else {
 					setContextMenu(addMenu1);
 				}
-
 			}
 		}
 	}
@@ -188,4 +179,5 @@ final class TreeViewCellImpl extends TreeCell<IBaseNode> {
 		return getItem() == null ? "" : getItem().getName().toString();
 	}
 }
+
 

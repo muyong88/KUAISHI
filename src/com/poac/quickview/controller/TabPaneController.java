@@ -5,9 +5,13 @@ import java.util.HashMap;
 
 import com.poac.quickview.MainApp;
 
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -41,7 +45,9 @@ public class TabPaneController implements IController {
 			e.printStackTrace();
 		}
 	}
-	public void AddContainer(String pageName,Node container) {
+
+	public void AddContainer(String pageName,Node container) {		
 		tabCMap.get(pageName).addContainer(container);
+		
 	} 
 }
