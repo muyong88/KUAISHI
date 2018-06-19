@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.poac.quickview.MainApp;
 
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -46,8 +47,10 @@ public class TabPaneController implements IController {
 		}
 	}
 
-	public void AddContainer(String pageName,Node container) {		
+	public void addContainer(String pageName,Node container) {		
 		tabCMap.get(pageName).addContainer(container);
-		
+	} 
+	public void refresh(String pageName) {		
+		Platform.runLater(() -> tabCMap.get(pageName).refresh());
 	} 
 }

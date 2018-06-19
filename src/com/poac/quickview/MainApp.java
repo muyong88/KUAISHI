@@ -186,8 +186,9 @@ public class MainApp extends Application {
 		}
 		
 	}
-	public void AddContainer(String pageName) {
-		tabPaneCon.AddContainer(pageName, getTableContainer());
+	public void addContainer(String pageName) {
+		tabPaneCon.addContainer(pageName, getTableContainer());
+		tabPaneCon.refresh(pageName);
 	}
 	public MainFormController getMainFormController() {
 		return mainCon;
