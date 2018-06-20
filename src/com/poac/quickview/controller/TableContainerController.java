@@ -17,8 +17,9 @@ public class TableContainerController implements IController {
 	private Label label_head;
 	private MainApp mainApp; 	
     private ContextMenu addMenu = new ContextMenu();
+    
 	public TableContainerController() {
-        MenuItem addMenuItem = new MenuItem("添加参数");
+        MenuItem addMenuItem = new MenuItem("添加参数");    //右击TableView显示添加参数菜单
         addMenu.getItems().add(addMenuItem);
         addMenuItem.setOnAction(new EventHandler() {
             public void handle(Event t) {

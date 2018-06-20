@@ -34,6 +34,9 @@ public class TabPaneController implements IController {
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
+	/**
+	 * Create Tab
+	 */		
 	public  void createTab(String tabName) {
 		try {
 			FXMLLoader loader = new FXMLLoader();

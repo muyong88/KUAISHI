@@ -57,7 +57,7 @@ public class MainApp extends Application {
 				primaryStage.setY(event.getScreenY() - yOffset);
 			}
 		});
-		primaryStage.setMaximized(true);
+		primaryStage.setMaximized(true); 
 	}	
 	/**
 	 * Initializes the root layout.
@@ -78,6 +78,9 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Load tabPane.
+	 */		
 	public TabPane loadTabPane() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -91,9 +94,17 @@ public class MainApp extends Application {
 			return null;
 		}
 	}
+	/**
+	 * MainFormController调用在TabPane中创建Tab
+	 *
+	 */	
 	public void createTab(String tabName) {
 		tabPaneCon.createTab(tabName);
 	}
+	/**
+	 * MainFormController调用在TabPane中打开Tab
+	 *
+	 */	
 	public void openTab(String tabName) {
 		tabPaneCon.openTab(tabName);
 	}
@@ -183,9 +194,12 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
-		}
-		
-	}
+		}		
+	}	
+	/**
+	 * 在TabPane中增加容器
+	 *
+	 */	
 	public void addContainer(String pageName) {
 		tabPaneCon.addContainer(pageName, getTableContainer());
 		tabPaneCon.refresh(pageName);
