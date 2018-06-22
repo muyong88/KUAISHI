@@ -49,11 +49,11 @@ public class TabPaneController implements IController {
 			e.printStackTrace();
 		}
 	}
-
-	public void addContainer(String pageName,Node container) {		
+	public void addContainer(String pageName,AnchorPane  container) {		
 		tabCMap.get(pageName).addContainer(container);
 	} 
 	public void refresh(String pageName) {		
 		Platform.runLater(() -> tabCMap.get(pageName).refresh());
 	} 
+
 }

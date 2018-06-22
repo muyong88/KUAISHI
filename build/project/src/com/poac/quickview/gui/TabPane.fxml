@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Tab?>
+
+<TabPane fx:id="tabPane" prefHeight="543.0" prefWidth="972.0" stylesheets="@../css/common/DarkThemCss.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.poac.quickview.controller.TabPaneController">
+	<tabs>
+		<Tab text="使用说明">
+         <content>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="black-backgroud">
+               <children>
+                  <TextField layoutX="14.0" layoutY="32.0" prefHeight="34.0" prefWidth="513.0" text="第一周实现主页面布局UI" />
+                  <TextField layoutX="14.0" layoutY="80.0" prefHeight="37.0" prefWidth="710.0" text="第二周实现导航栏右键菜单，以及添加参数UI、添加页面（示意）功能,双击页面增加Tab" />
+                  <TextField layoutX="14.0" layoutY="128.0" prefHeight="37.0" prefWidth="941.0" text="第三周实现添加页面UI(并纠正不可重复)，添加参数UI布局修改(因为添加容器功能尚未实现，暂时还是右击页面展示)，重构代码" />
+                  <TextField layoutX="15.0" layoutY="175.0" prefHeight="37.0" prefWidth="941.0" text="第四周实现添加表格容器，表格容器右击添加参数，代码重构" />
+               </children>
+            </AnchorPane>
+         </content></Tab>
+	</tabs>
+</TabPane>

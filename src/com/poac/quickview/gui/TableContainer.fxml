@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchor_table" prefHeight="562.0" prefWidth="739.0" stylesheets="@../css/tablecontainerCSS/tableContainerCSS.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.poac.quickview.controller.TableContainerController">
+<AnchorPane fx:id="anchor_table" prefHeight="700.0" prefWidth="700.0" stylesheets="@../css/tablecontainerCSS/tableContainerCSS.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.poac.quickview.controller.TableContainerController">
    <children>
       <TableView fx:id="tableView" layoutX="3.0" layoutY="54.0" prefHeight="321.0" prefWidth="578.0" AnchorPane.bottomAnchor="93.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="54.0">
         <columns>
@@ -63,7 +63,7 @@
                   <Label alignment="CENTER" layoutX="33.0" layoutY="7.0" text="46圈" />
                   <Label layoutX="24.0" layoutY="25.0" prefHeight="15.0" prefWidth="55.0" text="22:40:50" />
                   <Label layoutX="26.0" layoutY="43.0" prefHeight="15.0" prefWidth="55.0" text="22:40:50" />
-                  <Label fx:id="label5" layoutX="78.0" layoutY="63.0" text="回看" textFill="#fffdfd" />
+                  <Label fx:id="label5" layoutX="78.0" layoutY="63.0" text="直播" textFill="#fffdfd" />
                </children>
             </AnchorPane>
             <Button fx:id="right_arrow_btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="94.0" prefWidth="55.0" />

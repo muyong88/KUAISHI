@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Tab?>
+
+<Tab xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="com.poac.quickview.controller.TabTemplateController">
+	<content>
+		<ScrollPane fitToWidth="true"  vbarPolicy="ALWAYS"   fx:id="scrollpane" >
+			<content>
+				<JFXMasonryPane  fx:id="masonryPane"  prefHeight="445.0" prefWidth="550.0" />
+			</content>
+		</ScrollPane>
+	</content>
+</Tab>

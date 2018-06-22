@@ -5,10 +5,13 @@ import java.util.ArrayList;
 
 import com.poac.quickview.controller.AddPageController;
 import com.poac.quickview.controller.AddTableContainerController;
+import com.poac.quickview.controller.ChangeHWSizeController;
+import com.poac.quickview.controller.ChangePositionController;
 import com.poac.quickview.controller.MainFormController;
 import com.poac.quickview.controller.SubscribeController;
 import com.poac.quickview.controller.TabPaneController;
 import com.poac.quickview.controller.TableContainerController;
+import com.poac.quickview.model.Container;
 import com.poac.quickview.model.Page;
 
 import javafx.application.Application;
@@ -38,7 +41,7 @@ public class MainApp extends Application {
 	private double yOffset = 0;
 	private MainFormController mainCon = null;
 	private TabPaneController tabPaneCon = null;
-	private String containerName=null;
+	private AddTableContainerController  addTableContainerCon;
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -161,17 +164,62 @@ public class MainApp extends Application {
 			dialogStage.initOwner(primaryStage);
 			Scene scene = new Scene(container_AnchorPane);
 			dialogStage.setScene(scene);
-			AddTableContainerController  addTableContainerCon = loader.getController();
+			addTableContainerCon = loader.getController();
 			addTableContainerCon.setDialogStage(dialogStage);
 			addTableContainerCon.setMainApp(this);
 			dialogStage.showAndWait();	
-			containerName=addTableContainerCon.getConName();
 			return addTableContainerCon.isOkClicked();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
+	public boolean showChangePosion(Container container) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("gui/ChangePosition.fxml"));
+			AnchorPane page_AnchorPane = (AnchorPane) loader.load();
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("调整位置");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(page_AnchorPane);
+			dialogStage.setScene(scene);
+			ChangePositionController  changePositionCon = loader.getController();
+			changePositionCon.setDialogStage(dialogStage);
+			changePositionCon.setMainApp(this);
+			changePositionCon.setContainer(container);
+			dialogStage.showAndWait();			
+			return changePositionCon.isOkClicked();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean showChangeHWSize(Container container) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("gui/ChangeHWSize.fxml"));
+			AnchorPane page_AnchorPane = (AnchorPane) loader.load();
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("调整大小");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(page_AnchorPane);
+			dialogStage.setScene(scene);
+			ChangeHWSizeController  changeHWSizeCon = loader.getController();
+			changeHWSizeCon.setDialogStage(dialogStage);
+			changeHWSizeCon.setMainApp(this);
+			changeHWSizeCon.setContainer(container);
+			dialogStage.showAndWait();			
+			return changeHWSizeCon.isOkClicked();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	public Object getNode(String str) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -182,27 +230,29 @@ public class MainApp extends Application {
 			return null;
 		}
 	}
-	public AnchorPane getTableContainer() {
+
+	/**
+	 * 在TabPane中增加容器
+	 *
+	 */	
+	public void addContainer(String pageName) {
 		try {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(MainApp.class.getResource("gui/TableContainer.fxml"));
 		AnchorPane container_AnchorPane = (AnchorPane) loader.load();
 		TableContainerController tCC=loader.getController();
 		tCC.setMainApp(this);
-		tCC.setHeadText(containerName);
-		return container_AnchorPane;
+		tCC.setHeadText(addTableContainerCon.getConName());
+		tCC.setContainerSize(addTableContainerCon.getWidth(), addTableContainerCon.getHeight());
+		tabPaneCon.addContainer(pageName, container_AnchorPane);
+		tCC.relocate(0, 100);
+		tabPaneCon.refresh(pageName);
 		} catch (IOException e) {
 			e.printStackTrace();
-			return null;
-		}		
-	}	
-	/**
-	 * 在TabPane中增加容器
-	 *
-	 */	
-	public void addContainer(String pageName) {
-		tabPaneCon.addContainer(pageName, getTableContainer());
-		tabPaneCon.refresh(pageName);
+		}	
+	}		
+	public TabPaneController getTabPaneController() {
+		return tabPaneCon;
 	}
 	public MainFormController getMainFormController() {
 		return mainCon;
