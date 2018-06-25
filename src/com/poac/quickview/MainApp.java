@@ -13,6 +13,7 @@ import com.poac.quickview.controller.TabPaneController;
 import com.poac.quickview.controller.TableContainerController;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.Page;
+import com.poac.quickview.model.Parameter;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -111,7 +112,7 @@ public class MainApp extends Application {
 	public void openTab(String tabName) {
 		tabPaneCon.openTab(tabName);
 	}
-	public boolean showSubscribe() {
+	public boolean showSubscribe(ArrayList<Parameter> parmList) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("gui/Subscribe.fxml"));
@@ -123,6 +124,9 @@ public class MainApp extends Application {
 			Scene scene = new Scene(page);
 			dialogStage.setScene(scene);
 			SubscribeController controller = loader.getController();
+			controller.setMainApp(this);
+			controller.setParmList(parmList);
+			controller.setDialogStage(dialogStage);
 			controller.initData();
 			dialogStage.showAndWait();			
 			return true;
@@ -243,14 +247,17 @@ public class MainApp extends Application {
 		TableContainerController tCC=loader.getController();
 		tCC.setMainApp(this);
 		tCC.setHeadText(addTableContainerCon.getConName());
+		tCC.setPageName(pageName);
 		tCC.setContainerSize(addTableContainerCon.getWidth(), addTableContainerCon.getHeight());
 		tabPaneCon.addContainer(pageName, container_AnchorPane);
-		tCC.relocate(0, 100);
 		tabPaneCon.refresh(pageName);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
-	}		
+	}	
+	public void refresh(String pageName) {
+		tabPaneCon.refresh(pageName);
+	}
 	public TabPaneController getTabPaneController() {
 		return tabPaneCon;
 	}

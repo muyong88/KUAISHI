@@ -124,6 +124,9 @@ public class MainFormController  implements IController{
 		pageList.add(pageName);
 	}		
 }
+/**
+ * define cell factory to customize tableview.
+ */	
 final class TreeViewCellImpl extends TreeCell<IBaseNode> {	 
     private ContextMenu addMenu1 = new ContextMenu();
     private ContextMenu addMenu2 = new ContextMenu();

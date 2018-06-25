@@ -25,8 +25,8 @@
       </SplitPane>
       <HBox layoutX="321.0" layoutY="296.0" prefHeight="33.0" prefWidth="225.0" spacing="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <children>
-            <Button defaultButton="true" mnemonicParsing="false" prefHeight="33.0" prefWidth="110.0" styleClass="button_WhiteBorder" text="确定" />
-            <Button cancelButton="true" mnemonicParsing="false" prefHeight="33.0" prefWidth="110.0" styleClass="button_WhiteBorder" text="取消" />
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#handleOk" prefHeight="33.0" prefWidth="110.0" styleClass="button_WhiteBorder" text="确定" />
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#handleCancel" prefHeight="33.0" prefWidth="110.0" styleClass="button_WhiteBorder" text="取消" />
          </children>
       </HBox>
    </children>

@@ -1,7 +1,11 @@
 package com.poac.quickview.controller;
 
+import java.util.ArrayList;
+
 import org.controlsfx.control.CheckListView;
 import com.poac.quickview.MainApp;
+import com.poac.quickview.model.Parameter;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -10,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.stage.Stage;
 
 public class SubscribeController implements IController {
 	
@@ -19,10 +24,28 @@ public class SubscribeController implements IController {
 	private TreeView treeview_s;
 	@FXML
 	private CheckListView checkListView_1;
+	private ArrayList<Parameter> parmList;
+    private boolean okClicked = false;
+    private Stage dialogStage;
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
-    }    
-    
+    }
+    public boolean isOkClicked() {
+        return okClicked;
+    }
+    public void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
+    }
+    @FXML
+    private void handleOk() {
+    	okClicked = true;
+
+    	dialogStage.close();        
+    }
+    @FXML
+    private void handleCancel() {
+        dialogStage.close();
+    }
     public void initData() {
     	TreeItem<String> item = new TreeItem<>("Group£ºÁ¦Ñ§Ëù");    	
     	treeview_s.setRoot(item);
@@ -82,5 +105,8 @@ public class SubscribeController implements IController {
 			}
 		});
     } 
+    public void setParmList( ArrayList<Parameter> parmList) {
+    	this.parmList=parmList;
+    }
 
 }

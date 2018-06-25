@@ -5,6 +5,8 @@ import com.jfoenix.controls.JFXScrollPane;
 import com.poac.quickview.MainApp;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
@@ -20,12 +22,12 @@ public class TabTemplateController implements IController {
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
-    public void addContainer(Node no) {
-    	masonryPane.getChildren().add(no);  
+    public void addContainer(AnchorPane no) {
+    	masonryPane.getChildren().add(no); 
     }
-    public void refresh() {
-    	Platform.runLater(() -> scrollpane.requestLayout());
+    public void refresh() {    	
+    	masonryPane.requestLayout();
+    	scrollpane.requestLayout();
     	JFXScrollPane.smoothScrolling(scrollpane);
     }
 }
-

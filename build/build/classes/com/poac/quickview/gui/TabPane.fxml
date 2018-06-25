@@ -17,6 +17,7 @@
                   <TextField layoutX="14.0" layoutY="80.0" prefHeight="37.0" prefWidth="710.0" text="第二周实现导航栏右键菜单，以及添加参数UI、添加页面（示意）功能,双击页面增加Tab" />
                   <TextField layoutX="14.0" layoutY="128.0" prefHeight="37.0" prefWidth="941.0" text="第三周实现添加页面UI(并纠正不可重复)，添加参数UI布局修改(因为添加容器功能尚未实现，暂时还是右击页面展示)，重构代码" />
                   <TextField layoutX="15.0" layoutY="175.0" prefHeight="37.0" prefWidth="941.0" text="第四周实现添加表格容器，表格容器右击添加参数，代码重构" />
+                  <TextField layoutX="16.0" layoutY="220.0" prefHeight="37.0" prefWidth="941.0" text="第五周解决Scrollbar刷新延迟问题，完善表格容器，并实现右击表格容器调整位置和大小" />
                </children>
             </AnchorPane>
          </content></Tab>
