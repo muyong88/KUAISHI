@@ -22,8 +22,8 @@ public class TabPaneController implements IController {
 	@FXML
 	private TabPane tabPane;
 	private MainApp mainApp; 	
-	private HashMap<String,Tab> tabMap=new HashMap<>();
-	private HashMap<String,TabTemplateController> tabCMap=new HashMap<>();
+	private HashMap<String,Tab> tabMap=new HashMap<>();  //存tab名（page名）对应Tab
+	private HashMap<String,TabTemplateController> tabCMap=new HashMap<>(); //存tab名（page名）对应Controller
 	public void openTab(String tabName) {
 		if(!tabMap.containsKey(tabName))
 			return;
@@ -49,11 +49,15 @@ public class TabPaneController implements IController {
 			e.printStackTrace();
 		}
 	}
-	public void addContainer(String pageName,AnchorPane  container) {		
-		tabCMap.get(pageName).addContainer(container);
+	//增加容器
+	public void addContainer(String pageName,AnchorPane  container,TableContainerController tcc,String conName) {		
+		tabCMap.get(pageName).addContainer(container,tcc,conName);
 	} 
 	public void refresh(String pageName) {		
 		Platform.runLater(() -> tabCMap.get(pageName).refresh());
 	} 
-
+	//判断tab里是否存在容器名
+	public boolean isExsitContainerName(String tabName,String containName) {
+		return tabCMap.get(tabName).isExsitContainerName(containName);
+	}
 }

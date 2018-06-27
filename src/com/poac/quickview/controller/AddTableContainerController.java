@@ -10,24 +10,30 @@ public class AddTableContainerController  implements IController {
 	@FXML
 	private TextField txtf_Name;
 	@FXML
-	private TextField txt_PositionX;
-	@FXML
-	private TextField txt_PositionY;
-	@FXML
 	private TextField txt_Width;
 	@FXML
 	private TextField txt_Height;
+	@FXML
+	private Label label_error;
     private boolean okClicked = false;
     private Stage dialogStage;
-    private MainApp mainApp;    
+    private MainApp mainApp;
+    private String pageName;
     public boolean isOkClicked() {
         return okClicked;
     }
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
+    public void setPageName(String pageName) {
+    	this.pageName=pageName;
+    }
     @FXML
     private void handleOk() {
+    	if(mainApp.getTabPaneController().isExsitContainerName(pageName, getConName())) {
+    		label_error.setText("ÈÝÆ÷ÃûÒÑ´æÔÚ£¡");
+    		return;
+    	}
     	okClicked = true;
     	dialogStage.close();        
     }
@@ -41,12 +47,6 @@ public class AddTableContainerController  implements IController {
     public String getConName() {
     	return txtf_Name.getText();
     }
-    public double getPositionX() {
-    	return Double.parseDouble(txt_PositionX.getText());
-    }
-    public double getPositionY() {
-    	return Double.parseDouble(txt_PositionY.getText());
-    }
     public double getWidth() {
     	return Double.parseDouble(txt_Width.getText());
     }
@@ -54,6 +54,5 @@ public class AddTableContainerController  implements IController {
     	return Double.parseDouble(txt_Height.getText());
     }
 }
-
 
 

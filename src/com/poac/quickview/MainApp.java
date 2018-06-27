@@ -47,14 +47,14 @@ public class MainApp extends Application {
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		initRootLayout();
-		rootLayout.setOnMousePressed(new EventHandler<MouseEvent>() {
+		rootLayout.setOnMousePressed(new EventHandler<MouseEvent>() {    //实现窗体可移动
 			@Override
 			public void handle(MouseEvent event) {
 				xOffset = event.getSceneX();
 				yOffset = event.getSceneY();
 			}
 		});
-		rootLayout.setOnMouseDragged(new EventHandler<MouseEvent>() {
+		rootLayout.setOnMouseDragged(new EventHandler<MouseEvent>() {   //实现窗体可移动
 			@Override
 			public void handle(MouseEvent event) {
 				primaryStage.setX(event.getScreenX() - xOffset);
@@ -106,12 +106,8 @@ public class MainApp extends Application {
 		tabPaneCon.createTab(tabName);
 	}
 	/**
-	 * MainFormController调用在TabPane中打开Tab
-	 *
+	 * 显示订阅数据窗口
 	 */	
-	public void openTab(String tabName) {
-		tabPaneCon.openTab(tabName);
-	}
 	public boolean showSubscribe(ArrayList<Parameter> parmList) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -135,6 +131,9 @@ public class MainApp extends Application {
 			return false;
 		}
 	}	
+	/**
+	 * 显示增加页面窗口
+	 */	
 	public boolean showAddPage(Page page) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -157,7 +156,10 @@ public class MainApp extends Application {
 			return false;
 		}
 	}
-	public boolean showAddTableContainer() {
+	/**
+	 * 显示增加表格容器窗口
+	 */	
+	public boolean showAddTableContainer(String pageName) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("gui/AddTableContainer.fxml"));
@@ -171,6 +173,7 @@ public class MainApp extends Application {
 			addTableContainerCon = loader.getController();
 			addTableContainerCon.setDialogStage(dialogStage);
 			addTableContainerCon.setMainApp(this);
+			addTableContainerCon.setPageName(pageName);
 			dialogStage.showAndWait();	
 			return addTableContainerCon.isOkClicked();
 		} catch (IOException e) {
@@ -199,8 +202,10 @@ public class MainApp extends Application {
 			e.printStackTrace();
 			return false;
 		}
-	}
-	
+	}	
+	/**
+	 * 显示修改容器大小窗口
+	 */	
 	public boolean showChangeHWSize(Container container) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -222,19 +227,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 			return false;
 		}
-	}
-	
-	public Object getNode(String str) {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource(str));
-			return loader.load();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
+	}	
 	/**
 	 * 在TabPane中增加容器
 	 *
@@ -249,15 +242,12 @@ public class MainApp extends Application {
 		tCC.setMainApp(this);
 		tCC.setHeadText(addTableContainerCon.getConName());
 		tCC.setContainerSize(addTableContainerCon.getWidth(), addTableContainerCon.getHeight());
-		tabPaneCon.addContainer(pageName, container_AnchorPane);
+		tabPaneCon.addContainer(pageName, container_AnchorPane,tCC,addTableContainerCon.getConName());
 		tabPaneCon.refresh(pageName);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
 	}	
-	public void refresh(String pageName) {
-		tabPaneCon.refresh(pageName);
-	}
 	public TabPaneController getTabPaneController() {
 		return tabPaneCon;
 	}

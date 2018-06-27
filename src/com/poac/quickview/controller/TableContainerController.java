@@ -28,6 +28,7 @@ public class TableContainerController implements IController {
 	private MainApp mainApp; 	
 	private BorderPane rootLayout;
 	private String pageName=null;
+    private String containerName=null;
 	private double xOffset = 0;
 	private double yOffset = 0;
     private  int RESIZE_MARGIN = 5;
@@ -46,15 +47,6 @@ public class TableContainerController implements IController {
             	}
             }
         }); 
-        MenuItem addMenuItem2 = new MenuItem("调整位置");    //右击TableView显示调整位置菜单
-        addMenu1.getItems().add(addMenuItem2);
-        addMenuItem2.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-            	Container container=new Container();
-            	if(mainApp.showChangePosion(container))
-            		anchor_table.relocate(container.getPositionX(), container.getPositionY());
-            }
-        }); 
         MenuItem addMenuItem3 = new MenuItem("调整大小");    //右击TableView显示调整大小菜单
         addMenu1.getItems().add(addMenuItem3);
         addMenuItem3.setOnAction(new EventHandler() {
@@ -62,7 +54,7 @@ public class TableContainerController implements IController {
             	Container container=new Container();
             	if(mainApp.showChangeHWSize(container))
             		setContainerSize(container.getWidth(), container.getHeight());
-            	    mainApp.refresh(pageName);
+            	    mainApp.getTabPaneController().refresh(pageName);
             }
         }); 
 	}
@@ -124,7 +116,7 @@ public class TableContainerController implements IController {
 					y = mousey;
 				}
 			}});
-        anchor_table.setOnMouseMoved(new EventHandler<MouseEvent>() {
+        anchor_table.setOnMouseMoved(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
             @Override
             public void handle(MouseEvent event) {
                 if((event.getY() > (anchor_table.getHeight() - RESIZE_MARGIN))&&
@@ -139,18 +131,19 @@ public class TableContainerController implements IController {
                 	anchor_table.setCursor(Cursor.DEFAULT);
                 }
             }});
-        anchor_table.setOnMouseReleased(new EventHandler<MouseEvent>() {
+        anchor_table.setOnMouseReleased(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
             @Override
             public void handle(MouseEvent event) {
                 dragging = 0;
                 anchor_table.setCursor(Cursor.DEFAULT);
-                mainApp.refresh(pageName);
+                mainApp.getTabPaneController().refresh(pageName);
             }});
     }
-    public void setHeadText(String txt) {
+    public void setHeadText(String txt) {             //设置容器名Label
+    	containerName=txt;
     	label_head.setText(txt);    	
     }
-    public void setContainerSize(double width,double height) {
+    public void setContainerSize(double width,double height) {   //设置容器Size
     	anchor_table.setPrefSize(width, height);
     }
 }

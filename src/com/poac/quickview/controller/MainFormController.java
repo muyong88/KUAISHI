@@ -40,6 +40,7 @@ import com.poac.quickview.MainApp;
 import com.poac.quickview.model.IBaseNode;
 import com.poac.quickview.model.Cabinet;
 import com.poac.quickview.model.Capsule;
+import com.poac.quickview.model.Container;
 import com.poac.quickview.model.Page;
 import com.poac.quickview.model.Payload;;
 
@@ -96,7 +97,7 @@ public class MainFormController  implements IController{
 					public void handle(MouseEvent event) {
 						if (event.getClickCount() == 2) {
 							TreeCell c = (TreeCell) event.getSource();
-							mainApp.openTab(c.getText());
+							mainApp.getTabPaneController().openTab(c.getText());
 						}
 					}
 				});
@@ -142,7 +143,7 @@ final class TreeViewCellImpl extends TreeCell<IBaseNode> {
             	Page page=new Page();
             	if(mainApp.showAddPage(page)) {
             		TreeItem<IBaseNode> newPage = new TreeItem<>(page);
-                    getTreeItem().getChildren().add(newPage);
+                    getTreeItem().getChildren().add(0,newPage);
                     mainApp.createTab(page.getName());
             	}
             	mainApp.getMainFormController().addPageName(page.getName());
@@ -150,7 +151,8 @@ final class TreeViewCellImpl extends TreeCell<IBaseNode> {
         }); 
         addMenuItem2.setOnAction(new EventHandler() {
             public void handle(Event t) {
-            	if(mainApp.showAddTableContainer()) {
+            	//Container container=new Container();
+            	if(mainApp.showAddTableContainer(getString())) {
             		mainApp.addContainer(getString());            		
             	}
             }

@@ -29,7 +29,11 @@ public class AddPageController implements IController {
     @FXML
     private void handleOk() {
     	if(mainApp.getMainFormController().isExsitPageName(page_TextField.getText())) {
-    		label_exist.setText("已存在!");
+    		label_exist.setText("页面已存在!");
+    		return;
+    	}
+    	if(page_TextField.getText().equals("")) {
+    		label_exist.setText("页面不可为空!");
     		return;
     	}
     	okClicked = true;

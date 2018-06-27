@@ -2,6 +2,7 @@ package com.poac.quickview.controller;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import com.jfoenix.controls.JFXMasonryPane;
 import com.jfoenix.controls.JFXScrollPane;
@@ -22,12 +23,14 @@ public class TabTemplateController implements IController {
 	private JFXMasonryPane masonryPane;
 	@FXML
 	private ScrollPane scrollpane;
+	private HashMap<String,TableContainerController> containerCon=new HashMap<>(); //存容器名对应的Controller
 	private MainApp mainApp; 
-	private ObservableList<Node> anchorCollection = FXCollections.observableArrayList();
+	private ObservableList<Node> anchorCollection = FXCollections.observableArrayList(); //存tab里所有容器
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
-    public void addContainer(AnchorPane no) {
+    public void addContainer(AnchorPane no,TableContainerController tCC,String conName) {
+    	containerCon.put(conName, tCC);
     	anchorCollection.add(no);
     	refresh(); 
     }    
@@ -41,6 +44,11 @@ public class TabTemplateController implements IController {
     	masonryPane.requestLayout();
     	scrollpane.requestLayout();
     	JFXScrollPane.smoothScrolling(scrollpane);
+    }
+    public boolean isExsitContainerName(String name) {
+    	if(containerCon.containsKey(name))
+    		return true;
+    	return false;
     }
     private void sortContainer() {
     	Collections.sort(anchorCollection, new NodeComparator());

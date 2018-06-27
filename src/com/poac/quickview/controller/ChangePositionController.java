@@ -27,8 +27,6 @@ public class ChangePositionController implements IController {
     @FXML
     private void handleOk() {
     	okClicked = true;
-    	container.setPositionX(txt_PositionX.getText());
-    	container.setPositionY(txt_PositionY.getText());
     	dialogStage.close();        
     }
     @FXML
