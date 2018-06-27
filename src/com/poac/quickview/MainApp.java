@@ -245,9 +245,9 @@ public class MainApp extends Application {
 		loader.setLocation(MainApp.class.getResource("gui/TableContainer.fxml"));
 		AnchorPane container_AnchorPane = (AnchorPane) loader.load();
 		TableContainerController tCC=loader.getController();
+		tCC.setPageName(pageName);
 		tCC.setMainApp(this);
 		tCC.setHeadText(addTableContainerCon.getConName());
-		tCC.setPageName(pageName);
 		tCC.setContainerSize(addTableContainerCon.getWidth(), addTableContainerCon.getHeight());
 		tabPaneCon.addContainer(pageName, container_AnchorPane);
 		tabPaneCon.refresh(pageName);

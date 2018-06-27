@@ -6,15 +6,14 @@
 	-fx-background-image: url("print1.png");
 	-fx-background-color: transparent;
 }
-#left_arrow_btn{
+#rightarrow_btn{
 	-fx-background-image: url("left_arrow.png");
 	-fx-background-color: transparent;
 }
-#right_arrow_btn{
+#leftarrow_btn{
 	-fx-background-image: url("right_arrow.png");
 	-fx-background-color: transparent;
 }
-
 #anchor_table{
 		-fx-border-width: 2 2 2 2;
 		-fx-border-color: #bfbfbf;
@@ -29,7 +28,7 @@
 	-fx-background-color:blue;
 	-fx-text-fill: #ffffff;
 }
-#anchor_quan_1,#anchor_quan_2,#anchor_quan_3,#anchor_quan_4,#anchor_quan_5{
+#vbox_quan_1,#vbox_quan_2,#vbox_quan_3,#vbox_quan_4,#vbox_quan_5{
 	-fx-background-color:e5e5e5;
 }
 #label5{
@@ -42,3 +41,4 @@
 #label_head{
 	-fx-text-fill: #ffffff;
 }
+

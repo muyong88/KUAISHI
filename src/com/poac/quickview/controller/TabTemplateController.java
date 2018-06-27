@@ -31,6 +31,11 @@ public class TabTemplateController implements IController {
     	anchorCollection.add(no);
     	refresh(); 
     }    
+	/**
+	 * 1、用于根据anchorCollection内容刷新Tab
+	 * 2、根据layoutX,layoutY排序容器
+	 * 3、刷新scrollpane，解决延迟问题
+	 */		
     public void refresh() {    	
     	sortContainer();
     	masonryPane.requestLayout();
