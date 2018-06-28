@@ -24,20 +24,25 @@ public class TabPaneController implements IController {
 	private MainApp mainApp; 	
 	private HashMap<String,Tab> tabMap=new HashMap<>();  //存tab名（page名）对应Tab
 	private HashMap<String,TabTemplateController> tabCMap=new HashMap<>(); //存tab名（page名）对应Controller
-	public void openTab(String tabName) {
+	public void openTab(String tabName) {           //打开TAb
 		if(!tabMap.containsKey(tabName))
 			return;
 		SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
 		tabPane.getTabs().add(tabMap.get(tabName));
 		selectionModel.select(tabMap.get(tabName));
 	}
+	public void closeTab(String tabName) {            //关闭TAB
+		if(!tabMap.containsKey(tabName))
+			return;
+		tabPane.getTabs().remove(tabMap.get(tabName));
+	}
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
 	/**
-	 * Create Tab
+	 * 创建TAB
 	 */		
-	public  void createTab(String tabName) {
+	public  void createTab(String tabName) {               
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("gui/TabTemplate.fxml"));
@@ -49,6 +54,12 @@ public class TabPaneController implements IController {
 			e.printStackTrace();
 		}
 	}
+	//删除page时候调用
+	public void removeTab(String tabName) {
+		closeTab(tabName);
+		tabMap.remove(tabName);
+		tabCMap.remove(tabName);
+	}
 	//增加容器
 	public void addContainer(String pageName,AnchorPane  container,TableContainerController tcc,String conName) {		
 		tabCMap.get(pageName).addContainer(container,tcc,conName);
@@ -59,5 +70,9 @@ public class TabPaneController implements IController {
 	//判断tab里是否存在容器名
 	public boolean isExsitContainerName(String tabName,String containName) {
 		return tabCMap.get(tabName).isExsitContainerName(containName);
+	}
+	//删除容器
+	public void removeConatiner(String tabName,String containName) {
+		tabCMap.get(tabName).removeContainer(containName);
 	}
 }

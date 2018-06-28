@@ -111,10 +111,10 @@ public class MainFormController  implements IController{
 		split_RightAnchor.setRightAnchor(tabPanel,0.0);
 		split_RightAnchor.setBottomAnchor(tabPanel,0.0);
 		split_RightAnchor.setLeftAnchor(tabPanel,0.0);
-		mainApp.createTab("数值");
-		mainApp.createTab("自定义页面");
-		mainApp.createTab("自定义页面1");
-		mainApp.createTab("曲线");
+		mainApp.getTabPaneController().createTab("数值");
+		mainApp.getTabPaneController().createTab("自定义页面");
+		mainApp.getTabPaneController().createTab("自定义页面1");
+		mainApp.getTabPaneController().createTab("曲线");
 	}
 	public boolean isExsitPageName(String pageName) {
 		if(pageList.contains(pageName))
@@ -124,6 +124,9 @@ public class MainFormController  implements IController{
 	public void addPageName(String pageName) {
 		pageList.add(pageName);
 	}		
+	public void removePageName(String pageName) {
+		pageList.remove(pageName);
+	}	
 }
 /**
  * define cell factory to customize tableview.
@@ -135,26 +138,34 @@ final class TreeViewCellImpl extends TreeCell<IBaseNode> {
     public TreeViewCellImpl(MainApp mainApp) {
     	this.mainApp=mainApp;
         MenuItem addMenuItem1 = new MenuItem("添加页面");
-        MenuItem addMenuItem2 = new MenuItem("添加表格容器");        
+        MenuItem addMenuItem2 = new MenuItem("添加容器");   
+        MenuItem addMenuItem3 = new MenuItem("删除页面");
         addMenu1.getItems().add(addMenuItem1);
         addMenu2.getItems().add(addMenuItem2);
+        addMenu2.getItems().add(addMenuItem3);
         addMenuItem1.setOnAction(new EventHandler() {
             public void handle(Event t) {
             	Page page=new Page();
             	if(mainApp.showAddPage(page)) {
             		TreeItem<IBaseNode> newPage = new TreeItem<>(page);
                     getTreeItem().getChildren().add(0,newPage);
-                    mainApp.createTab(page.getName());
+                    mainApp.getTabPaneController().createTab(page.getName());
             	}
             	mainApp.getMainFormController().addPageName(page.getName());
             }
         }); 
         addMenuItem2.setOnAction(new EventHandler() {
             public void handle(Event t) {
-            	//Container container=new Container();
             	if(mainApp.showAddTableContainer(getString())) {
             		mainApp.addContainer(getString());            		
             	}
+            }
+        });   
+        addMenuItem3.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+            	getTreeItem().getParent().getChildren().remove(getTreeItem());
+            	mainApp.getTabPaneController().removeTab(getString());
+            	mainApp.getMainFormController().removePageName(getString());
             }
         });   
     }          

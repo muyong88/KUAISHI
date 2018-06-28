@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.poac.quickview.controller.AddPageController;
-import com.poac.quickview.controller.AddTableContainerController;
+import com.poac.quickview.controller.AddContainerController;
 import com.poac.quickview.controller.ChangeHWSizeController;
 import com.poac.quickview.controller.ChangePositionController;
 import com.poac.quickview.controller.MainFormController;
@@ -42,7 +42,7 @@ public class MainApp extends Application {
 	private double yOffset = 0;
 	private MainFormController mainCon = null;
 	private TabPaneController tabPaneCon = null;
-	private AddTableContainerController  addTableContainerCon;
+	private AddContainerController  addContainerCon;
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -97,13 +97,6 @@ public class MainApp extends Application {
 			e.printStackTrace();
 			return null;
 		}
-	}
-	/**
-	 * MainFormController调用在TabPane中创建Tab
-	 *
-	 */	
-	public void createTab(String tabName) {
-		tabPaneCon.createTab(tabName);
 	}
 	/**
 	 * 显示订阅数据窗口
@@ -162,7 +155,7 @@ public class MainApp extends Application {
 	public boolean showAddTableContainer(String pageName) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("gui/AddTableContainer.fxml"));
+			loader.setLocation(MainApp.class.getResource("gui/AddContainer.fxml"));
 			AnchorPane container_AnchorPane = (AnchorPane) loader.load();
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("增加表格容器");
@@ -170,12 +163,13 @@ public class MainApp extends Application {
 			dialogStage.initOwner(primaryStage);
 			Scene scene = new Scene(container_AnchorPane);
 			dialogStage.setScene(scene);
-			addTableContainerCon = loader.getController();
-			addTableContainerCon.setDialogStage(dialogStage);
-			addTableContainerCon.setMainApp(this);
-			addTableContainerCon.setPageName(pageName);
+			addContainerCon = loader.getController();
+			addContainerCon.setDialogStage(dialogStage);
+			addContainerCon.setMainApp(this);
+			addContainerCon.setPageName(pageName);
+			addContainerCon.init();
 			dialogStage.showAndWait();	
-			return addTableContainerCon.isOkClicked();
+			return addContainerCon.isOkClicked();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
@@ -240,9 +234,10 @@ public class MainApp extends Application {
 		TableContainerController tCC=loader.getController();
 		tCC.setPageName(pageName);
 		tCC.setMainApp(this);
-		tCC.setHeadText(addTableContainerCon.getConName());
-		tCC.setContainerSize(addTableContainerCon.getWidth(), addTableContainerCon.getHeight());
-		tabPaneCon.addContainer(pageName, container_AnchorPane,tCC,addTableContainerCon.getConName());
+		tCC.init();
+		tCC.setHeadText(addContainerCon.getConName());
+		tCC.setContainerSize(addContainerCon.getWidth(), addContainerCon.getHeight());
+		tabPaneCon.addContainer(pageName, container_AnchorPane,tCC,addContainerCon.getConName());
 		tabPaneCon.refresh(pageName);
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -24,6 +24,7 @@ public class TabTemplateController implements IController {
 	@FXML
 	private ScrollPane scrollpane;
 	private HashMap<String,TableContainerController> containerCon=new HashMap<>(); //存容器名对应的Controller
+	private HashMap<String,Node> containerAll=new HashMap<>(); //存容器名对应的容器
 	private MainApp mainApp; 
 	private ObservableList<Node> anchorCollection = FXCollections.observableArrayList(); //存tab里所有容器
     public void setMainApp(MainApp mainApp) {
@@ -31,6 +32,7 @@ public class TabTemplateController implements IController {
     }
     public void addContainer(AnchorPane no,TableContainerController tCC,String conName) {
     	containerCon.put(conName, tCC);
+    	containerAll.put(conName, no);
     	anchorCollection.add(no);
     	refresh(); 
     }    
@@ -49,6 +51,10 @@ public class TabTemplateController implements IController {
     	if(containerCon.containsKey(name))
     		return true;
     	return false;
+    }
+    public void removeContainer(String name) {    	
+    	anchorCollection.remove(containerAll.get(name));
+    	containerAll.remove(name);
     }
     private void sortContainer() {
     	Collections.sort(anchorCollection, new NodeComparator());

@@ -47,14 +47,22 @@ public class TableContainerController implements IController {
             	}
             }
         }); 
-        MenuItem addMenuItem3 = new MenuItem("调整大小");    //右击TableView显示调整大小菜单
-        addMenu1.getItems().add(addMenuItem3);
-        addMenuItem3.setOnAction(new EventHandler() {
+        MenuItem addMenuItem2 = new MenuItem("调整大小");    //右击TableView显示调整大小菜单
+        addMenu1.getItems().add(addMenuItem2);
+        addMenuItem2.setOnAction(new EventHandler() {
             public void handle(Event t) {
             	Container container=new Container();
             	if(mainApp.showChangeHWSize(container))
             		setContainerSize(container.getWidth(), container.getHeight());
             	    mainApp.getTabPaneController().refresh(pageName);
+            }
+        });
+        MenuItem addMenuItem3 = new MenuItem("删除容器");    //右击TableView显示调整大小菜单
+        addMenu1.getItems().add(addMenuItem3);
+        addMenuItem3.setOnAction(new EventHandler() {
+            public void handle(Event t) {
+            	mainApp.getTabPaneController().removeConatiner(pageName, containerName);
+            	mainApp.getTabPaneController().refresh(pageName);
             }
         }); 
 	}
@@ -63,7 +71,6 @@ public class TableContainerController implements IController {
 	}
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
-        init();
     }
     public void init() {
         tableView.setContextMenu(addMenu1);
