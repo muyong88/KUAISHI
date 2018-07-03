@@ -7,10 +7,13 @@ import com.poac.quickview.controller.AddPageController;
 import com.poac.quickview.controller.AddContainerController;
 import com.poac.quickview.controller.ChangeHWSizeController;
 import com.poac.quickview.controller.ChangePositionController;
+import com.poac.quickview.controller.CurveContainerController;
+import com.poac.quickview.controller.ImageContainerController;
 import com.poac.quickview.controller.MainFormController;
 import com.poac.quickview.controller.SubscribeController;
 import com.poac.quickview.controller.TabPaneController;
 import com.poac.quickview.controller.TableContainerController;
+import com.poac.quickview.controller.VideoContainerController;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.Page;
 import com.poac.quickview.model.Parameter;
@@ -152,7 +155,7 @@ public class MainApp extends Application {
 	/**
 	 * 显示增加表格容器窗口
 	 */	
-	public boolean showAddTableContainer(String pageName) {
+	public boolean showAddContainer(String pageName) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("gui/AddContainer.fxml"));
@@ -223,10 +226,10 @@ public class MainApp extends Application {
 		}
 	}	
 	/**
-	 * 在TabPane中增加容器
+	 * 在TabPane中增加表格容器
 	 *
 	 */	
-	public void addContainer(String pageName) {
+	public void addTableContainer(String pageName) {
 		try {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(MainApp.class.getResource("gui/TableContainer.fxml"));
@@ -243,6 +246,80 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}	
 	}	
+	/**
+	 * 在TabPane中增加曲线容器
+	 *
+	 */	
+	public void addCurveContainer(String pageName) {
+		try {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(MainApp.class.getResource("gui/CurveContainer.fxml"));
+		AnchorPane container_AnchorPane = (AnchorPane) loader.load();
+		CurveContainerController cCC=loader.getController();
+		cCC.setPageName(pageName);
+		cCC.setMainApp(this);
+		cCC.init();
+		cCC.setHeadText(addContainerCon.getConName());
+		cCC.setContainerSize(addContainerCon.getWidth(), addContainerCon.getHeight());
+		tabPaneCon.addContainer(pageName, container_AnchorPane,cCC,addContainerCon.getConName());
+		tabPaneCon.refresh(pageName);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+	}	
+	/**
+	 * 在TabPane中增加图像容器
+	 *
+	 */	
+	public void addImageContainer(String pageName) {
+		try {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(MainApp.class.getResource("gui/ImageContainer.fxml"));
+		AnchorPane container_AnchorPane = (AnchorPane) loader.load();
+		ImageContainerController iCC=loader.getController();
+		iCC.setPageName(pageName);
+		iCC.setMainApp(this);
+		iCC.init();
+		iCC.setHeadText(addContainerCon.getConName());
+		iCC.setContainerSize(addContainerCon.getWidth(), addContainerCon.getHeight());
+		tabPaneCon.addContainer(pageName, container_AnchorPane,iCC,addContainerCon.getConName());
+		tabPaneCon.refresh(pageName);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	 
+	}	
+	/**
+	 * 在TabPane中视频容器
+	 * 
+	 */	
+	public void addVideoContainer(String pageName) {
+		try {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(MainApp.class.getResource("gui/VideoContainer.fxml"));
+		AnchorPane container_AnchorPane = (AnchorPane) loader.load();
+		VideoContainerController vCC=loader.getController();
+		vCC.setPageName(pageName);
+		vCC.setMainApp(this);
+		vCC.init();
+		vCC.setHeadText(addContainerCon.getConName());
+		vCC.setContainerSize(addContainerCon.getWidth(), addContainerCon.getHeight());
+		tabPaneCon.addContainer(pageName, container_AnchorPane,vCC,addContainerCon.getConName());
+		tabPaneCon.refresh(pageName);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	 
+	}	
+	public void addContainer(String pageName) {
+		if(addContainerCon.getType().equals("Data")) {
+			addTableContainer(pageName);
+		}else if(addContainerCon.getType().equals("Curve")){
+			addCurveContainer(pageName);
+		}else if(addContainerCon.getType().equals("Image")){
+			addImageContainer(pageName);
+		}else if(addContainerCon.getType().equals("Video")){
+			addVideoContainer(pageName);
+		}
+	}
 	public TabPaneController getTabPaneController() {
 		return tabPaneCon;
 	}

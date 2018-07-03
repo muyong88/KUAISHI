@@ -156,7 +156,7 @@ final class TreeViewCellImpl extends TreeCell<IBaseNode> {
         }); 
         addMenuItem2.setOnAction(new EventHandler() {
             public void handle(Event t) {
-            	if(mainApp.showAddTableContainer(getString())) {
+            	if(mainApp.showAddContainer(getString())) {
             		mainApp.addContainer(getString());            		
             	}
             }

@@ -23,14 +23,14 @@ public class TabTemplateController implements IController {
 	private JFXMasonryPane masonryPane;
 	@FXML
 	private ScrollPane scrollpane;
-	private HashMap<String,TableContainerController> containerCon=new HashMap<>(); //存容器名对应的Controller
+	private HashMap<String,IController> containerCon=new HashMap<>(); //存容器名对应的Controller
 	private HashMap<String,Node> containerAll=new HashMap<>(); //存容器名对应的容器
 	private MainApp mainApp; 
 	private ObservableList<Node> anchorCollection = FXCollections.observableArrayList(); //存tab里所有容器
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
-    public void addContainer(AnchorPane no,TableContainerController tCC,String conName) {
+    public void addContainer(AnchorPane no,IController tCC,String conName) {
     	containerCon.put(conName, tCC);
     	containerAll.put(conName, no);
     	anchorCollection.add(no);

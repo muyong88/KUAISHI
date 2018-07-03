@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.chart.*?>
+<?import java.net.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="anchor_mediaview" prefHeight="449.0" prefWidth="685.0" stylesheets="@../css/containerCSS/containerCSS.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.poac.quickview.controller.VideoContainerController">
+   <children>
+      <Label fx:id="label_head" alignment="CENTER" layoutX="3.0" layoutY="1.0" prefHeight="15.0" prefWidth="578.0" text="容器名称" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <HBox alignment="CENTER" layoutX="84.0" layoutY="436.0" prefHeight="84.0" prefWidth="594.0" spacing="5.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button fx:id="rightarrow_btn" maxHeight="88.0" maxWidth="55.0" minHeight="88.0" minWidth="55.0" mnemonicParsing="false" prefHeight="88.0" prefWidth="55.0" HBox.hgrow="ALWAYS" />
+            <VBox fx:id="vbox_quan_1" alignment="TOP_RIGHT" prefHeight="58.0" prefWidth="87.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="15.0" prefWidth="93.0" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="38.0" layoutY="7.0" prefHeight="15.0" prefWidth="93.0" text="42圈" />
+                  <Label alignment="CENTER" contentDisplay="TOP" layoutX="23.0" layoutY="25.0" prefHeight="15.0" prefWidth="88.0" text="22:40:50" />
+                  <Label alignment="CENTER" layoutX="24.0" layoutY="43.0" prefHeight="15.0" prefWidth="91.0" text="22:40:50" />
+                  <Label fx:id="label1" contentDisplay="RIGHT" layoutX="78.0" layoutY="63.0" prefHeight="15.0" prefWidth="28.0" text="回看" textFill="WHITE" />
+               </children>
+            </VBox>
+            <VBox fx:id="vbox_quan_2" alignment="TOP_RIGHT" layoutX="70.0" layoutY="10.0" prefHeight="70.0" prefWidth="87.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="15.0" prefWidth="93.0" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="38.0" layoutY="7.0" prefHeight="15.0" prefWidth="93.0" text="42圈" />
+                  <Label alignment="CENTER" contentDisplay="TOP" layoutX="23.0" layoutY="25.0" prefHeight="15.0" prefWidth="88.0" text="22:40:50" />
+                  <Label alignment="CENTER" layoutX="24.0" layoutY="43.0" prefHeight="15.0" prefWidth="91.0" text="22:40:50" />
+                  <Label fx:id="label2" contentDisplay="RIGHT" layoutX="78.0" layoutY="63.0" prefHeight="15.0" prefWidth="28.0" text="回看" textFill="WHITE" />
+               </children>
+            </VBox>
+            <VBox fx:id="vbox_quan_3" alignment="TOP_RIGHT" layoutX="162.0" layoutY="10.0" prefHeight="70.0" prefWidth="87.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="15.0" prefWidth="93.0" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="38.0" layoutY="7.0" prefHeight="15.0" prefWidth="93.0" text="42圈" />
+                  <Label alignment="CENTER" contentDisplay="TOP" layoutX="23.0" layoutY="25.0" prefHeight="15.0" prefWidth="88.0" text="22:40:50" />
+                  <Label alignment="CENTER" layoutX="24.0" layoutY="43.0" prefHeight="15.0" prefWidth="91.0" text="22:40:50" />
+                  <Label fx:id="label3" contentDisplay="RIGHT" layoutX="78.0" layoutY="63.0" prefHeight="15.0" prefWidth="28.0" text="回看" textFill="WHITE" />
+               </children>
+            </VBox>
+            <VBox fx:id="vbox_quan_4" alignment="TOP_RIGHT" layoutX="254.0" layoutY="10.0" prefHeight="70.0" prefWidth="87.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="15.0" prefWidth="93.0" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="38.0" layoutY="7.0" prefHeight="15.0" prefWidth="93.0" text="42圈" />
+                  <Label alignment="CENTER" contentDisplay="TOP" layoutX="23.0" layoutY="25.0" prefHeight="15.0" prefWidth="88.0" text="22:40:50" />
+                  <Label alignment="CENTER" layoutX="24.0" layoutY="43.0" prefHeight="15.0" prefWidth="91.0" text="22:40:50" />
+                  <Label fx:id="label4" contentDisplay="RIGHT" layoutX="78.0" layoutY="63.0" prefHeight="15.0" prefWidth="28.0" text="回看" textFill="WHITE" />
+               </children>
+            </VBox>
+            <VBox fx:id="vbox_quan_5" alignment="TOP_RIGHT" layoutX="346.0" layoutY="10.0" prefHeight="70.0" prefWidth="87.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="15.0" prefWidth="93.0" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="38.0" layoutY="7.0" prefHeight="15.0" prefWidth="93.0" text="42圈" />
+                  <Label alignment="CENTER" contentDisplay="TOP" layoutX="23.0" layoutY="25.0" prefHeight="15.0" prefWidth="88.0" text="22:40:50" />
+                  <Label alignment="CENTER" layoutX="24.0" layoutY="43.0" prefHeight="15.0" prefWidth="91.0" text="22:40:50" />
+                  <Label fx:id="label5" contentDisplay="RIGHT" layoutX="78.0" layoutY="63.0" prefHeight="15.0" prefWidth="28.0" text="直播" textFill="WHITE" />
+               </children>
+            </VBox>
+            <Button fx:id="leftarrow_btn" maxHeight="88.0" maxWidth="55.0" minHeight="88.0" minWidth="55.0" mnemonicParsing="false" prefHeight="88.0" prefWidth="55.0" HBox.hgrow="ALWAYS" />
+         </children></HBox>
+      <HBox layoutX="646.0" layoutY="21.0" spacing="5.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="21.0">
+         <children>
+            <Button fx:id="button_save" layoutX="624.0" layoutY="19.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="19.0" />
+            <Button fx:id="button_print" layoutX="661.0" layoutY="19.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="19.0" />
+         </children>
+      </HBox>
+      <AnchorPane fx:id="anchor_video" layoutX="24.0" layoutY="63.0" prefHeight="223.0" prefWidth="518.0" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="61.0">
+         <children>
+            <MediaView fx:id="mediaView" fitHeight="200.0" fitWidth="200.0" layoutX="14.0" layoutY="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
+      <HBox alignment="CENTER" layoutX="20.0" layoutY="288.0" prefHeight="50.0" prefWidth="534.0" spacing="5.0" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="18.0">
+         <children>
+            <Button fx:id="Button_last" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+            <Button fx:id="Button_pause" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+            <Button fx:id="Button_next" layoutX="38.0" layoutY="10.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+            <Label fx:id="Label_startTime" prefHeight="50.0" text="22:40" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <StackPane fx:id="StackPane_volumn" maxWidth="238.0" minWidth="150.0" prefHeight="50.0" prefWidth="238.0">
+               <children>
+                  <ProgressBar fx:id="ProgressBar_videoProgress" maxHeight="15.0" maxWidth="244.0" minHeight="15.0" minWidth="150.0" prefHeight="15.0" prefWidth="244.0" progress="0.0" />
+                  <Slider fx:id="Slider_videoProgress" maxWidth="238.0" minWidth="150.0" prefHeight="50.0" prefWidth="238.0" />
+               </children>
+            </StackPane>
+            <Label fx:id="Label_endTime" layoutX="539.0" layoutY="10.0" prefHeight="50.0" text="23:00" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

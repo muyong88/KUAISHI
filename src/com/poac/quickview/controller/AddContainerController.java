@@ -47,10 +47,6 @@ public class AddContainerController  implements IController {
     		label_error.setText("容器名已存在！");
     		return;
     	}
-    	if(!combox_type.getValue().equals("Data")) {
-    		label_error.setText("请选择Data类型！");
-    		return;
-    	}
     	okClicked = true;
     	dialogStage.close();        
     }
@@ -60,6 +56,9 @@ public class AddContainerController  implements IController {
     }
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
+    }
+    public String getType() {
+    	return combox_type.getValue().toString();
     }
     public String getConName() {
     	return txtf_Name.getText();

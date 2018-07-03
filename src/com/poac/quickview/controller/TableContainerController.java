@@ -26,7 +26,6 @@ public class TableContainerController implements IController {
 	@FXML
 	private Label label_head;
 	private MainApp mainApp; 	
-	private BorderPane rootLayout;
 	private String pageName=null;
     private String containerName=null;
 	private double xOffset = 0;
@@ -74,6 +73,25 @@ public class TableContainerController implements IController {
     }
     public void init() {
         tableView.setContextMenu(addMenu1);
+        tableView.setOnMousePressed(new EventHandler<MouseEvent>() {    //实现tableview可移动
+			@Override
+			public void handle(MouseEvent event) {
+				xOffset = event.getSceneX();
+				yOffset = event.getSceneY();
+			}
+		});
+        tableView.setOnMouseDragged(new EventHandler<MouseEvent>() {   //实现tableview窗体可移动
+			@Override
+			public void handle(MouseEvent event) {
+				anchor_table.setLayoutX(event.getScreenX() - xOffset);
+				anchor_table.setLayoutY(event.getScreenY() - yOffset);
+			}
+		});
+        tableView.setOnMouseReleased(new EventHandler<MouseEvent>() {      //用于拖拉tableview
+            @Override
+            public void handle(MouseEvent event) {
+                mainApp.getTabPaneController().refresh(pageName);
+            }});
         anchor_table.setOnMousePressed(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
 			@Override
 			public void handle(MouseEvent event) {
@@ -94,7 +112,7 @@ public class TableContainerController implements IController {
 		        x = event.getX();
 		        y = event.getY();
 			}
-		});
+		});        
         anchor_table.setOnMouseDragged(new EventHandler<MouseEvent>() {       //用于拖拉anchorpane
 			@Override
 			public void handle(MouseEvent event) {

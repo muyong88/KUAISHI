@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchor_table" prefHeight="425.0" prefWidth="558.0" stylesheets="@../css/containerCSS/containerCSS.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.poac.quickview.controller.TableContainerController">
+<AnchorPane fx:id="anchor_image" prefHeight="425.0" prefWidth="558.0" stylesheets="@../css/containerCSS/containerCSS.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.poac.quickview.controller.ImageContainerController">
    <children>
       <Label fx:id="label_head" alignment="CENTER" layoutX="3.0" layoutY="1.0" prefHeight="15.0" prefWidth="578.0" text="容器名称" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <HBox alignment="CENTER" layoutX="84.0" layoutY="436.0" prefHeight="84.0" prefWidth="594.0" spacing="5.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -66,6 +66,10 @@
             <Button fx:id="button_print" layoutX="661.0" layoutY="19.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="19.0" />
          </children>
       </HBox>
-      <ImageView fx:id="imageView_container" fitHeight="254.0" fitWidth="530.0" layoutX="53.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="107.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="53.152099609375" AnchorPane.topAnchor="70.0" />
+      <AnchorPane fx:id="anchor_img" layoutX="59.0" layoutY="76.0" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="57.0" AnchorPane.rightAnchor="66.0" AnchorPane.topAnchor="74.0">
+         <children>
+            <ImageView fx:id="imageView" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

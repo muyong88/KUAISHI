@@ -61,7 +61,7 @@ public class TabPaneController implements IController {
 		tabCMap.remove(tabName);
 	}
 	//Ôö¼ÓÈÝÆ÷
-	public void addContainer(String pageName,AnchorPane  container,TableContainerController tcc,String conName) {		
+	public void addContainer(String pageName,AnchorPane  container,IController tcc,String conName) {		
 		tabCMap.get(pageName).addContainer(container,tcc,conName);
 	} 
 	public void refresh(String pageName) {		
