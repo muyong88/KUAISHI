@@ -25,7 +25,7 @@
     -fx-text-fill: black;
 } 
 #label1,#label2,#label3,#label4{
-	-fx-background-color:blue;
+	-fx-background-color:blue; 
 	-fx-text-fill: #ffffff;
 }  
 #vbox_quan_1,#vbox_quan_2,#vbox_quan_3,#vbox_quan_4,#vbox_quan_5{
@@ -45,15 +45,27 @@
 #imageView{
 	-fx-image:url("imageview.jpg");
 }
-#Button_pause{
+
+.buttonPlay{
+	-fx-background-image: url("PlayDark.png");
+	-fx-background-color: transparent;
+}
+
+.buttonPlay:hover{
+	-fx-background-image: url("Play.png");
+	-fx-background-color: transparent;
+}
+
+.buttonPause{
 	-fx-background-image: url("PauseDark.png");
 	-fx-background-color: transparent;
 }
 
-#Button_pause:hover{
+.buttonPause:hover{
 	-fx-background-image: url("Pause.png");
 	-fx-background-color: transparent;
-} 
+}
+
 #Button_next{
 	-fx-background-image: url("NextDark.png");
 	-fx-background-color: transparent;

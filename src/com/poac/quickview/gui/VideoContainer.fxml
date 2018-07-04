@@ -77,7 +77,7 @@
       <HBox alignment="CENTER" layoutX="20.0" layoutY="288.0" prefHeight="50.0" prefWidth="534.0" spacing="5.0" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="18.0">
          <children>
             <Button fx:id="Button_last" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
-            <Button fx:id="Button_pause" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+            <Button fx:id="Button_pause" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onButtonPause" prefHeight="50.0" prefWidth="50.0" styleClass="buttonPause" HBox.hgrow="ALWAYS" />
             <Button fx:id="Button_next" layoutX="38.0" layoutY="10.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
             <Label fx:id="Label_startTime" prefHeight="50.0" text="22:40" HBox.hgrow="ALWAYS">
                <font>

@@ -1,16 +1,23 @@
 package com.poac.quickview.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.poac.quickview.MainApp;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.Parameter;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -24,7 +31,9 @@ public class CurveContainerController implements IController {
 	@FXML
 	private AnchorPane anchor_curve;
 	@FXML
-	private LineChart lineChart;
+	private LineChart<String,Integer>   lineChart;
+    @FXML
+    private CategoryAxis xAxis;
 	@FXML
 	private Label label_head;
 	private MainApp mainApp; 	
@@ -71,9 +80,27 @@ public class CurveContainerController implements IController {
 		this.pageName=pageName;
 	}
     public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
+        this.mainApp = mainApp; 
     } 
     public void init() {
+    	ObservableList<String> xNames = FXCollections.observableArrayList();
+    	xNames.addAll(Arrays.asList(new String[] {"1","2","3","4","5","6","7","9","10","11","12"}));
+    	xAxis.setCategories(xNames);
+    	Series<String, Integer> series = new Series<>();
+        series.getData().add(new XYChart.Data("1", 23));
+        series.getData().add(new XYChart.Data("2", 14));
+        series.getData().add(new XYChart.Data("3", 15));
+        series.getData().add(new XYChart.Data("4", 24));
+        series.getData().add(new XYChart.Data("5", 34));
+        series.getData().add(new XYChart.Data("6", 36));
+        series.getData().add(new XYChart.Data("7", 22));
+        series.getData().add(new XYChart.Data("8", 45));
+        series.getData().add(new XYChart.Data("9", 43));
+        series.getData().add(new XYChart.Data("10", 17));
+        series.getData().add(new XYChart.Data("11", 29));
+        series.getData().add(new XYChart.Data("12", 25));
+        series.setName("DEMO1");
+        lineChart.getData().add(series);
     	lineChart.setOnMouseClicked(new EventHandler<MouseEvent>() {
           @Override public void handle(MouseEvent event) {
             if (MouseButton.SECONDARY.equals(event.getButton())) {

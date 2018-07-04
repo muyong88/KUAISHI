@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.chart.LineChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -39,6 +40,9 @@ public class VideoContainerController implements IController {
 	private Slider Slider_videoProgress; 
 	@FXML
 	private  ProgressBar ProgressBar_videoProgress; 
+	@FXML
+	private Button Button_pause;
+	private MediaPlayer mediaPlayer;
 	private MainApp mainApp; 	
 	private String pageName=null;
     private String containerName=null;
@@ -46,9 +50,10 @@ public class VideoContainerController implements IController {
 	private double yOffset = 0;
     private  int RESIZE_MARGIN = 5;
     private int dragging=0;     //0代表不拉 1代表横拉  2代表竖拉 3代表斜拉
+    private int current_state=0; //0代表播放 1代表暂停
     private double x;
     private double y;
-    private ContextMenu addMenu1 = new ContextMenu();
+    private ContextMenu addMenu1 = new ContextMenu();    
 	public VideoContainerController() {
         MenuItem addMenuItem1 = new MenuItem("添加参数");    //右击TableView显示添加参数菜单
         addMenu1.getItems().add(addMenuItem1);
@@ -76,7 +81,7 @@ public class VideoContainerController implements IController {
             	mainApp.getTabPaneController().removeConatiner(pageName, containerName);
             	mainApp.getTabPaneController().refresh(pageName);
             }
-        }); 
+        });  
 	}   
 	public void setPageName(String pageName) {
 		this.pageName=pageName;
@@ -89,7 +94,7 @@ public class VideoContainerController implements IController {
     	mediaView.fitWidthProperty().bind(anchor_video.widthProperty());    //绑定宽随父节点变化
     	mediaView.fitHeightProperty().bind(anchor_video.heightProperty());  //绑定高随父节点变化
     	
-    	Slider_videoProgress.setOnMouseClicked(e ->{
+    	Slider_videoProgress.setOnMouseClicked(e ->{                 //进度条同步设置
 			double d = Slider_videoProgress.getValue();
 			ProgressBar_videoProgress.setProgress(d/100);
 		});
@@ -108,8 +113,8 @@ public class VideoContainerController implements IController {
     	
     	String media_URL = getClass().getResource("../css/containerCss/animal.mp4").toString();
     	Media media = new Media(media_URL);
-    	MediaPlayer mediaPlayer = new MediaPlayer(media);
-    	mediaPlayer.setAutoPlay(true); //设置自动播放
+    	mediaPlayer = new MediaPlayer(media);
+    	mediaPlayer.setAutoPlay(true); //设置自动播放    	
     	mediaView.setMediaPlayer(mediaPlayer);
     	mediaView.setOnMouseClicked(new EventHandler<MouseEvent>() {
           @Override public void handle(MouseEvent event) {
@@ -196,5 +201,20 @@ public class VideoContainerController implements IController {
     }
     public void setContainerSize(double width,double height) {   //设置容器Size
     	anchor_mediaview.setPrefSize(width, height);
+    }
+    @FXML
+    private void onButtonPause() {
+		if (current_state == 0) {
+			mediaPlayer.pause();
+			current_state=1;
+			Button_pause.getStyleClass().removeAll(Button_pause.getStyleClass());
+			Button_pause.getStyleClass().add("buttonPlay");
+		}else if (current_state == 1) {
+			mediaPlayer.play();
+			current_state=0;
+			Button_pause.getStyleClass().removeAll(Button_pause.getStyleClass());
+			Button_pause.getStyleClass().add("buttonPause");
+		}
+		
     }
 }

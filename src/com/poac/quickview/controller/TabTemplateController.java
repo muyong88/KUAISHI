@@ -29,12 +29,12 @@ public class TabTemplateController implements IController {
 	private ObservableList<Node> anchorCollection = FXCollections.observableArrayList(); //存tab里所有容器
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
-    }
+    } 
     public void addContainer(AnchorPane no,IController tCC,String conName) {
     	containerCon.put(conName, tCC);
     	containerAll.put(conName, no);
     	anchorCollection.add(no);
-    	refresh(); 
+    	masonryPane.getChildren().setAll(anchorCollection); 
     }    
 	/**
 	 * 1、用于根据anchorCollection内容刷新Tab
@@ -54,6 +54,7 @@ public class TabTemplateController implements IController {
     }
     public void removeContainer(String name) {    	
     	anchorCollection.remove(containerAll.get(name));
+    	containerCon.remove(name);
     	containerAll.remove(name);
     }
     private void sortContainer() {

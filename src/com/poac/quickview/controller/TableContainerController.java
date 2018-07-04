@@ -30,7 +30,7 @@ public class TableContainerController implements IController {
     private String containerName=null;
 	private double xOffset = 0;
 	private double yOffset = 0;
-    private  int RESIZE_MARGIN = 5;
+    private  int RESIZE_MARGIN = 5; 
     private int dragging=0;     //0代表不拉 1代表横拉  2代表竖拉 3代表斜拉
     private double x;
     private double y;
@@ -44,7 +44,7 @@ public class TableContainerController implements IController {
             	if(mainApp.showSubscribe(arParm)) {
             		
             	}
-            }
+            } 
         }); 
         MenuItem addMenuItem2 = new MenuItem("调整大小");    //右击TableView显示调整大小菜单
         addMenu1.getItems().add(addMenuItem2);
@@ -72,6 +72,7 @@ public class TableContainerController implements IController {
         this.mainApp = mainApp;
     }
     public void init() {
+    	
         tableView.setContextMenu(addMenu1);
         tableView.setOnMousePressed(new EventHandler<MouseEvent>() {    //实现tableview可移动
 			@Override

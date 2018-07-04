@@ -54,7 +54,7 @@ public class TabPaneController implements IController {
 			e.printStackTrace();
 		}
 	}
-	//删除page时候调用
+	//删除page时候调用 
 	public void removeTab(String tabName) {
 		closeTab(tabName);
 		tabMap.remove(tabName);
