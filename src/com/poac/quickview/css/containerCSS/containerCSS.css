@@ -18,12 +18,18 @@
 		-fx-border-width: 2 2 2 2;
 		-fx-border-color: #bfbfbf;
 }
-.table-view, .table-cell {
+/* .table-view, .table-cell {
     -fx-background-color: #1b1d20 ;   
 }
 .table-view .column-header .label{
     -fx-text-fill: black;
 } 
+.table-view .table-row-cell {  
+    -fx-background-insets: 0;  
+}  
+.table-row-cell:empty .table-cell {  
+    -fx-border-width: 0px;  
+}  */
 #label1,#label2,#label3,#label4{
 	-fx-background-color:blue; 
 	-fx-text-fill: #ffffff;

@@ -8,10 +8,10 @@
 
 <AnchorPane fx:id="anchor_table" prefHeight="425.0" prefWidth="558.0" stylesheets="@../css/containerCSS/containerCSS.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.poac.quickview.controller.TableContainerController">
    <children>
-      <TableView fx:id="tableView" layoutX="3.0" layoutY="54.0" prefHeight="321.0" prefWidth="578.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="54.0">
+      <TableView fx:id="tableView" layoutX="3.0" layoutY="54.0" prefHeight="321.0" prefWidth="578.0" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="54.0">
         <columns>
           <TableColumn prefWidth="75.0" text="参数代号" />
-          <TableColumn prefWidth="75.0" text="参数名称" />
+          <TableColumn fx:id="tc_paraName" prefWidth="75.0" text="参数名称" />
             <TableColumn prefWidth="75.0" text="参数意义" />
             <TableColumn prefWidth="75.0" text="源码" />
             <TableColumn prefWidth="75.0" text="结果" />

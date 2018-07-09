@@ -25,7 +25,7 @@ public class AddContainerController  implements IController {
     private Stage dialogStage;
     private MainApp mainApp;
     private String pageName;
-    public AddContainerController() {
+    public AddContainerController() { 
     }
     public void init() {
     	ObservableList<String> options =FXCollections.observableArrayList("Data","Curve","Image","Video");

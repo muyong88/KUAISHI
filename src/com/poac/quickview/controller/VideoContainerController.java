@@ -1,16 +1,23 @@
 package com.poac.quickview.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
 
 import com.poac.quickview.MainApp;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.Parameter;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.chart.LineChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -110,12 +117,31 @@ public class VideoContainerController implements IController {
 			double d = Slider_videoProgress.getValue();
 			ProgressBar_videoProgress.setProgress(d/100);
 		});
-    	
-    	String media_URL = getClass().getResource("../css/containerCss/animal.mp4").toString();
+    	Slider_videoProgress.valueChangingProperty().addListener((o, ov, nv)->{   //拖拉进步条视频同步
+			double d = Slider_videoProgress.getValue()/100;
+			mediaPlayer.seek(mediaPlayer.getTotalDuration().multiply(d));
+		});
+    	String media_URL = getClass().getResource("/animal.mp4").toString();
     	Media media = new Media(media_URL);
     	mediaPlayer = new MediaPlayer(media);
-    	mediaPlayer.setAutoPlay(true); //设置自动播放    	
-    	mediaView.setMediaPlayer(mediaPlayer);
+    	mediaPlayer.setAutoPlay(true); //设置自动播放    
+		mediaPlayer.setOnEndOfMedia(new Runnable() {            //设置video播放结束后事件内容
+		    @Override
+		    public void run() {
+				current_state=1;
+				Button_pause.getStyleClass().removeAll(Button_pause.getStyleClass());
+				Button_pause.getStyleClass().add("buttonPlay");
+				mediaPlayer.stop();
+		    }
+		});
+		mediaPlayer.currentTimeProperty().addListener((o, ov, nv)->{
+			double n=nv.toSeconds()/mediaPlayer.getTotalDuration().toSeconds()*100;
+			Slider_videoProgress.setValue(n);
+			ProgressBar_videoProgress.setProgress(n/100);
+		});		
+    	mediaView.setMediaPlayer(mediaPlayer);   
+    	
+    	
     	mediaView.setOnMouseClicked(new EventHandler<MouseEvent>() {
           @Override public void handle(MouseEvent event) {
             if (MouseButton.SECONDARY.equals(event.getButton())) {
@@ -210,11 +236,10 @@ public class VideoContainerController implements IController {
 			Button_pause.getStyleClass().removeAll(Button_pause.getStyleClass());
 			Button_pause.getStyleClass().add("buttonPlay");
 		}else if (current_state == 1) {
-			mediaPlayer.play();
+			mediaPlayer.play();		
 			current_state=0;
 			Button_pause.getStyleClass().removeAll(Button_pause.getStyleClass());
 			Button_pause.getStyleClass().add("buttonPause");
 		}
-		
     }
 }

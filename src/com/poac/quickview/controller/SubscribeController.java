@@ -51,8 +51,10 @@ public class SubscribeController implements IController {
     }
     @FXML
     private void handleOk() {
-    	okClicked = true;
-
+    	for(Object n :checkListView_1.getCheckModel().getCheckedItems()) {
+    		parmList.add(new Parameter(n.toString()));
+    	}
+    	okClicked = true; 
     	dialogStage.close();        
     }
     @FXML

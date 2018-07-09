@@ -6,6 +6,8 @@ import com.poac.quickview.MainApp;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.Parameter;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,6 +15,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -22,9 +25,12 @@ public class TableContainerController implements IController {
 	@FXML
 	private AnchorPane anchor_table;
 	@FXML
-	private TableView tableView;
+	private TableView<Parameter> tableView;
 	@FXML
 	private Label label_head;
+	@FXML
+	private TableColumn<Parameter, String> tc_paraName;
+	private ObservableList<Parameter> dataParameters = FXCollections.observableArrayList();
 	private MainApp mainApp; 	
 	private String pageName=null;
     private String containerName=null;
@@ -42,7 +48,9 @@ public class TableContainerController implements IController {
             public void handle(Event t) {
             	ArrayList<Parameter> arParm=new ArrayList();
             	if(mainApp.showSubscribe(arParm)) {
-            		
+            		for(Parameter p :arParm) {
+            				dataParameters.add(p);
+            		}
             	}
             } 
         }); 
@@ -72,14 +80,18 @@ public class TableContainerController implements IController {
         this.mainApp = mainApp;
     }
     public void init() {
-    	
+    	tc_paraName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+    	dataParameters.add(new Parameter("液滴温度1"));
+    	dataParameters.add(new Parameter("A1温度1"));
+    	dataParameters.add(new Parameter("俯仰角速度评估"));
+    	tableView.setItems(dataParameters);  	
         tableView.setContextMenu(addMenu1);
         tableView.setOnMousePressed(new EventHandler<MouseEvent>() {    //实现tableview可移动
 			@Override
 			public void handle(MouseEvent event) {
 				xOffset = event.getSceneX();
 				yOffset = event.getSceneY();
-			}
+			} 
 		});
         tableView.setOnMouseDragged(new EventHandler<MouseEvent>() {   //实现tableview窗体可移动
 			@Override

@@ -83,9 +83,8 @@
 #label_Title{
 	-fx-background-image: url("Title.png")
 }
-#Label_Head{
+#label_Head{
 	-fx-background-image: url("Head.png");
-
 }
 
 #button_Minimize{

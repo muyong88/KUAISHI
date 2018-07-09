@@ -20,7 +20,7 @@
                   <TextField layoutX="16.0" layoutY="220.0" prefHeight="37.0" prefWidth="941.0" text="第五周解决Scrollbar刷新延迟问题，完善表格容器，并实现右击表格容器调整位置和大小" />
                   <TextField layoutX="16.0" layoutY="265.0" prefHeight="37.0" prefWidth="941.0" text="第六周实现拖拉改变表格容器位置和大小位置，修改1、添加页面名称不能为空，2、新添加的页面应紧挨着其父节点，3、修改表格容器名称重复问题,4、解决覆盖问题" />
                   <TextField layoutX="16.0" layoutY="312.0" prefHeight="37.0" prefWidth="941.0" text="续上：实现删除页面，删除容器" />
-                  <TextField layoutX="16.0" layoutY="358.0" prefHeight="37.0" prefWidth="941.0" text="第七周完成Curve,Image,Video容器" />
+                  <TextField layoutX="16.0" layoutY="358.0" prefHeight="37.0" prefWidth="941.0" text="第七周完成Curve,Image,Video容器，完善订阅功能" />
                </children>
             </AnchorPane>
          </content></Tab>

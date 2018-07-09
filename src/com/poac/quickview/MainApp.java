@@ -64,7 +64,7 @@ public class MainApp extends Application {
 				primaryStage.setY(event.getScreenY() - yOffset);
 			}
 		});
-		primaryStage.setMaximized(true); 
+		//primaryStage.setMaximized(true); 
 	}	
 	/**
 	 * Initializes the root layout.
