@@ -8,12 +8,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class ChangePositionController implements IController {
+public class LogonController implements IController {
 	
 	@FXML
-	private TextField txt_PositionX;
+	private TextField txt_UserName;
 	@FXML
-	private TextField txt_PositionY;
+	private TextField txt_Password;
     private boolean okClicked = false;
     private Stage dialogStage;
     private MainApp mainApp;
@@ -35,8 +35,5 @@ public class ChangePositionController implements IController {
     }
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
-    }
-    public void setContainer(Container container) {
-    	this.container=container;
     }
 }

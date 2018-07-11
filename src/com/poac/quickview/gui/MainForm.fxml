@@ -17,10 +17,10 @@
          <children>
             <Label fx:id="label_Title" alignment="CENTER" prefHeight="50.0" prefWidth="207.0" />
             <Button fx:id="button_Setting" mnemonicParsing="false" prefHeight="30" prefWidth="30" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="9.0" />
-            <Button fx:id="button_Minimize" mnemonicParsing="false" prefHeight="30" prefWidth="30" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="9.0" />
+            <Button fx:id="button_Minimize" mnemonicParsing="false" onAction="#onButtonMinimize" prefHeight="30" prefWidth="30" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="9.0" />
             <Button fx:id="button_Maxmize" mnemonicParsing="false" onAction="#onButtonMaxmize" prefHeight="30" prefWidth="30" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="9.0" />
             <Button fx:id="button_Close" mnemonicParsing="false" onAction="#onButtonClose" prefHeight="30" prefWidth="30" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="9.0" />
-            <Label fx:id="label_Head" layoutX="721.0" layoutY="8.0" prefHeight="33.0" prefWidth="33.0" AnchorPane.rightAnchor="177.0" />
+            <Button fx:id="logonButton" layoutX="903.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLogonClick" text="登录" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="171.0" AnchorPane.topAnchor="14.0" />
          </children></AnchorPane>
    </top>
    <bottom>

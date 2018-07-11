@@ -46,6 +46,8 @@
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
 }
 
+
+
 .button:hover {
     -fx-background-color: #3a3a3a;
 }
@@ -79,4 +81,9 @@
 }
 #label_error{
 	-fx-text-fill: red;
+}
+#registeButton{
+	-fx-text-fill: #ffffff;
+	-fx-border-width:0;
+	-fx-background-color: transparent;
 }

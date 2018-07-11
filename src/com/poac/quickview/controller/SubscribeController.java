@@ -11,6 +11,7 @@ import com.poac.quickview.model.Parameter;
 import com.poac.quickview.model.Topic;
 import com.poac.quickview.model.TreeDataModel;
 import com.poac.quickview.model.Type;
+import com.poac.quickview.util.JsonParserCustomer;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -62,62 +63,20 @@ public class SubscribeController implements IController {
         dialogStage.close();
     }
     public void initData() {
-    	TreeDataModel rootNode=new TreeDataModel(new Group("力学所"));
-    	TreeDataModel dataType=new TreeDataModel(new Type("data"));
-    	rootNode.add(dataType);
-    	TreeDataModel imageType=new TreeDataModel(new Type("image"));
-    	rootNode.add(imageType);
-    	TreeDataModel videoType=new TreeDataModel(new Type("video"));
-    	rootNode.add(videoType);
-    	TreeDataModel curveType=new TreeDataModel(new Type("curve"));
-    	rootNode.add(curveType);
-    	TreeDataModel topic_data_1=new TreeDataModel(new Topic("流体实验柜-遥测数据-空间三相多液滴迁移"));
-    	TreeDataModel topic_data_2=new TreeDataModel(new Topic("流体实验柜-工程数据-实验柜控制器A1"));
-    	TreeDataModel topic_data_3=new TreeDataModel(new Topic("天和-工程数据"));
-    	dataType.add(topic_data_1);
-    	dataType.add(topic_data_2);
-    	dataType.add(topic_data_3);
-    	TreeDataModel topic_image=new TreeDataModel(new Topic("高等植物-应用数据JPEG"));
-    	imageType.add(topic_image);
-    	TreeDataModel topic_curve=new TreeDataModel(new Topic("流体实验柜-工程数据-实验柜控制器A1"));
-    	curveType.add(topic_curve);
-    	topic_data_1.add(new Parameter("液滴温度1"));
-    	topic_data_1.add(new Parameter("液滴温度2"));
-    	topic_data_2.add(new Parameter("A1温度1"));
-    	topic_data_2.add(new Parameter("A1温度2"));
-    	topic_data_3.add(new Parameter("俯仰姿态角度估值"));
-    	topic_data_3.add(new Parameter("偏航姿态角度估值"));
-    	topic_data_3.add(new Parameter("滚动姿态角度估值"));
-    	topic_data_3.add(new Parameter("俯仰角速度预估"));
-    	topic_image.add(new Parameter("温度1"));
-    	topic_image.add(new Parameter("温度2"));
-    	topic_image.add(new Parameter("高等植物图像"));
-    	topic_curve.add(new Parameter("#0000ff"));
-    	topic_curve.add(new Parameter("#ff8040"));
+    	TreeDataModel rootNode=(new JsonParserCustomer()).getSubscribeData();
     	TreeItem<IBaseNode> item = new TreeItem<>(rootNode);    	
     	treeview_s.setRoot(item);
-    	item.setExpanded(true);    	
-    	TreeItem<IBaseNode> item1 = new TreeItem<>(dataType);      	
-    	TreeItem<IBaseNode> item2 = new TreeItem<>(imageType);  
-    	TreeItem<IBaseNode> item3 = new TreeItem<>(videoType);  
-    	TreeItem<IBaseNode> item4 = new TreeItem<>(curveType);  
-    	item.getChildren().add(item1);
-    	item.getChildren().add(item2);
-    	item.getChildren().add(item3);
-    	item.getChildren().add(item4);
-    	TreeItem<IBaseNode> item5 = new TreeItem<>(topic_data_1); 
-    	TreeItem<IBaseNode> item6 = new TreeItem<>(topic_data_2); 
-    	TreeItem<IBaseNode> item7 = new TreeItem<>(topic_data_3); 
-    	item1.getChildren().add(item5);
-    	item1.getChildren().add(item6);
-    	item1.getChildren().add(item7);
-    	item1.setExpanded(true);    	
-    	TreeItem<IBaseNode> item8 = new TreeItem<>(topic_image); 
-    	item2.getChildren().add(item8);
-    	item2.setExpanded(true);
-    	TreeItem<IBaseNode> item9 = new TreeItem<>(topic_curve); 
-    	item4.getChildren().add(item9);
-    	item4.setExpanded(true);
+    	item.setExpanded(true);   
+    	for(IBaseNode i :rootNode.getChilds()) {
+    		TreeItem<IBaseNode> childNode=new TreeItem<>(i);
+    		childNode.setExpanded(true);
+    		item.getChildren().add(childNode);
+    		for(IBaseNode j:((TreeDataModel)i).getChilds()){
+    			TreeItem<IBaseNode> cchildNode=new TreeItem<>(j);
+    			cchildNode.setExpanded(true);
+    			childNode.getChildren().add(cchildNode);
+    		}    		
+    	}
     	treeview_s.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			@Override
 			public void changed(ObservableValue observable, Object oldValue, Object newValue) {

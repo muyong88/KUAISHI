@@ -83,8 +83,9 @@
 #label_Title{
 	-fx-background-image: url("Title.png")
 }
-#label_Head{
-	-fx-background-image: url("Head.png");
+#logonButton{
+	-fx-text-fill: #ffffff;
+	-fx-background-color: transparent;
 }
 
 #button_Minimize{

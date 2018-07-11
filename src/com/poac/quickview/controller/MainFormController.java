@@ -30,11 +30,18 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.jfoenix.controls.JFXMasonryPane;
 import com.poac.quickview.MainApp;
 import com.poac.quickview.model.IBaseNode;
@@ -42,7 +49,9 @@ import com.poac.quickview.model.Cabinet;
 import com.poac.quickview.model.Capsule;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.Page;
-import com.poac.quickview.model.Payload;;
+import com.poac.quickview.model.Payload;
+import com.poac.quickview.model.TreeDataModel;
+import com.poac.quickview.util.JsonParserCustomer;;
 
 public class MainFormController  implements IController{		
 	@FXML
@@ -56,6 +65,7 @@ public class MainFormController  implements IController{
 	private BorderPane borderPane;
 	@FXML
 	private AnchorPane split_RightAnchor;
+	private Stage dialogStage;
 	private ArrayList<String> pageList = new ArrayList<>();	
 	private String curNodeName=null;
     public void setMainApp(MainApp mainApp) {
@@ -67,26 +77,46 @@ public class MainFormController  implements IController{
 		System.exit(0);
 	}	
 	@FXML
+	private void onButtonMaxmize(ActionEvent event) {
+		if(dialogStage.isMaximized()) {
+			dialogStage.setMaximized(false);
+		}else {
+			dialogStage.setMaximized(true);
+		}
+	}
+	@FXML
+	private void onButtonMinimize(ActionEvent event) {
+		dialogStage.setIconified(true);
+	}
+	@FXML
+	private void onLogonClick(ActionEvent event) {
+		mainApp.showLogon();
+	}
+	@FXML
 	private void initialize() {
-		pageList.add("数值");
-		pageList.add("自定义页面");
-		pageList.add("自定义页面1");
-		pageList.add("曲线");
-		TreeItem<IBaseNode> item = new TreeItem<>(new Capsule("天和"));
-		treeView_project.setRoot(item);
-		item.setExpanded(true);
-		TreeItem<IBaseNode> i1 = new TreeItem<>(new Page("数值"));
-		TreeItem<IBaseNode> i2 = new TreeItem<>(new Page("自定义页面"));
-		TreeItem<IBaseNode> i3 = new TreeItem<>(new Cabinet("流体柜"));
-		item.getChildren().addAll(i1, i2, i3);
-		TreeItem<IBaseNode> i4 = new TreeItem<>(new Payload("空间三相多液滴迁移行为研究"));
-		TreeItem<IBaseNode> i5 = new TreeItem<>(new Payload("液桥"));
-		i3.setExpanded(true);
-		i3.getChildren().addAll(i4, i5);
-		TreeItem<IBaseNode> i6 = new TreeItem<>(new Page("自定义页面1"));
-		TreeItem<IBaseNode> i7 = new TreeItem<>(new Page("曲线"));
-		i5.getChildren().addAll(i6, i7);
-		i5.setExpanded(true);		
+		TreeDataModel rootM=(new JsonParserCustomer()).getNavationData(pageList);
+		TreeItem<IBaseNode> itemRoot = new TreeItem<>(rootM); 
+		itemRoot.setExpanded(true);
+		treeView_project.setRoot(itemRoot);
+		for(IBaseNode i :rootM.getChilds()) {
+	   		TreeItem<IBaseNode> childNode=new TreeItem<>(i);
+    		childNode.setExpanded(true);
+    		itemRoot.getChildren().add(childNode);
+			if (i.getClass().getName().contains("TreeDataModel")) {
+				for (IBaseNode j : ((TreeDataModel) i).getChilds()) {
+					TreeItem<IBaseNode> cchildNode = new TreeItem<>(j);
+					cchildNode.setExpanded(true);
+					childNode.getChildren().add(cchildNode);
+					if (j.getClass().getName().contains("TreeDataModel")) {
+						for (IBaseNode k : ((TreeDataModel) j).getChilds()) {
+							TreeItem<IBaseNode> ccchildNode = new TreeItem<>(k);
+							ccchildNode.setExpanded(true);
+							cchildNode.getChildren().add(ccchildNode);
+						}
+					}
+				}
+			}
+		}
 		accordion_1.setExpandedPane(titledPane);
 		treeView_project.setCellFactory(new Callback<TreeView<IBaseNode>, TreeCell<IBaseNode>>() {
 			@Override
@@ -111,10 +141,9 @@ public class MainFormController  implements IController{
 		split_RightAnchor.setRightAnchor(tabPanel,0.0);
 		split_RightAnchor.setBottomAnchor(tabPanel,0.0);
 		split_RightAnchor.setLeftAnchor(tabPanel,0.0);
-		mainApp.getTabPaneController().createTab("数值");
-		mainApp.getTabPaneController().createTab("自定义页面");
-		mainApp.getTabPaneController().createTab("自定义页面1");
-		mainApp.getTabPaneController().createTab("曲线");
+		for(String pageName:pageList) {
+			mainApp.getTabPaneController().createTab(pageName);
+		}
 	}
 	public boolean isExsitPageName(String pageName) {
 		if(pageList.contains(pageName))
@@ -126,7 +155,10 @@ public class MainFormController  implements IController{
 	}		
 	public void removePageName(String pageName) {
 		pageList.remove(pageName);
-	}	
+	}
+    public void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
+    }
 }
 /**
  * define cell factory to customize tableview.

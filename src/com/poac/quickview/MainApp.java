@@ -3,12 +3,12 @@ package com.poac.quickview;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.poac.quickview.controller.AddPageController;
 import com.poac.quickview.controller.AddContainerController;
+import com.poac.quickview.controller.AddPageController;
 import com.poac.quickview.controller.ChangeHWSizeController;
-import com.poac.quickview.controller.ChangePositionController;
 import com.poac.quickview.controller.CurveContainerController;
 import com.poac.quickview.controller.ImageContainerController;
+import com.poac.quickview.controller.LogonController;
 import com.poac.quickview.controller.MainFormController;
 import com.poac.quickview.controller.SubscribeController;
 import com.poac.quickview.controller.TabPaneController;
@@ -21,18 +21,11 @@ import com.poac.quickview.model.Parameter;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -77,6 +70,7 @@ public class MainApp extends Application {
 			mainCon = loader.getController();
 			mainCon.setMainApp(this);
 			mainCon.LoadTabPanel(loadTabPane());
+			mainCon.setDialogStage(primaryStage);
 			Scene scene = new Scene(rootLayout);
 			primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.setScene(scene);
@@ -178,23 +172,22 @@ public class MainApp extends Application {
 			return false;
 		}
 	}
-	public boolean showChangePosion(Container container) {
+	public boolean showLogon() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("gui/ChangePosition.fxml"));
+			loader.setLocation(MainApp.class.getResource("gui/Logon.fxml"));
 			AnchorPane page_AnchorPane = (AnchorPane) loader.load();
 			Stage dialogStage = new Stage();
-			dialogStage.setTitle("µ÷ÕûÎ»ÖÃ");
+			dialogStage.setTitle("µÇÂ¼");
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.initOwner(primaryStage);
 			Scene scene = new Scene(page_AnchorPane);
 			dialogStage.setScene(scene);
-			ChangePositionController  changePositionCon = loader.getController();
-			changePositionCon.setDialogStage(dialogStage);
-			changePositionCon.setMainApp(this);
-			changePositionCon.setContainer(container);
+			LogonController  logonCon = loader.getController();
+			logonCon.setDialogStage(dialogStage);
+			logonCon.setMainApp(this);
 			dialogStage.showAndWait();			
-			return changePositionCon.isOkClicked();
+			return logonCon.isOkClicked();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
