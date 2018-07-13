@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import com.poac.quickview.MainApp;
 import com.poac.quickview.model.Container;
-import com.poac.quickview.model.Parameter;
+import com.poac.quickview.model.IBaseNode;
+import com.poac.quickview.model.DataParameter;
+import com.poac.quickview.model.TreeDataModel;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,12 +27,18 @@ public class TableContainerController implements IController {
 	@FXML
 	private AnchorPane anchor_table;
 	@FXML
-	private TableView<Parameter> tableView;
+	private TableView<DataParameter> tableView;
 	@FXML
 	private Label label_head;
 	@FXML
-	private TableColumn<Parameter, String> tc_paraName;
-	private ObservableList<Parameter> dataParameters = FXCollections.observableArrayList();
+	private TableColumn<DataParameter, String> tc_paraName;
+	@FXML
+	private TableColumn<DataParameter, String> tc_paraCode;
+	@FXML
+	private TableColumn<DataParameter, String> tc_paraUnit;
+	@FXML
+	private TableColumn<DataParameter, String> tc_paraRange;
+	private ObservableList<DataParameter> dataParameters = FXCollections.observableArrayList();
 	private MainApp mainApp; 	
 	private String pageName=null;
     private String containerName=null;
@@ -46,9 +54,9 @@ public class TableContainerController implements IController {
         addMenu1.getItems().add(addMenuItem1);
         addMenuItem1.setOnAction(new EventHandler() {
             public void handle(Event t) {
-            	ArrayList<Parameter> arParm=new ArrayList();
+            	ArrayList<DataParameter> arParm=new ArrayList();
             	if(mainApp.showSubscribe(arParm)) {
-            		for(Parameter p :arParm) {
+            		for(DataParameter p :arParm) {
             				dataParameters.add(p);
             		}
             	}
@@ -79,11 +87,16 @@ public class TableContainerController implements IController {
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
+    public void initData(TreeDataModel containerModel) {
+    	for(IBaseNode para:containerModel.getChilds()) {
+    		dataParameters.add((DataParameter)para);
+    	}
+    }
     public void init() {
     	tc_paraName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-    	dataParameters.add(new Parameter("液滴温度1"));
-    	dataParameters.add(new Parameter("A1温度1"));
-    	dataParameters.add(new Parameter("俯仰角速度评估"));
+    	tc_paraCode.setCellValueFactory(cellData -> cellData.getValue().codeNameProperty());
+    	tc_paraUnit.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
+    	tc_paraRange.setCellValueFactory(cellData -> cellData.getValue().rangeProperty());
     	tableView.setItems(dataParameters);  	
         tableView.setContextMenu(addMenu1);
         anchor_table.setOnMousePressed(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane

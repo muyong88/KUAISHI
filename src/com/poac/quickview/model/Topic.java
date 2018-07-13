@@ -15,4 +15,5 @@ public class Topic implements IBaseNode {
 	public String getName() {
 		return name.get();
 	}
+
 }

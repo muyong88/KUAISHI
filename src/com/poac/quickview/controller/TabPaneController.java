@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import com.poac.quickview.MainApp;
+import com.poac.quickview.model.Container;
+import com.poac.quickview.model.TreeDataModel;
+import com.poac.quickview.util.JsonParserCustomer;
 
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -30,6 +33,7 @@ public class TabPaneController implements IController {
 		SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
 		tabPane.getTabs().add(tabMap.get(tabName));
 		selectionModel.select(tabMap.get(tabName));
+		refresh(tabName);
 	}
 	public void closeTab(String tabName) {            //关闭TAB
 		if(!tabMap.containsKey(tabName))
@@ -38,6 +42,15 @@ public class TabPaneController implements IController {
 	}
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
+    }
+    //根据返回PYTHON，初始化容器和对应数据
+    public void initData() {
+    	TreeDataModel rootM=(new JsonParserCustomer()).getPageData();
+    	String pageName = rootM.getName();
+    	TreeDataModel containerModel=(TreeDataModel)rootM.getChild(0);
+    	Container container=(Container)containerModel.getCurNode();
+    	mainApp.addTableContainer(pageName, container.getWidth(), container.getHeight(),container.getName());
+    	tabCMap.get(pageName).initData(containerModel);
     }
 	/**
 	 * 创建TAB
@@ -49,7 +62,9 @@ public class TabPaneController implements IController {
 			Tab tab= loader.load();
 			tab.setText(tabName);
 			tabMap.put(tabName, tab);
-			tabCMap.put(tabName, loader.getController());
+			TabTemplateController  tT=loader.getController();
+			tabCMap.put(tabName, tT);
+			tT.setMainApp(mainApp);			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -60,11 +75,12 @@ public class TabPaneController implements IController {
 		tabMap.remove(tabName);
 		tabCMap.remove(tabName);
 	}
-	//增加容器
+	//增加容器,(页面名称，容器，容器Controller,容器名称)
 	public void addContainer(String pageName,AnchorPane  container,IController tcc,String conName) {		
 		tabCMap.get(pageName).addContainer(container,tcc,conName);
 	} 
-	public void refresh(String pageName) {		
+	public void refresh(String pageName) {	
+    	tabMap.get(pageName).getContent().requestFocus();            //刷新Tab内容
 		Platform.runLater(() -> tabCMap.get(pageName).refresh());
 	} 
 	//判断tab里是否存在容器名

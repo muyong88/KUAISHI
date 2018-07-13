@@ -1,0 +1,409 @@
+{
+    "statuscode": "200",
+    "msg": "获取页面成功",
+    "data": {
+        "Page": {
+            "Container": [
+                {
+                    "Positiony": "0",
+                    "Type": "data",
+                    "Height": "604",
+                    "Topic": [
+                        {
+                            "Data": [
+                                {
+                                    "Codename": [
+                                        {
+                                            "Content": "THEng1"
+                                        }
+                                    ],
+                                    "Rank": [
+                                        {
+                                            "Content": "1"
+                                        }
+                                    ],
+                                    "Unit": [
+                                        {
+                                            "Content": "°"
+                                        }
+                                    ],
+                                    "Range": [
+                                        {
+                                            "Content": "20~30"
+                                        }
+                                    ],
+                                    "Name": [
+                                        {
+                                            "Content": "俯仰姿态角度估值"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Codename": [
+                                        {
+                                            "Content": "THEng2"
+                                        }
+                                    ],
+                                    "Rank": [
+                                        {
+                                            "Content": "2"
+                                        }
+                                    ],
+                                    "Unit": [
+                                        {
+                                            "Content": "°"
+                                        }
+                                    ],
+                                    "Range": [
+                                        {
+                                            "Content": "300~350"
+                                        }
+                                    ],
+                                    "Name": [
+                                        {
+                                            "Content": "偏航姿态角度估值"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Codename": [
+                                        {
+                                            "Content": "THEng3"
+                                        }
+                                    ],
+                                    "Rank": [
+                                        {
+                                            "Content": "8"
+                                        }
+                                    ],
+                                    "Unit": [
+                                        {
+                                            "Content": "°"
+                                        }
+                                    ],
+                                    "Range": [
+                                        {
+                                            "Content": "20~300"
+                                        }
+                                    ],
+                                    "Name": [
+                                        {
+                                            "Content": "滚动姿态角度估值"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Codename": [
+                                        {
+                                            "Content": "THEng4"
+                                        }
+                                    ],
+                                    "Rank": [
+                                        {
+                                            "Content": "4"
+                                        }
+                                    ],
+                                    "Unit": [
+                                        {
+                                            "Content": "°"
+                                        }
+                                    ],
+                                    "Range": [
+                                        {
+                                            "Content": "100~110"
+                                        }
+                                    ],
+                                    "Name": [
+                                        {
+                                            "Content": "俯仰角速度预估"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "Name": "天和-工程数据-"
+                        },
+                        {
+                            "Data": [
+                                {
+                                    "Codename": [
+                                        {
+                                            "Content": "DJZA11"
+                                        }
+                                    ],
+                                    "Rank": [
+                                        {
+                                            "Content": "3"
+                                        }
+                                    ],
+                                    "Unit": [
+                                        {
+                                            "Content": "°C"
+                                        }
+                                    ],
+                                    "Range": [
+                                        {
+                                            "Content": "20-30"
+                                        }
+                                    ],
+                                    "Name": [
+                                        {
+                                            "Content": "A1温度1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Codename": [
+                                        {
+                                            "Content": "DJZA12"
+                                        }
+                                    ],
+                                    "Rank": [
+                                        {
+                                            "Content": "5"
+                                        }
+                                    ],
+                                    "Unit": [
+                                        {
+                                            "Content": "°C"
+                                        }
+                                    ],
+                                    "Range": [
+                                        {
+                                            "Content": "30-35"
+                                        }
+                                    ],
+                                    "Name": [
+                                        {
+                                            "Content": "A1温度2"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "Name": "流体实验柜-工程数据-实验柜控制器A1"
+                        },
+                        {
+                            "Data": [
+                                {
+                                    "Codename": [
+                                        {
+                                            "Content": "DJZ1"
+                                        }
+                                    ],
+                                    "Rank": [
+                                        {
+                                            "Content": "6"
+                                        }
+                                    ],
+                                    "Unit": [
+                                        {
+                                            "Content": "°C"
+                                        }
+                                    ],
+                                    "Range": [
+                                        {
+                                            "Content": "20-30"
+                                        }
+                                    ],
+                                    "Name": [
+                                        {
+                                            "Content": "液滴温度1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Codename": [
+                                        {
+                                            "Content": "DJZ2"
+                                        }
+                                    ],
+                                    "Rank": [
+                                        {
+                                            "Content": "7"
+                                        }
+                                    ],
+                                    "Unit": [
+                                        {
+                                            "Content": "°C"
+                                        }
+                                    ],
+                                    "Range": [
+                                        {
+                                            "Content": "30-35"
+                                        }
+                                    ],
+                                    "Name": [
+                                        {
+                                            "Content": "液滴温度2"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "Name": "流体实验柜-遥测数据-空间三相多液滴迁移"
+                        }
+                    ],
+                    "Width": "916",
+                    "Positionx": "4",
+                    "Name": "1023数据"
+                },
+                {
+                    "Positiony": "19",
+                    "Type": "image",
+                    "Height": "478",
+                    "Topic": [
+                        {
+                            "Data": [
+                                {
+                                    "Codename": [
+                                        {
+                                            "Content": "APC1"
+                                        }
+                                    ],
+                                    "Rank": [
+                                        {
+                                            "Content": "1"
+                                        }
+                                    ],
+                                    "Unit": [
+                                        {
+                                            "Content": "°"
+                                        }
+                                    ],
+                                    "Range": [
+                                        {
+                                            "Content": "20~30"
+                                        }
+                                    ],
+                                    "Name": [
+                                        {
+                                            "Content": "温度1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Codename": [
+                                        {
+                                            "Content": "APC2"
+                                        }
+                                    ],
+                                    "Rank": [
+                                        {
+                                            "Content": "2"
+                                        }
+                                    ],
+                                    "Unit": [
+                                        {
+                                            "Content": "°"
+                                        }
+                                    ],
+                                    "Range": [
+                                        {
+                                            "Content": "300~350"
+                                        }
+                                    ],
+                                    "Name": [
+                                        {
+                                            "Content": "温度2"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Codename": [
+                                        {
+                                            "Content": "Image"
+                                        }
+                                    ],
+                                    "Rank": [
+                                        {
+                                            "Content": "3"
+                                        }
+                                    ],
+                                    "Unit": [
+                                        {
+                                            "Content": "Null"
+                                        }
+                                    ],
+                                    "Range": [
+                                        {
+                                            "Content": "Null"
+                                        }
+                                    ],
+                                    "Name": [
+                                        {
+                                            "Content": "高等植物图像"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "Name": "高等植物-应用数据JPEG"
+                        }
+                    ],
+                    "Width": "398",
+                    "Positionx": "12",
+                    "Name": "zwj123"
+                },
+                {
+                    "Axisname": "数值",
+                    "Positiony": "70",
+                    "Type": "curve",
+                    "Height": "678",
+                    "Topic": [
+                        {
+                            "Data": [
+                                {
+                                    "Dashstyle": [
+                                        {
+                                            "Content": "0"
+                                        }
+                                    ],
+                                    "Codename": [
+                                        {
+                                            "Content": "DJZA11"
+                                        }
+                                    ],
+                                    "Linewidth": [
+                                        {
+                                            "Content": "1"
+                                        }
+                                    ],
+                                    "Color": [
+                                        {
+                                            "Content": "#0000ff"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Dashstyle": [
+                                        {
+                                            "Content": "0"
+                                        }
+                                    ],
+                                    "Codename": [
+                                        {
+                                            "Content": "DJZA12"
+                                        }
+                                    ],
+                                    "Linewidth": [
+                                        {
+                                            "Content": "1"
+                                        }
+                                    ],
+                                    "Color": [
+                                        {
+                                            "Content": "#ff8040"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "Name": "流体实验柜-工程数据-实验柜控制器A1"
+                        }
+                    ],
+                    "Width": "918",
+                    "Positionx": "0",
+                    "Name": "中转站曲线"
+                }
+            ],
+            "Name": "自定义页面1"
+        }
+    }
+}
+ 

@@ -16,13 +16,13 @@ import com.poac.quickview.controller.TableContainerController;
 import com.poac.quickview.controller.VideoContainerController;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.Page;
-import com.poac.quickview.model.Parameter;
+import com.poac.quickview.model.DataParameter;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.TabPane; 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -30,8 +30,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class MainApp extends Application {
-	
+public class MainApp extends Application {	
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private double xOffset = 0;
@@ -57,8 +56,12 @@ public class MainApp extends Application {
 				primaryStage.setY(event.getScreenY() - yOffset);
 			}
 		});
+		initData();
 		//primaryStage.setMaximized(true); 
 	}	
+	public void initData() {
+		tabPaneCon.initData();
+	}
 	/**
 	 * Initializes the root layout.
 	 */			
@@ -88,7 +91,7 @@ public class MainApp extends Application {
 			loader.setLocation(MainApp.class.getResource("gui/TabPane.fxml"));
 			TabPane tP=(TabPane)loader.load();
 			tabPaneCon= loader.getController();
-			tabPaneCon.setMainApp(this);
+			tabPaneCon.setMainApp(this);			
 			return tP;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -98,7 +101,7 @@ public class MainApp extends Application {
 	/**
 	 * 显示订阅数据窗口
 	 */	
-	public boolean showSubscribe(ArrayList<Parameter> parmList) {
+	public boolean showSubscribe(ArrayList<DataParameter> parmList) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("gui/Subscribe.fxml"));
@@ -172,6 +175,8 @@ public class MainApp extends Application {
 			return false;
 		}
 	}
+
+	
 	public boolean showLogon() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -223,6 +228,9 @@ public class MainApp extends Application {
 	 *
 	 */	
 	public void addTableContainer(String pageName) {
+		addTableContainer(pageName,addContainerCon.getWidth(),addContainerCon.getHeight(),addContainerCon.getConName());
+	}	
+	public void addTableContainer(String pageName,double width,double height,String containerName) {
 		try {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(MainApp.class.getResource("gui/TableContainer.fxml"));
@@ -231,14 +239,14 @@ public class MainApp extends Application {
 		tCC.setPageName(pageName);
 		tCC.setMainApp(this);
 		tCC.init();
-		tCC.setHeadText(addContainerCon.getConName());
-		tCC.setContainerSize(addContainerCon.getWidth(), addContainerCon.getHeight());
-		tabPaneCon.addContainer(pageName, container_AnchorPane,tCC,addContainerCon.getConName());
+		tCC.setHeadText(containerName);
+		tCC.setContainerSize(width, height);
+		tabPaneCon.addContainer(pageName, container_AnchorPane,tCC,containerName);
 		tabPaneCon.refresh(pageName);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
-	}	
+	}
 	/**
 	 * 在TabPane中增加曲线容器
 	 *

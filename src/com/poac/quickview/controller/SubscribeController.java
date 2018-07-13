@@ -7,7 +7,7 @@ import com.poac.quickview.MainApp;
 import com.poac.quickview.model.Group;
 import com.poac.quickview.model.IBaseNode;
 import com.poac.quickview.model.Page;
-import com.poac.quickview.model.Parameter;
+import com.poac.quickview.model.DataParameter;
 import com.poac.quickview.model.Topic;
 import com.poac.quickview.model.TreeDataModel;
 import com.poac.quickview.model.Type;
@@ -38,7 +38,7 @@ public class SubscribeController implements IController {
 	private TreeView treeview_s;
 	@FXML
 	private CheckListView checkListView_1;
-	private ArrayList<Parameter> parmList;
+	private ArrayList<DataParameter> parmList;
     private boolean okClicked = false;
     private Stage dialogStage;
     public void setMainApp(MainApp mainApp) {
@@ -53,7 +53,7 @@ public class SubscribeController implements IController {
     @FXML
     private void handleOk() {
     	for(Object n :checkListView_1.getCheckModel().getCheckedItems()) {
-    		parmList.add(new Parameter(n.toString()));
+    		parmList.add(new DataParameter(n.toString()));
     	}
     	okClicked = true; 
     	dialogStage.close();        
@@ -101,7 +101,7 @@ public class SubscribeController implements IController {
 			}
 		});				
     } 
-    public void setParmList( ArrayList<Parameter> parmList) {
+    public void setParmList( ArrayList<DataParameter> parmList) {
     	this.parmList=parmList;
     }
 }

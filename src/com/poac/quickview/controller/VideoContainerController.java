@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import com.poac.quickview.MainApp;
 import com.poac.quickview.model.Container;
-import com.poac.quickview.model.Parameter;
+import com.poac.quickview.model.DataParameter;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -66,7 +66,7 @@ public class VideoContainerController implements IController {
         addMenu1.getItems().add(addMenuItem1);
         addMenuItem1.setOnAction(new EventHandler() {
             public void handle(Event t) {
-            	ArrayList<Parameter> arParm=new ArrayList();
+            	ArrayList<DataParameter> arParm=new ArrayList();
             	if(mainApp.showSubscribe(arParm)) {            		
             	}
             }

@@ -7,6 +7,8 @@ import java.util.HashMap;
 import com.jfoenix.controls.JFXMasonryPane;
 import com.jfoenix.controls.JFXScrollPane;
 import com.poac.quickview.MainApp;
+import com.poac.quickview.model.Container;
+import com.poac.quickview.model.TreeDataModel;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -30,7 +32,15 @@ public class TabTemplateController implements IController {
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     } 
-    public void addContainer(AnchorPane no,IController tCC,String conName) {
+    public void initData(TreeDataModel containerModel) {
+    	String containerName=containerModel.getName();
+    	if(containerCon.get(containerName).getClass().getName().contains("TableContainerController")){
+    		((TableContainerController)containerCon.get(containerName)).initData(containerModel);
+    	}
+    	//表格，图像，视频初始化数据留待以后完成
+    }
+    
+    public void addContainer(AnchorPane no,IController tCC,String conName) {   //(容器，容器控制器，容器名称)
     	containerCon.put(conName, tCC);
     	containerAll.put(conName, no);
     	anchorCollection.add(no);
