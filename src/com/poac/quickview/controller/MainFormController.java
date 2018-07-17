@@ -11,6 +11,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -94,6 +96,25 @@ public class MainFormController  implements IController{
 	}
 	@FXML
 	private void initialize() {
+		accordion_1.setExpandedPane(titledPane);
+		treeView_project.setCellFactory(new Callback<TreeView<IBaseNode>, TreeCell<IBaseNode>>() {
+			@Override
+			public TreeCell<IBaseNode> call(TreeView<IBaseNode> p) {
+				TreeViewCellImpl tC = new TreeViewCellImpl(mainApp);
+				tC.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent event) {
+						if (event.getClickCount() == 2) {
+							TreeCell c = (TreeCell) event.getSource();
+							mainApp.getTabPaneController().openTab(c.getText());
+						}
+					}
+				});
+				return tC;
+			}
+		});				
+	}	
+	public void initData() {
 		TreeDataModel rootM=(new JsonParserCustomer()).getNavationData(pageList);
 		TreeItem<IBaseNode> itemRoot = new TreeItem<>(rootM); 
 		itemRoot.setExpanded(true);
@@ -117,24 +138,8 @@ public class MainFormController  implements IController{
 				}
 			}
 		}
-		accordion_1.setExpandedPane(titledPane);
-		treeView_project.setCellFactory(new Callback<TreeView<IBaseNode>, TreeCell<IBaseNode>>() {
-			@Override
-			public TreeCell<IBaseNode> call(TreeView<IBaseNode> p) {
-				TreeViewCellImpl tC = new TreeViewCellImpl(mainApp);
-				tC.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						if (event.getClickCount() == 2) {
-							TreeCell c = (TreeCell) event.getSource();
-							mainApp.getTabPaneController().openTab(c.getText());
-						}
-					}
-				});
-				return tC;
-			}
-		});				
-	}	
+	}
+	
 	public void LoadTabPanel(TabPane tabPanel) {	
 		split_RightAnchor.getChildren().add(tabPanel);
 		split_RightAnchor.setTopAnchor(tabPanel,0.0);		

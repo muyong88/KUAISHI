@@ -1,7 +1,12 @@
 package com.poac.quickview.util;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import com.google.gson.JsonArray;
@@ -9,6 +14,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.poac.quickview.MainApp;
 import com.poac.quickview.model.Cabinet;
 import com.poac.quickview.model.Capsule;
 import com.poac.quickview.model.Container;
@@ -22,8 +28,13 @@ import com.poac.quickview.model.Payload;
 import com.poac.quickview.model.Topic;
 import com.poac.quickview.model.TreeDataModel;
 import com.poac.quickview.model.Type;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.Alert.AlertType;
 
 public  class JsonParserCustomer {
 	/**
@@ -31,10 +42,13 @@ public  class JsonParserCustomer {
 	 */	
 	public  TreeDataModel getNavationData(ArrayList<String> pageList) {
 		JsonParser parse = new JsonParser();
-		TreeDataModel itemRoot=null;		
+		TreeDataModel itemRoot=null;	File f;	
 		try {
-			String nav_URL = getClass().getResource("/navigation.json").getPath();
-			JsonObject jsonObjRoot = (JsonObject) parse.parse(new FileReader(nav_URL));
+			InputStream input=getClass().getResourceAsStream("/navigation.json");
+			 byte b[] = new byte[4096] ; 
+			 int len = input.read(b) ;
+			//String nav_URL = getClass().getResource("/navigation.json").getFile();
+			JsonObject jsonObjRoot = (JsonObject) parse.parse(new String(b,0,len));
 			JsonObject jsonObjData = jsonObjRoot.get("data").getAsJsonObject();
 			JsonObject jsonObjCapsules = jsonObjData.get("Capsules").getAsJsonObject();
 			JsonArray jsonArrayCapsule = jsonObjCapsules.get("Capsule").getAsJsonArray();
@@ -75,6 +89,9 @@ public  class JsonParserCustomer {
 		} catch (JsonSyntaxException e) {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return itemRoot;
@@ -122,8 +139,12 @@ public  class JsonParserCustomer {
 		JsonParser parse = new JsonParser();
 		TreeDataModel itemRoot=null;
 		try {
-			String nav_URL = getClass().getResource("/page.json").getPath();
-			JsonObject jsonObjRoot = (JsonObject) parse.parse(new FileReader(nav_URL));
+			
+			InputStream input=getClass().getResourceAsStream("/page.json");
+			 byte b[] = new byte[40960] ; 
+			 int len = input.read(b) ;
+			//String nav_URL = getClass().getResource("/page.json").getFile();
+			JsonObject jsonObjRoot = (JsonObject) parse.parse(new String(b,0,len));
 			JsonObject jsonObjData = jsonObjRoot.get("data").getAsJsonObject(); 
 			JsonObject jsonObjPage=jsonObjData.get("Page").getAsJsonObject();
 			itemRoot=new TreeDataModel(new Page(jsonObjPage.get("Name").getAsString()));
@@ -179,10 +200,19 @@ public  class JsonParserCustomer {
 			}
 			
 		}catch (JsonIOException e) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Information Dialog");
+			alert.setHeaderText("Look, an Information Dialog");
+			alert.setContentText(e.getMessage());
+			alert.showAndWait();
 			e.printStackTrace();
+
 		} catch (JsonSyntaxException e) {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return itemRoot;

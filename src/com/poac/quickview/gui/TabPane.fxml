@@ -22,6 +22,7 @@
                   <TextField layoutX="16.0" layoutY="312.0" prefHeight="37.0" prefWidth="941.0" text="续上：实现删除页面，删除容器" />
                   <TextField layoutX="16.0" layoutY="358.0" prefHeight="37.0" prefWidth="941.0" text="第七周完成Curve,Image,Video容器，完善订阅功能" />
                   <TextField layoutX="16.0" layoutY="405.0" prefHeight="37.0" prefWidth="941.0" text="第八周完成登录窗体, 主窗口最大化最小化，导航输入改为JSON格式，根据JSON初始化容器和数据、5、完成树形数据结构模型" />
+                  <TextField layoutX="17.0" layoutY="450.0" prefHeight="37.0" prefWidth="941.0" text="第八周解决打包成EXE后读取JSON路径BUG，" />
                </children>
             </AnchorPane>
          </content></Tab>

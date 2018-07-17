@@ -22,13 +22,15 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TabPane; 
+import javafx.scene.control.Alert;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.stage.StageStyle; 
 
 public class MainApp extends Application {	
 	private Stage primaryStage;
@@ -69,8 +71,14 @@ public class MainApp extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("gui/MainForm.fxml"));
+//			Alert alert = new Alert(AlertType.INFORMATION);
+//			alert.setTitle("Information Dialog");
+//			alert.setHeaderText("Look, an Information Dialog");
+//			alert.setContentText(MainApp.class.getResource("gui/MainForm.fxml").getFile());
+//			alert.showAndWait();
 			rootLayout = (BorderPane) loader.load();
 			mainCon = loader.getController();
+			mainCon.initData();
 			mainCon.setMainApp(this);
 			mainCon.LoadTabPanel(loadTabPane());
 			mainCon.setDialogStage(primaryStage);
