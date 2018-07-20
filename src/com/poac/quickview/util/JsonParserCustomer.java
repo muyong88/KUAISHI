@@ -42,12 +42,11 @@ public  class JsonParserCustomer {
 	 */	
 	public  TreeDataModel getNavationData(ArrayList<String> pageList) {
 		JsonParser parse = new JsonParser();
-		TreeDataModel itemRoot=null;	File f;	
+		TreeDataModel itemRoot=null;	 	
 		try {
 			InputStream input=getClass().getResourceAsStream("/navigation.json");
 			 byte b[] = new byte[4096] ; 
 			 int len = input.read(b) ;
-			//String nav_URL = getClass().getResource("/navigation.json").getFile();
 			JsonObject jsonObjRoot = (JsonObject) parse.parse(new String(b,0,len));
 			JsonObject jsonObjData = jsonObjRoot.get("data").getAsJsonObject();
 			JsonObject jsonObjCapsules = jsonObjData.get("Capsules").getAsJsonObject();
@@ -143,7 +142,6 @@ public  class JsonParserCustomer {
 			InputStream input=getClass().getResourceAsStream("/page.json");
 			 byte b[] = new byte[40960] ; 
 			 int len = input.read(b) ;
-			//String nav_URL = getClass().getResource("/page.json").getFile();
 			JsonObject jsonObjRoot = (JsonObject) parse.parse(new String(b,0,len));
 			JsonObject jsonObjData = jsonObjRoot.get("data").getAsJsonObject(); 
 			JsonObject jsonObjPage=jsonObjData.get("Page").getAsJsonObject();

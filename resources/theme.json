@@ -1,0 +1,41 @@
+{
+    "statuscode": "200",
+    "msg": "获取页面成功",
+    "data": {
+        "Capsules": {
+            "Capsule": [
+                {
+                    "Cabinet": [
+                        {
+                            "Payload": [
+                                {
+                                    "Topic": [
+                                        {
+                                            "Type": "data",
+                                            "Name": "流体实验柜-遥测数据-空间三相多液滴迁移"
+                                        }
+                                    ],
+                                    "Name": "空间三相多液滴迁移行为研究"
+                                }
+                            ],
+                            "Topic": [
+                                {
+                                    "Type": "data",
+                                    "Name": "流体实验柜-工程数据-实验柜控制器A1"
+                                }
+                            ],
+                            "Name": "流体柜"
+                        }
+                    ],
+                    "Topic": [
+                        {
+                            "Type": "data",
+                            "Name": "天和-工程数据-"
+                        }
+                    ],
+                    "Name": "天和"
+                }
+            ]
+        }
+    }
+}

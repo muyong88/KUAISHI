@@ -80,10 +80,12 @@ public class ImageContainerController implements IController {
     	imageView.setPreserveRatio(false);
     	imageView.fitWidthProperty().bind(anchor_img.widthProperty());
     	imageView.fitHeightProperty().bind(anchor_img.heightProperty());
-    	imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+    	anchor_image.setOnMouseClicked(new EventHandler<MouseEvent>() {
           @Override public void handle(MouseEvent event) {
             if (MouseButton.SECONDARY.equals(event.getButton())) {
             	addMenu1.show(anchor_image, event.getScreenX(), event.getScreenY());
+            }else {
+            	addMenu1.hide();
             }  
           }
          
@@ -93,8 +95,9 @@ public class ImageContainerController implements IController {
 			public void handle(MouseEvent event) {
 				if (!(event.getY() > (anchor_image.getHeight() - RESIZE_MARGIN))&&
 						!(event.getX() > (anchor_image.getWidth() - RESIZE_MARGIN))) {     //判断不改变大小范围
-					xOffset = event.getSceneX();
-					yOffset = event.getSceneY();
+					xOffset = event.getX();
+					yOffset = event.getY();		
+					//System.out.println(anchor_image.getLayoutX()+" setOnMousePressed "+anchor_image.getLayoutY());
 					 return;
 				}
                 if((event.getY() > (anchor_image.getHeight() - RESIZE_MARGIN))&&
@@ -113,8 +116,11 @@ public class ImageContainerController implements IController {
 			@Override
 			public void handle(MouseEvent event) {
 				if (dragging == 0) {
-					anchor_image.setLayoutX(event.getScreenX() - xOffset);
-					anchor_image.setLayoutY(event.getScreenY() - yOffset);
+					x=anchor_image.getLayoutX()+event.getX() - xOffset;
+					y=anchor_image.getLayoutY()+event.getY() - yOffset;
+					anchor_image.setLayoutX(x);
+					anchor_image.setLayoutY(y);
+					mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(y,y+anchor_image.getHeight());					
 					return;
 				} else if (dragging == 1) {
 					double mousex = event.getX();

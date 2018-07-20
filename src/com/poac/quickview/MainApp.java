@@ -63,6 +63,7 @@ public class MainApp extends Application {
 	}	
 	public void initData() {
 		tabPaneCon.initData();
+		tabPaneCon.setDefaultTab();
 	}
 	/**
 	 * Initializes the root layout.
@@ -260,6 +261,9 @@ public class MainApp extends Application {
 	 *
 	 */	
 	public void addCurveContainer(String pageName) {
+		addCurveContainer(pageName,addContainerCon.getWidth(),addContainerCon.getHeight(),addContainerCon.getConName());
+	}	
+	public void addCurveContainer(String pageName,double width,double height,String containerName) {
 		try {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(MainApp.class.getResource("gui/CurveContainer.fxml"));
@@ -268,19 +272,22 @@ public class MainApp extends Application {
 		cCC.setPageName(pageName);
 		cCC.setMainApp(this);
 		cCC.init();
-		cCC.setHeadText(addContainerCon.getConName());
-		cCC.setContainerSize(addContainerCon.getWidth(), addContainerCon.getHeight());
-		tabPaneCon.addContainer(pageName, container_AnchorPane,cCC,addContainerCon.getConName());
+		cCC.setHeadText(containerName);
+		cCC.setContainerSize(width, height);
+		tabPaneCon.addContainer(pageName, container_AnchorPane,cCC,containerName);
 		tabPaneCon.refresh(pageName);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
-	}	
+	}
 	/**
 	 * 在TabPane中增加图像容器
 	 *
 	 */	
-	public void addImageContainer(String pageName) {
+	public void addImageContainer(String pageName) { 
+		addImageContainer(pageName,addContainerCon.getWidth(),addContainerCon.getHeight(),addContainerCon.getConName());
+	}
+	public void addImageContainer(String pageName,double width,double height,String containerName) {
 		try {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(MainApp.class.getResource("gui/ImageContainer.fxml"));
@@ -289,19 +296,22 @@ public class MainApp extends Application {
 		iCC.setPageName(pageName);
 		iCC.setMainApp(this);
 		iCC.init();
-		iCC.setHeadText(addContainerCon.getConName());
-		iCC.setContainerSize(addContainerCon.getWidth(), addContainerCon.getHeight());
-		tabPaneCon.addContainer(pageName, container_AnchorPane,iCC,addContainerCon.getConName());
+		iCC.setHeadText(containerName);
+		iCC.setContainerSize(width, height);
+		tabPaneCon.addContainer(pageName, container_AnchorPane,iCC,containerName);
 		tabPaneCon.refresh(pageName);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	 
-	}	
+	}
 	/**
 	 * 在TabPane中视频容器
 	 * 
 	 */	
-	public void addVideoContainer(String pageName) {
+	public void addVideoContainer(String pageName) { 
+		addVideoContainer(pageName,addContainerCon.getWidth(),addContainerCon.getHeight(),addContainerCon.getConName());
+	}	
+	public void addVideoContainer(String pageName,double width,double height,String containerName) {
 		try {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(MainApp.class.getResource("gui/VideoContainer.fxml"));
@@ -310,14 +320,14 @@ public class MainApp extends Application {
 		vCC.setPageName(pageName);
 		vCC.setMainApp(this);
 		vCC.init();
-		vCC.setHeadText(addContainerCon.getConName());
-		vCC.setContainerSize(addContainerCon.getWidth(), addContainerCon.getHeight());
-		tabPaneCon.addContainer(pageName, container_AnchorPane,vCC,addContainerCon.getConName());
+		vCC.setHeadText(containerName);
+		vCC.setContainerSize(width, height);
+		tabPaneCon.addContainer(pageName, container_AnchorPane,vCC,containerName);
 		tabPaneCon.refresh(pageName);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	 
-	}	
+	}
 	public void addContainer(String pageName) {
 		if(addContainerCon.getType().equals("Data")) {
 			addTableContainer(pageName);

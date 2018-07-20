@@ -1,4 +1,4 @@
-package com.poac.quickview.controller;
+  package com.poac.quickview.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -142,11 +142,13 @@ public class VideoContainerController implements IController {
     	mediaView.setMediaPlayer(mediaPlayer);   
     	
     	
-    	mediaView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+    	anchor_mediaview.setOnMouseClicked(new EventHandler<MouseEvent>() {
           @Override public void handle(MouseEvent event) {
             if (MouseButton.SECONDARY.equals(event.getButton())) {
             	addMenu1.show(anchor_mediaview, event.getScreenX(), event.getScreenY());
-            }  
+            }else {
+          	  addMenu1.hide();
+            }
           }         
         });
         anchor_mediaview.setOnMousePressed(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
@@ -154,8 +156,8 @@ public class VideoContainerController implements IController {
 			public void handle(MouseEvent event) {
 				if (!(event.getY() > (anchor_mediaview.getHeight() - RESIZE_MARGIN))&&
 						!(event.getX() > (anchor_mediaview.getWidth() - RESIZE_MARGIN))) {     //判断不改变大小范围
-					xOffset = event.getSceneX();
-					yOffset = event.getSceneY();
+					xOffset = event.getX();
+					yOffset = event.getY();	
 					 return;
 				}
                 if((event.getY() > (anchor_mediaview.getHeight() - RESIZE_MARGIN))&&
@@ -174,8 +176,11 @@ public class VideoContainerController implements IController {
 			@Override
 			public void handle(MouseEvent event) {
 				if (dragging == 0) {
-					anchor_mediaview.setLayoutX(event.getScreenX() - xOffset);
-					anchor_mediaview.setLayoutY(event.getScreenY() - yOffset);
+					x=anchor_mediaview.getLayoutX()+event.getX() - xOffset;
+					y=anchor_mediaview.getLayoutY()+event.getY() - yOffset;
+					anchor_mediaview.setLayoutX(x);
+					anchor_mediaview.setLayoutY(y);
+					mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(y,y+anchor_mediaview.getHeight());
 					return;
 				} else if (dragging == 1) {
 					double mousex = event.getX();

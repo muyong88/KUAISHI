@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import com.poac.quickview.MainApp;
 import com.poac.quickview.model.Container;
+import com.poac.quickview.model.IBaseNode;
+import com.poac.quickview.model.Page;
 import com.poac.quickview.model.TreeDataModel;
 import com.poac.quickview.util.JsonParserCustomer;
 
@@ -19,19 +21,25 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
 
 public class TabPaneController implements IController {
 	@FXML
 	private TabPane tabPane;
+	@FXML
+	private Tab defaultTab;
 	private MainApp mainApp; 	
 	private HashMap<String,Tab> tabMap=new HashMap<>();  //存tab名（page名）对应Tab
 	private HashMap<String,TabTemplateController> tabCMap=new HashMap<>(); //存tab名（page名）对应Controller
+	private ContextMenu addMenu1 = new ContextMenu();
 	public void openTab(String tabName) {           //打开TAb
 		if(!tabMap.containsKey(tabName))
 			return;
-		SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
-		tabPane.getTabs().add(tabMap.get(tabName));
+		if(!tabPane.getTabs().contains(tabMap.get(tabName))) {
+			tabPane.getTabs().add(tabMap.get(tabName));
+		}
+		SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();	
 		selectionModel.select(tabMap.get(tabName));
 		refresh(tabName);
 	}
@@ -47,10 +55,21 @@ public class TabPaneController implements IController {
     public void initData() {
     	TreeDataModel rootM=(new JsonParserCustomer()).getPageData();
     	String pageName = rootM.getName();
-    	TreeDataModel containerModel=(TreeDataModel)rootM.getChild(0);
-    	Container container=(Container)containerModel.getCurNode();
-    	mainApp.addTableContainer(pageName, container.getWidth(), container.getHeight(),container.getName());
-    	tabCMap.get(pageName).initData(containerModel);
+    	openTab(pageName);      //必须打开，不然显示延迟
+		for (int i = 0; i < rootM.getChilds().size(); i++) {
+			TreeDataModel containerModel = (TreeDataModel) rootM.getChild(i);
+			Container container = (Container) containerModel.getCurNode();
+			if (container.getType().equals("data")) {
+				mainApp.addTableContainer(pageName, container.getWidth(), container.getHeight(), container.getName());
+			} else if (container.getType().equals("image")) {
+				mainApp.addImageContainer(pageName, container.getWidth(), container.getHeight(), container.getName());
+			} else if (container.getType().equals("curve")) {
+				mainApp.addCurveContainer(pageName, container.getWidth(), container.getHeight(), container.getName());
+			} else if (container.getType().equals("video")) {
+				mainApp.addVideoContainer(pageName, container.getWidth(), container.getHeight(), container.getName());
+			}
+			tabCMap.get(pageName).initData(containerModel);
+		}
     }
 	/**
 	 * 创建TAB
@@ -64,7 +83,7 @@ public class TabPaneController implements IController {
 			tabMap.put(tabName, tab);
 			TabTemplateController  tT=loader.getController();
 			tabCMap.put(tabName, tT);
-			tT.setMainApp(mainApp);			
+			tT.setMainApp(mainApp);	
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -80,7 +99,6 @@ public class TabPaneController implements IController {
 		tabCMap.get(pageName).addContainer(container,tcc,conName);
 	} 
 	public void refresh(String pageName) {	
-    	tabMap.get(pageName).getContent().requestFocus();            //刷新Tab内容
 		Platform.runLater(() -> tabCMap.get(pageName).refresh());
 	} 
 	//判断tab里是否存在容器名
@@ -90,5 +108,12 @@ public class TabPaneController implements IController {
 	//删除容器
 	public void removeConatiner(String tabName,String containName) {
 		tabCMap.get(tabName).removeContainer(containName);
+	}
+	public void setDefaultTab() {
+		SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();	
+		selectionModel.select(defaultTab);
+	}
+	public TabTemplateController getTabTemplateController(String tabName) {
+		return tabCMap.get(tabName);
 	}
 }

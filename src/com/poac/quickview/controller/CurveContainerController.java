@@ -101,10 +101,12 @@ public class CurveContainerController implements IController {
         series.getData().add(new XYChart.Data("12", 25));
         series.setName("DEMO1");
         lineChart.getData().add(series);
-    	lineChart.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        anchor_curve.setOnMouseClicked(new EventHandler<MouseEvent>() {
           @Override public void handle(MouseEvent event) {
             if (MouseButton.SECONDARY.equals(event.getButton())) {
             	addMenu1.show(anchor_curve, event.getScreenX(), event.getScreenY());
+            }else {
+            	addMenu1.hide();
             }  
           }
         });
@@ -113,8 +115,9 @@ public class CurveContainerController implements IController {
 			public void handle(MouseEvent event) {
 				if (!(event.getY() > (anchor_curve.getHeight() - RESIZE_MARGIN))&&
 						!(event.getX() > (anchor_curve.getWidth() - RESIZE_MARGIN))) {     //判断不改变大小范围
-					xOffset = event.getSceneX();
-					yOffset = event.getSceneY();
+					xOffset = event.getX();
+					yOffset = event.getY();	
+					//System.out.println(anchor_curve.getLayoutX()+" setOnMousePressed "+anchor_curve.getLayoutY());
 					 return;
 				}
                 if((event.getY() > (anchor_curve.getHeight() - RESIZE_MARGIN))&&
@@ -133,8 +136,12 @@ public class CurveContainerController implements IController {
 			@Override
 			public void handle(MouseEvent event) {
 				if (dragging == 0) {
-					anchor_curve.setLayoutX(event.getScreenX() - xOffset);
-					anchor_curve.setLayoutY(event.getScreenY() - yOffset);
+					x=anchor_curve.getLayoutX()+event.getX() - xOffset;
+					y=anchor_curve.getLayoutY()+event.getY() - yOffset;
+					anchor_curve.setLayoutX(x);
+					anchor_curve.setLayoutY(y);
+					mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(y,anchor_curve.getHeight());
+					
 					return;
 				} else if (dragging == 1) {
 					double mousex = event.getX();

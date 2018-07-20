@@ -18,8 +18,14 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
@@ -49,6 +55,7 @@ public class TableContainerController implements IController {
     private double x;
     private double y;
     private ContextMenu addMenu1 = new ContextMenu();
+    private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
 	public TableContainerController() {
         MenuItem addMenuItem1 = new MenuItem("添加参数");    //右击TableView显示添加参数菜单
         addMenu1.getItems().add(addMenuItem1);
@@ -98,14 +105,79 @@ public class TableContainerController implements IController {
     	tc_paraUnit.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
     	tc_paraRange.setCellValueFactory(cellData -> cellData.getValue().rangeProperty());
     	tableView.setItems(dataParameters);  	
-        tableView.setContextMenu(addMenu1);
+        //tableView.setContextMenu(addMenu1);
+    	anchor_table.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent event) {
+              if (MouseButton.SECONDARY.equals(event.getButton())) {
+              	addMenu1.show(anchor_table, event.getScreenX(), event.getScreenY());
+              }else {
+            	  addMenu1.hide();
+              }
+            }         
+          });	
+    	tableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent event) {
+              if (MouseButton.SECONDARY.equals(event.getButton())) {
+              	addMenu1.show(anchor_table, event.getScreenX(), event.getScreenY());
+              }else {
+            	  addMenu1.hide();
+              }
+            }         
+          });
+        tableView.setRowFactory(tv -> {        	 //拖拽表格行
+            TableRow<DataParameter> row = new TableRow<>();
+            row.setOnDragDetected(event -> {
+                if (! row.isEmpty()) {
+                    Integer index = row.getIndex();
+                    Dragboard db = row.startDragAndDrop(TransferMode.MOVE);
+                    db.setDragView(row.snapshot(null, null));
+                    ClipboardContent cc = new ClipboardContent();
+                    cc.put(SERIALIZED_MIME_TYPE, index);
+                    db.setContent(cc);
+                    event.consume();
+                }
+            });
+            row.setOnDragOver(event -> {
+                Dragboard db = event.getDragboard();
+                if (db.hasContent(SERIALIZED_MIME_TYPE)) {
+                    if (row.getIndex() != ((Integer)db.getContent(SERIALIZED_MIME_TYPE)).intValue()) {
+                        event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+                        event.consume();
+                    }
+                }
+            });
+            row.setOnDragDropped(event -> {
+                Dragboard db = event.getDragboard();
+                if (db.hasContent(SERIALIZED_MIME_TYPE)) {
+                    int draggedIndex = (Integer) db.getContent(SERIALIZED_MIME_TYPE);
+                    DataParameter draggedParameter = tableView.getItems().remove(draggedIndex);
+
+                    int dropIndex ; 
+
+                    if (row.isEmpty()) {
+                        dropIndex = tableView.getItems().size() ;
+                    } else {
+                        dropIndex = row.getIndex();
+                    }
+
+                    tableView.getItems().add(dropIndex, draggedParameter);
+
+                    event.setDropCompleted(true);
+                    tableView.getSelectionModel().select(dropIndex);
+                    event.consume();
+                }
+            });
+            return row ;
+        });
         anchor_table.setOnMousePressed(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
 			@Override
 			public void handle(MouseEvent event) {
 				if (!(event.getY() > (anchor_table.getHeight() - RESIZE_MARGIN))&&
 						!(event.getX() > (anchor_table.getWidth() - RESIZE_MARGIN))) {     //判断不改变大小范围
-					xOffset = event.getSceneX();
-					yOffset = event.getSceneY();
+					xOffset = event.getX();
+					yOffset = event.getY();		
+					dragging=0;
+					//System.out.println(anchor_table.getHeight()+" setOnMousePressed "+anchor_table.getLayoutY());
 					 return;
 				}
                 if((event.getY() > (anchor_table.getHeight() - RESIZE_MARGIN))&&
@@ -118,14 +190,18 @@ public class TableContainerController implements IController {
 				}
 		        x = event.getX();
 		        y = event.getY();
+
 			}
 		});        
         anchor_table.setOnMouseDragged(new EventHandler<MouseEvent>() {       //用于拖拉anchorpane
 			@Override
 			public void handle(MouseEvent event) {
 				if (dragging == 0) {
-					anchor_table.setLayoutX(event.getScreenX() - xOffset);
-					anchor_table.setLayoutY(event.getScreenY() - yOffset);
+					x=anchor_table.getLayoutX()+event.getX() - xOffset;
+					y=anchor_table.getLayoutY()+event.getY() - yOffset;
+					anchor_table.setLayoutX(x);
+					anchor_table.setLayoutY(y);
+					mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(y,y+anchor_table.getHeight());
 					return;
 				} else if (dragging == 1) {
 					double mousex = event.getX();
