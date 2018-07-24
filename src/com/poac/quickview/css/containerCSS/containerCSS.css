@@ -6,11 +6,11 @@
 	-fx-background-image: url("print1.png");
 	-fx-background-color: transparent;
 }
-#rightarrow_btn{
+#leftarrow_btn{
 	-fx-background-image: url("left_arrow.png");
 	-fx-background-color: transparent;
 }
-#leftarrow_btn{
+#rightarrow_btn{
 	-fx-background-image: url("right_arrow.png");
 	-fx-background-color: transparent;
 }
@@ -18,34 +18,24 @@
 		-fx-border-width: 2 2 2 2;
 		-fx-border-color: #bfbfbf;
 }
-/* .table-view, .table-cell {
-    -fx-background-color: #1b1d20 ;   
-}
-.table-view .column-header .label{
-    -fx-text-fill: black;
-} 
-.table-view .table-row-cell {  
-    -fx-background-insets: 0;  
-}  
-.table-row-cell:empty .table-cell {  
-    -fx-border-width: 0px;  
-}  */
-#label1,#label2,#label3,#label4{
+ 
+.replay_mode{
 	-fx-background-color:blue; 
 	-fx-text-fill: #ffffff;
 }  
-#vbox_quan_1,#vbox_quan_2,#vbox_quan_3,#vbox_quan_4,#vbox_quan_5{
+.unselected{
 	-fx-background-color:e5e5e5;
 }
-#label5{
+.realtime_mode{
 	-fx-background-color:red;
-	-fx-text-fill: #ffffff;
 } 
-
+.selected{
+	-fx-background-color:#0096cd;
+}
 .label{
 	-fx-text-fill: black;
 }  
-#label_head,#Label_startTime,#Label_endTime{
+#label_head,#Label_startTime,#Label_endTime,#label_mode1,#label_mode2,#label_mode3,#label_mode4,#label_mode5{
 	-fx-text-fill: #ffffff;
 }
 #imageView{

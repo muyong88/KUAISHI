@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.poac.quickview.controller.AddContainerController;
 import com.poac.quickview.controller.AddPageController;
 import com.poac.quickview.controller.ChangeHWSizeController;
+import com.poac.quickview.controller.CirclePanelController;
 import com.poac.quickview.controller.CurveContainerController;
 import com.poac.quickview.controller.ImageContainerController;
 import com.poac.quickview.controller.LogonController;
@@ -28,6 +29,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle; 
@@ -102,6 +105,23 @@ public class MainApp extends Application {
 			tabPaneCon= loader.getController();
 			tabPaneCon.setMainApp(this);			
 			return tP;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	/**
+	 * º”‘ÿ»¶ ˝PANE
+	 */	
+	public HBox loadCirclePanel() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("gui/CirclePane.fxml"));
+			HBox vB=(HBox)loader.load();
+			CirclePanelController cPC= loader.getController();
+			cPC.setMainApp(this);	
+			cPC.init();
+			return vB;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
@@ -183,9 +203,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 			return false;
 		}
-	}
-
-	
+	}	
 	public boolean showLogon() {
 		try {
 			FXMLLoader loader = new FXMLLoader();

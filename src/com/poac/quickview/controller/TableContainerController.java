@@ -28,6 +28,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 public class TableContainerController implements IController {
 	@FXML
@@ -44,6 +45,8 @@ public class TableContainerController implements IController {
 	private TableColumn<DataParameter, String> tc_paraUnit;
 	@FXML
 	private TableColumn<DataParameter, String> tc_paraRange;
+	@FXML
+	private HBox hBox_Circles;
 	private ObservableList<DataParameter> dataParameters = FXCollections.observableArrayList();
 	private MainApp mainApp; 	
 	private String pageName=null;
@@ -100,6 +103,7 @@ public class TableContainerController implements IController {
     	}
     }
     public void init() {
+    	hBox_Circles.getChildren().add(mainApp.loadCirclePanel());
     	tc_paraName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
     	tc_paraCode.setCellValueFactory(cellData -> cellData.getValue().codeNameProperty());
     	tc_paraUnit.setCellValueFactory(cellData -> cellData.getValue().unitProperty());

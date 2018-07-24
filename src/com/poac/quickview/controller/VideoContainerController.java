@@ -30,6 +30,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -49,6 +50,8 @@ public class VideoContainerController implements IController {
 	private  ProgressBar ProgressBar_videoProgress; 
 	@FXML
 	private Button Button_pause;
+	@FXML
+	private HBox hBox_Circles;
 	private MediaPlayer mediaPlayer;
 	private MainApp mainApp; 	
 	private String pageName=null;
@@ -97,6 +100,7 @@ public class VideoContainerController implements IController {
         this.mainApp = mainApp;
     } 
     public void init() {
+    	hBox_Circles.getChildren().add(mainApp.loadCirclePanel());
     	mediaView.setPreserveRatio(false);               //宽高自动变化
     	mediaView.fitWidthProperty().bind(anchor_video.widthProperty());    //绑定宽随父节点变化
     	mediaView.fitHeightProperty().bind(anchor_video.heightProperty());  //绑定高随父节点变化

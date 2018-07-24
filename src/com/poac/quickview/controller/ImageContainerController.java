@@ -20,16 +20,19 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 public class ImageContainerController implements IController {
 	@FXML
 	private AnchorPane anchor_image;
 	@FXML
-	private ImageView imageView;
+	private ImageView imageView; 
 	@FXML
 	private Label label_head;
 	@FXML
 	private AnchorPane anchor_img;
+	@FXML
+	private HBox hBox_Circles;
 	private MainApp mainApp; 	
 	private String pageName=null;
     private String containerName=null;
@@ -75,8 +78,9 @@ public class ImageContainerController implements IController {
 	}
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
-    } 
+    }  
     public void init() {
+    	hBox_Circles.getChildren().add(mainApp.loadCirclePanel());
     	imageView.setPreserveRatio(false);
     	imageView.fitWidthProperty().bind(anchor_img.widthProperty());
     	imageView.fitHeightProperty().bind(anchor_img.heightProperty());

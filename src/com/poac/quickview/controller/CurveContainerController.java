@@ -26,6 +26,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 public class CurveContainerController implements IController {
 	@FXML
@@ -36,6 +37,8 @@ public class CurveContainerController implements IController {
     private CategoryAxis xAxis;
 	@FXML
 	private Label label_head;
+	@FXML
+	private HBox hBox_Circles;
 	private MainApp mainApp; 	
 	private String pageName=null;
     private String containerName=null;
@@ -83,6 +86,7 @@ public class CurveContainerController implements IController {
         this.mainApp = mainApp; 
     } 
     public void init() {
+    	hBox_Circles.getChildren().add(mainApp.loadCirclePanel());
     	ObservableList<String> xNames = FXCollections.observableArrayList();
     	xNames.addAll(Arrays.asList(new String[] {"1","2","3","4","5","6","7","9","10","11","12"}));
     	xAxis.setCategories(xNames);
@@ -108,7 +112,7 @@ public class CurveContainerController implements IController {
             }else {
             	addMenu1.hide();
             }  
-          }
+          } 
         });
     	anchor_curve.setOnMousePressed(new EventHandler<MouseEvent>() {      //”√”⁄Õœ¿≠anchorpane
 			@Override
