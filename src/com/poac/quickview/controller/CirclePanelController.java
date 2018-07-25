@@ -45,6 +45,10 @@ public class CirclePanelController implements IController  {
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp; 
     } 
+    public void setRealTimeCircle(int num) {
+    	realtimeCircleNum=num;
+    	disRightCircleNum=num;
+    }
     public void setDisRightCircleNum(int num) {        //设置五个中最大圈数
     	label_circleNum1.setText(String.valueOf(num-4)+"圈" );
     	label_circleNum2.setText(String.valueOf(num-3) +"圈" );
@@ -54,7 +58,7 @@ public class CirclePanelController implements IController  {
     }
     @FXML
     public void onLeftArrowBtnClick() {
-    	label_mode5.setText("回放");
+    	label_mode5.setText("回看");
     	label_mode5.getStyleClass().removeAll(label_mode5.getStyleClass());	
     	label_mode5.getStyleClass().add("replay_mode");
     	disRightCircleNum--;
@@ -62,11 +66,11 @@ public class CirclePanelController implements IController  {
     }
     @FXML
     public void onRightArrowBtnClick() {
-    	if(disRightCircleNum==realtimeCircleNum) {
+    	if(disRightCircleNum==realtimeCircleNum) {           //显示最右面最多到实时圈数
     		return;
     	}
     	disRightCircleNum++;
-    	if(disRightCircleNum==realtimeCircleNum) {
+    	if(disRightCircleNum==realtimeCircleNum) {            
     		label_mode5.setText("直播");
         	label_mode5.getStyleClass().removeAll(label_mode5.getStyleClass());	
         	label_mode5.getStyleClass().add("realtime_mode");

@@ -15,6 +15,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.poac.quickview.MainApp;
+import com.poac.quickview.global.SubscribeParameters;
 import com.poac.quickview.model.Cabinet;
 import com.poac.quickview.model.Capsule;
 import com.poac.quickview.model.Container;
@@ -97,42 +98,102 @@ public  class JsonParserCustomer {
 	}
 	/**
 	 * 解析PYTHON（尚未完成），获取订阅数据
-	 */	
-	public TreeDataModel getSubscribeData() {
-		
-    	TreeDataModel rootNode=new TreeDataModel(new Group("力学所"));
-    	TreeDataModel dataType=new TreeDataModel(new Type("data"));
-    	rootNode.add(dataType);
-    	TreeDataModel imageType=new TreeDataModel(new Type("image"));
-    	rootNode.add(imageType);
-    	TreeDataModel videoType=new TreeDataModel(new Type("video"));
-    	rootNode.add(videoType);
-    	TreeDataModel curveType=new TreeDataModel(new Type("curve"));
-    	rootNode.add(curveType);
-    	TreeDataModel topic_data_1=new TreeDataModel(new Topic("流体实验柜-遥测数据-空间三相多液滴迁移"));
-    	TreeDataModel topic_data_2=new TreeDataModel(new Topic("流体实验柜-工程数据-实验柜控制器A1"));
-    	TreeDataModel topic_data_3=new TreeDataModel(new Topic("天和-工程数据"));
-    	dataType.add(topic_data_1);
-    	dataType.add(topic_data_2);
-    	dataType.add(topic_data_3);
-    	TreeDataModel topic_image=new TreeDataModel(new Topic("高等植物-应用数据JPEG"));
-    	imageType.add(topic_image);
-    	TreeDataModel topic_curve=new TreeDataModel(new Topic("流体实验柜-工程数据-实验柜控制器A1"));
-    	curveType.add(topic_curve);
-    	topic_data_1.add(new DataParameter("液滴温度1"));
-    	topic_data_1.add(new DataParameter("液滴温度2"));
-    	topic_data_2.add(new DataParameter("A1温度1"));
-    	topic_data_2.add(new DataParameter("A1温度2"));
-    	topic_data_3.add(new DataParameter("俯仰姿态角度估值"));
-    	topic_data_3.add(new DataParameter("偏航姿态角度估值"));
-    	topic_data_3.add(new DataParameter("滚动姿态角度估值"));
-    	topic_data_3.add(new DataParameter("俯仰角速度预估"));
-    	topic_image.add(new DataParameter("温度1"));
-    	topic_image.add(new DataParameter("温度2"));
-    	topic_image.add(new DataParameter("高等植物图像"));
-    	topic_curve.add(new DataParameter("#0000ff"));
-    	topic_curve.add(new DataParameter("#ff8040"));
+	 */	 
+	public TreeDataModel getSubscribeData(String type) {
+		TreeDataModel rootNode=new TreeDataModel(new Type(type));
+		if(!type.equals("data"))
+			return rootNode;
+		JsonParser parse = new JsonParser();
+		try {
+			InputStream inputTheme=getClass().getResourceAsStream("/theme.json");
+			 byte b[] = new byte[4096] ; 
+			 int len = inputTheme.read(b) ;
+			JsonObject jsonObjRoot = (JsonObject) parse.parse(new String(b,0,len));
+			JsonObject jsonObjData = jsonObjRoot.get("data").getAsJsonObject();
+			JsonObject jsonObjCapsules = jsonObjData.get("Capsules").getAsJsonObject();
+			JsonArray jsonArrayCapsule = jsonObjCapsules.get("Capsule").getAsJsonArray();
+			for (int i = 0; i < jsonArrayCapsule.size(); i++) {
+				JsonObject jsonObjCapsule = jsonArrayCapsule.get(i).getAsJsonObject();
+				if (jsonObjCapsule.has("Topic")) {
+					JsonObject jsonObjTopic = jsonObjCapsule.get("Topic").getAsJsonArray().get(0).getAsJsonObject();
+					TreeDataModel topiNode = new TreeDataModel(new Topic(jsonObjTopic.get("Name").getAsString()));
+					rootNode.add(topiNode);
+					createTopicParms(topiNode); // 创建Topic对应的参数
+				}
+				JsonArray jsonArrayCabinet = jsonObjCapsule.get("Cabinet").getAsJsonArray();
+				for (int j = 0; j < jsonArrayCabinet.size(); j++) {
+					JsonObject jsonObjCabinet = jsonArrayCabinet.get(j).getAsJsonObject();
+					if (jsonObjCabinet.has("Topic")) {
+						JsonObject jsonObjTopic = jsonObjCabinet.get("Topic").getAsJsonArray().get(0).getAsJsonObject();
+						TreeDataModel topiNode = new TreeDataModel(new Topic(jsonObjTopic.get("Name").getAsString()));
+						rootNode.add(topiNode);
+						createTopicParms(topiNode); // 创建Topic对应的参数
+					}
+					JsonArray jsonArrayPayload = jsonObjCabinet.get("Payload").getAsJsonArray();
+					for (int k = 0; k < jsonArrayPayload.size(); k++) {
+						JsonObject jsonObjPayload = jsonArrayPayload.get(k).getAsJsonObject();
+						if (jsonObjCabinet.has("Topic")) {
+							JsonObject jsonObjTopic = jsonObjPayload.get("Topic").getAsJsonArray().get(0).getAsJsonObject();
+							TreeDataModel topiNode = new TreeDataModel(new Topic(jsonObjTopic.get("Name").getAsString()));
+							rootNode.add(topiNode);
+							createTopicParms(topiNode); // 创建Topic对应的参数
+						}
+					}
+				}
+			}
+		} catch (JsonIOException e) {
+			e.printStackTrace();
+		} catch (JsonSyntaxException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
     	return rootNode;
+	}
+	private void createTopicParms(TreeDataModel topiNode) {
+		if(!topiNode.getName().equals("天和-工程数据-"))    //目前只有一个主题
+			return;
+		JsonParser parse = new JsonParser();
+		try {
+			InputStream inputTheme=getClass().getResourceAsStream("/topicparms.json");
+			 byte b[] = new byte[40960] ; 
+			 int len = inputTheme.read(b) ;
+			JsonObject jsonObjRoot = (JsonObject) parse.parse(new String(b,0,len));
+			JsonObject jsonObjData = jsonObjRoot.get("data").getAsJsonObject();
+			JsonObject jsonObjTopic = jsonObjData.get("Topic").getAsJsonObject();
+			JsonArray jsonArrayTopicData = jsonObjTopic.get("Data").getAsJsonArray();
+			for (int i = 0; i < jsonArrayTopicData.size(); i++) {
+				JsonObject jsonObjParm = jsonArrayTopicData.get(i).getAsJsonObject();
+				String paraCodeName=jsonObjParm.get("Codename").getAsJsonArray()
+						.get(0).getAsJsonObject().get("Content").getAsString();
+                if(SubscribeParameters.getSubscribeParameters().subParameterMap.containsKey(paraCodeName)) {
+                	topiNode.add(SubscribeParameters.getSubscribeParameters().subParameterMap.get(paraCodeName));
+                }else {
+                	DataParameter parameter = new DataParameter(jsonObjParm.getAsJsonArray()
+    						.get(0).getAsJsonObject().get("Content").getAsString());
+                	parameter.setCodeName(paraCodeName);
+                	parameter.setIsSubscribe(false);
+                	parameter.setRange(jsonObjParm.get("Range").getAsJsonArray()
+    						.get(0).getAsJsonObject().get("Content").getAsString());
+                	parameter.setUnit(jsonObjParm.get("Unit").getAsJsonArray()
+    						.get(0).getAsJsonObject().get("Content").getAsString());
+                	topiNode.add(parameter);
+                }
+			}
+		} catch (JsonIOException e) {
+			e.printStackTrace();
+		} catch (JsonSyntaxException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public TreeDataModel getPageData() {
 		JsonParser parse = new JsonParser();
@@ -165,12 +226,15 @@ public  class JsonParserCustomer {
 						if (containerType.equals("data")) {
 							DataParameter parameter = new DataParameter(jsonObjTopicData.get("Name").getAsJsonArray()
 									.get(0).getAsJsonObject().get("Content").getAsString());
-							parameter.setCodeName(jsonObjTopicData.get("Codename").getAsJsonArray().get(0)
-									.getAsJsonObject().get("Content").getAsString());
+							String codeName=jsonObjTopicData.get("Codename").getAsJsonArray().get(0)
+									.getAsJsonObject().get("Content").getAsString();
+							parameter.setCodeName(codeName);
 							parameter.setUnit(jsonObjTopicData.get("Unit").getAsJsonArray().get(0).getAsJsonObject()
 									.get("Content").getAsString());
 							parameter.setRange(jsonObjTopicData.get("Range").getAsJsonArray().get(0).getAsJsonObject()
 									.get("Content").getAsString());
+							parameter.setIsSubscribe(true);
+							SubscribeParameters.getSubscribeParameters().subParameterMap.put(codeName, parameter);
 							containerModel.add(parameter);
 						}else if(containerType.equals("image")) {
 							ImageParameter parameter = new ImageParameter(jsonObjTopicData.get("Name").getAsJsonArray()

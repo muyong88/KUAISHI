@@ -65,7 +65,7 @@ public class TableContainerController implements IController {
         addMenuItem1.setOnAction(new EventHandler() {
             public void handle(Event t) {
             	ArrayList<DataParameter> arParm=new ArrayList();
-            	if(mainApp.showSubscribe(arParm)) {
+            	if(mainApp.showSubscribe(arParm,"data")) {
             		for(DataParameter p :arParm) {
             				dataParameters.add(p);
             		}

@@ -62,20 +62,15 @@ public class SubscribeController implements IController {
     private void handleCancel() {
         dialogStage.close();
     }
-    public void initData() {
-    	TreeDataModel rootNode=(new JsonParserCustomer()).getSubscribeData();
+    public void initData(String type) {
+    	TreeDataModel rootNode=(new JsonParserCustomer()).getSubscribeData(type);
     	TreeItem<IBaseNode> item = new TreeItem<>(rootNode);    	
     	treeview_s.setRoot(item);
     	item.setExpanded(true);   
     	for(IBaseNode i :rootNode.getChilds()) {
     		TreeItem<IBaseNode> childNode=new TreeItem<>(i);
     		childNode.setExpanded(true);
-    		item.getChildren().add(childNode);
-    		for(IBaseNode j:((TreeDataModel)i).getChilds()){
-    			TreeItem<IBaseNode> cchildNode=new TreeItem<>(j);
-    			cchildNode.setExpanded(true);
-    			childNode.getChildren().add(cchildNode);
-    		}    		
+    		item.getChildren().add(childNode);		
     	}
     	treeview_s.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			@Override

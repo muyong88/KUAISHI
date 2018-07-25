@@ -130,7 +130,7 @@ public class MainApp extends Application {
 	/**
 	 * 显示订阅数据窗口
 	 */	
-	public boolean showSubscribe(ArrayList<DataParameter> parmList) {
+	public boolean showSubscribe(ArrayList<DataParameter> parmList,String type) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("gui/Subscribe.fxml"));
@@ -145,7 +145,7 @@ public class MainApp extends Application {
 			controller.setMainApp(this);
 			controller.setParmList(parmList);
 			controller.setDialogStage(dialogStage);
-			controller.initData();
+			controller.initData(type);
 			dialogStage.showAndWait();			
 			return true;
 		} catch (IOException e) {
