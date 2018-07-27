@@ -7,6 +7,7 @@ import java.util.HashMap;
 import com.jfoenix.controls.JFXMasonryPane;
 import com.jfoenix.controls.JFXScrollPane;
 import com.poac.quickview.MainApp;
+import com.poac.quickview.global.SubscribeParameters;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.TreeDataModel;
 
@@ -39,6 +40,7 @@ public class TabTemplateController implements IController {
     	if(containerCon.get(containerName).getClass().getName().contains("TableContainerController")){
     		((TableContainerController)containerCon.get(containerName)).initData(containerModel);
     	}
+    	
     	//表格，图像，视频初始化数据留待以后完成
     }
 	@FXML 

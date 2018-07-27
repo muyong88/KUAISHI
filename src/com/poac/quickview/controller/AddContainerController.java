@@ -1,6 +1,7 @@
 package com.poac.quickview.controller;
 
 import com.poac.quickview.MainApp;
+import com.poac.quickview.global.GlobalVariable;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,9 +29,10 @@ public class AddContainerController  implements IController {
     public AddContainerController() { 
     }
     public void init() {
-    	ObservableList<String> options =FXCollections.observableArrayList("Data","Curve","Image","Video");
+    	ObservableList<String> options =FXCollections.observableArrayList
+    			(GlobalVariable.data,GlobalVariable.curve,GlobalVariable.image,GlobalVariable.video);
     	combox_type.getItems().addAll(options);
-    	combox_type.setValue("Data");
+    	combox_type.setValue(GlobalVariable.data);
     }
     public boolean isOkClicked() {
         return okClicked;

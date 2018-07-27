@@ -8,6 +8,7 @@ import com.poac.quickview.controller.AddPageController;
 import com.poac.quickview.controller.ChangeHWSizeController;
 import com.poac.quickview.controller.CirclePanelController;
 import com.poac.quickview.controller.CurveContainerController;
+import com.poac.quickview.controller.IController;
 import com.poac.quickview.controller.ImageContainerController;
 import com.poac.quickview.controller.LogonController;
 import com.poac.quickview.controller.MainFormController;
@@ -15,9 +16,11 @@ import com.poac.quickview.controller.SubscribeController;
 import com.poac.quickview.controller.TabPaneController;
 import com.poac.quickview.controller.TableContainerController;
 import com.poac.quickview.controller.VideoContainerController;
+import com.poac.quickview.global.GlobalVariable;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.Page;
 import com.poac.quickview.model.DataParameter;
+import com.poac.quickview.model.IBaseNode;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -130,7 +133,7 @@ public class MainApp extends Application {
 	/**
 	 * 显示订阅数据窗口
 	 */	
-	public boolean showSubscribe(ArrayList<DataParameter> parmList,String type) {
+	public boolean showSubscribe(String type,IController con) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("gui/Subscribe.fxml"));
@@ -143,7 +146,7 @@ public class MainApp extends Application {
 			dialogStage.setScene(scene);
 			SubscribeController controller = loader.getController();
 			controller.setMainApp(this);
-			controller.setParmList(parmList);
+			controller.setContainerController(con);
 			controller.setDialogStage(dialogStage);
 			controller.initData(type);
 			dialogStage.showAndWait();			
@@ -347,13 +350,13 @@ public class MainApp extends Application {
 		}	 
 	}
 	public void addContainer(String pageName) {
-		if(addContainerCon.getType().equals("Data")) {
+		if(addContainerCon.getType().equals(GlobalVariable.data)) {
 			addTableContainer(pageName);
-		}else if(addContainerCon.getType().equals("Curve")){
+		}else if(addContainerCon.getType().equals(GlobalVariable.curve)){
 			addCurveContainer(pageName);
-		}else if(addContainerCon.getType().equals("Image")){
+		}else if(addContainerCon.getType().equals(GlobalVariable.image)){
 			addImageContainer(pageName);
-		}else if(addContainerCon.getType().equals("Video")){
+		}else if(addContainerCon.getType().equals(GlobalVariable.video)){
 			addVideoContainer(pageName);
 		}
 	}

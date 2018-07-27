@@ -1,5 +1,6 @@
 package com.poac.quickview.model;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -38,5 +39,6 @@ public class Container implements IBaseNode {
 	public String getType() {
 		return type.get();
 	}
+
 }
 

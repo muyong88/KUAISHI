@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.poac.quickview.MainApp;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.DataParameter;
+import com.poac.quickview.model.IBaseNode;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -44,12 +45,23 @@ public class ImageContainerController implements IController {
     private double y;
     private ContextMenu addMenu1 = new ContextMenu();
 	public ImageContainerController() {
-        MenuItem addMenuItem1 = new MenuItem("添加参数");    //右击TableView显示添加参数菜单
+
+	}
+	public void setPageName(String pageName) {
+		this.pageName=pageName;
+	}
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+    }  
+    private IController getThis() {
+    	return this;
+    }
+    public void init() {
+        MenuItem addMenuItem1 = new MenuItem("数据订阅");    //右击TableView显示添加参数菜单
         addMenu1.getItems().add(addMenuItem1);
         addMenuItem1.setOnAction(new EventHandler() {
             public void handle(Event t) {
-            	ArrayList<DataParameter> arParm=new ArrayList();
-            	if(mainApp.showSubscribe(arParm,"image")) {
+            	if(mainApp.showSubscribe("image",getThis())) {
             		
             	}
             }
@@ -72,14 +84,6 @@ public class ImageContainerController implements IController {
             	mainApp.getTabPaneController().refresh(pageName);
             }
         }); 
-	}
-	public void setPageName(String pageName) {
-		this.pageName=pageName;
-	}
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }  
-    public void init() {
     	hBox_Circles.getChildren().add(mainApp.loadCirclePanel());
     	imageView.setPreserveRatio(false);
     	imageView.fitWidthProperty().bind(anchor_img.widthProperty());

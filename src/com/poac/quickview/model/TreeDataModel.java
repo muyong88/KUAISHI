@@ -2,6 +2,7 @@ package com.poac.quickview.model;
 
 import java.util.ArrayList;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -34,4 +35,6 @@ public class TreeDataModel implements IBaseNode {
 	public String getName() {
 		return curNode.getName();
 	}
+
 }
+

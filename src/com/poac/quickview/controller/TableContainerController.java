@@ -47,7 +47,7 @@ public class TableContainerController implements IController {
 	private TableColumn<DataParameter, String> tc_paraRange;
 	@FXML
 	private HBox hBox_Circles;
-	private ObservableList<DataParameter> dataParameters = FXCollections.observableArrayList();
+	public ObservableList<DataParameter> dataParameters = FXCollections.observableArrayList();
 	private MainApp mainApp; 	
 	private String pageName=null;
     private String containerName=null;
@@ -60,15 +60,29 @@ public class TableContainerController implements IController {
     private ContextMenu addMenu1 = new ContextMenu();
     private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
 	public TableContainerController() {
-        MenuItem addMenuItem1 = new MenuItem("添加参数");    //右击TableView显示添加参数菜单
+
+	}
+	public void setPageName(String pageName) {
+		this.pageName=pageName;
+	}
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+    }
+    public void initData(TreeDataModel containerModel) {
+    	for(IBaseNode para:containerModel.getChilds()) {
+    		dataParameters.add((DataParameter)para);
+    	}
+    }
+    private IController getThis() {
+    	return this;
+    }    
+    public void init() {
+        MenuItem addMenuItem1 = new MenuItem("数据订阅");    //右击TableView显示添加参数菜单
         addMenu1.getItems().add(addMenuItem1);
         addMenuItem1.setOnAction(new EventHandler() {
             public void handle(Event t) {
-            	ArrayList<DataParameter> arParm=new ArrayList();
-            	if(mainApp.showSubscribe(arParm,"data")) {
-            		for(DataParameter p :arParm) {
-            				dataParameters.add(p);
-            		}
+            	if(mainApp.showSubscribe("data",getThis())) {
+
             	}
             } 
         }); 
@@ -90,19 +104,6 @@ public class TableContainerController implements IController {
             	mainApp.getTabPaneController().refresh(pageName);
             }
         }); 
-	}
-	public void setPageName(String pageName) {
-		this.pageName=pageName;
-	}
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }
-    public void initData(TreeDataModel containerModel) {
-    	for(IBaseNode para:containerModel.getChilds()) {
-    		dataParameters.add((DataParameter)para);
-    	}
-    }
-    public void init() {
     	hBox_Circles.getChildren().add(mainApp.loadCirclePanel());
     	tc_paraName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
     	tc_paraCode.setCellValueFactory(cellData -> cellData.getValue().codeNameProperty());

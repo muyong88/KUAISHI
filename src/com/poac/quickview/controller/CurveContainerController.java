@@ -6,6 +6,7 @@ import java.util.Arrays;
 import com.poac.quickview.MainApp;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.DataParameter;
+import com.poac.quickview.model.IBaseNode;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -49,13 +50,24 @@ public class CurveContainerController implements IController {
     private double x;
     private double y;
     private ContextMenu addMenu1 = new ContextMenu();
+    
 	public CurveContainerController() {
-        MenuItem addMenuItem1 = new MenuItem("添加参数");    //右击TableView显示添加参数菜单
+	}
+	public void setPageName(String pageName) {
+		this.pageName=pageName;
+	}
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp; 
+    } 
+    private IController getThis() {
+    	return this;
+    }
+    public void init() {
+        MenuItem addMenuItem1 = new MenuItem("数据订阅");    //右击TableView显示添加参数菜单
         addMenu1.getItems().add(addMenuItem1);
         addMenuItem1.setOnAction(new EventHandler() {
             public void handle(Event t) {
-            	ArrayList<DataParameter> arParm=new ArrayList();
-            	if(mainApp.showSubscribe(arParm,"curve")) {
+            	if(mainApp.showSubscribe("curve",getThis())) {
             		
             	}
             }
@@ -78,14 +90,6 @@ public class CurveContainerController implements IController {
             	mainApp.getTabPaneController().refresh(pageName);
             }
         }); 
-	}
-	public void setPageName(String pageName) {
-		this.pageName=pageName;
-	}
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp; 
-    } 
-    public void init() {
     	hBox_Circles.getChildren().add(mainApp.loadCirclePanel());
     	ObservableList<String> xNames = FXCollections.observableArrayList();
     	xNames.addAll(Arrays.asList(new String[] {"1","2","3","4","5","6","7","9","10","11","12"}));

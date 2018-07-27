@@ -15,6 +15,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.poac.quickview.MainApp;
+import com.poac.quickview.global.GlobalVariable;
 import com.poac.quickview.global.SubscribeParameters;
 import com.poac.quickview.model.Cabinet;
 import com.poac.quickview.model.Capsule;
@@ -97,11 +98,11 @@ public  class JsonParserCustomer {
 		return itemRoot;
 	}
 	/**
-	 * 解析PYTHON（尚未完成），获取订阅数据
+	 * 解析PYTHON，获取订阅数据
 	 */	 
 	public TreeDataModel getSubscribeData(String type) {
 		TreeDataModel rootNode=new TreeDataModel(new Type(type));
-		if(!type.equals("data"))
+		if(!type.equals(GlobalVariable.data))
 			return rootNode;
 		JsonParser parse = new JsonParser();
 		try {
@@ -176,7 +177,7 @@ public  class JsonParserCustomer {
                 	DataParameter parameter = new DataParameter(jsonObjParm.getAsJsonArray()
     						.get(0).getAsJsonObject().get("Content").getAsString());
                 	parameter.setCodeName(paraCodeName);
-                	parameter.setIsSubscribe(false);
+                	//parameter.setIsSubscribe(false);
                 	parameter.setRange(jsonObjParm.get("Range").getAsJsonArray()
     						.get(0).getAsJsonObject().get("Content").getAsString());
                 	parameter.setUnit(jsonObjParm.get("Unit").getAsJsonArray()
@@ -223,7 +224,7 @@ public  class JsonParserCustomer {
 					JsonArray jsonArrayTopicData=jsonObjTopic.get("Data").getAsJsonArray();
 					for (int k = 0; k < jsonArrayTopicData.size(); k++) {
 						JsonObject jsonObjTopicData=jsonArrayTopicData.get(k).getAsJsonObject();
-						if (containerType.equals("data")) {
+						if (containerType.equals(GlobalVariable.data)) {
 							DataParameter parameter = new DataParameter(jsonObjTopicData.get("Name").getAsJsonArray()
 									.get(0).getAsJsonObject().get("Content").getAsString());
 							String codeName=jsonObjTopicData.get("Codename").getAsJsonArray().get(0)
@@ -233,8 +234,9 @@ public  class JsonParserCustomer {
 									.get("Content").getAsString());
 							parameter.setRange(jsonObjTopicData.get("Range").getAsJsonArray().get(0).getAsJsonObject()
 									.get("Content").getAsString());
-							parameter.setIsSubscribe(true);
-							SubscribeParameters.getSubscribeParameters().subParameterMap.put(codeName, parameter);
+							if (!SubscribeParameters.getSubscribeParameters().subParameterMap.containsKey(codeName)) {
+								SubscribeParameters.getSubscribeParameters().subParameterMap.put(codeName, parameter);
+							}
 							containerModel.add(parameter);
 						}else if(containerType.equals("image")) {
 							ImageParameter parameter = new ImageParameter(jsonObjTopicData.get("Name").getAsJsonArray()

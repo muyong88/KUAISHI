@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import com.poac.quickview.MainApp;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.DataParameter;
+import com.poac.quickview.model.IBaseNode;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -65,12 +66,22 @@ public class VideoContainerController implements IController {
     private double y;
     private ContextMenu addMenu1 = new ContextMenu();    
 	public VideoContainerController() {
-        MenuItem addMenuItem1 = new MenuItem("添加参数");    //右击TableView显示添加参数菜单
+	}   
+	public void setPageName(String pageName) {
+		this.pageName=pageName;
+	}
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+    } 
+    private IController getThis() {
+    	return this;
+    }
+    public void init() {
+        MenuItem addMenuItem1 = new MenuItem("数据订阅");    //右击TableView显示添加参数菜单
         addMenu1.getItems().add(addMenuItem1);
         addMenuItem1.setOnAction(new EventHandler() {
             public void handle(Event t) {
-            	ArrayList<DataParameter> arParm=new ArrayList();
-            	if(mainApp.showSubscribe(arParm,"video")) {            		
+            	if(mainApp.showSubscribe("video",getThis())) {            		
             	}
             }
         }); 
@@ -92,38 +103,19 @@ public class VideoContainerController implements IController {
             	mainApp.getTabPaneController().refresh(pageName);
             }
         });  
-	}   
-	public void setPageName(String pageName) {
-		this.pageName=pageName;
-	}
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-    } 
-    public void init() {
     	hBox_Circles.getChildren().add(mainApp.loadCirclePanel());
     	mediaView.setPreserveRatio(false);               //宽高自动变化
     	mediaView.fitWidthProperty().bind(anchor_video.widthProperty());    //绑定宽随父节点变化
     	mediaView.fitHeightProperty().bind(anchor_video.heightProperty());  //绑定高随父节点变化
-    	
-    	Slider_videoProgress.setOnMouseClicked(e ->{                 //进度条同步设置
-			double d = Slider_videoProgress.getValue();
-			ProgressBar_videoProgress.setProgress(d/100);
-		});
-    	Slider_videoProgress.setOnMouseDragged(e ->{
-			double d = Slider_videoProgress.getValue();
-			ProgressBar_videoProgress.setProgress(d/100);
-		});
-    	Slider_videoProgress.setOnMouseDragEntered(e ->{
-			double d = Slider_videoProgress.getValue();
-			ProgressBar_videoProgress.setProgress(d/100);
-		});
     	Slider_videoProgress.setOnMouseDragExited(e ->{
 			double d = Slider_videoProgress.getValue();
 			ProgressBar_videoProgress.setProgress(d/100);
 		});
-    	Slider_videoProgress.valueChangingProperty().addListener((o, ov, nv)->{   //拖拉进步条视频同步
-			double d = Slider_videoProgress.getValue()/100;
-			mediaPlayer.seek(mediaPlayer.getTotalDuration().multiply(d));
+    	Slider_videoProgress.valueProperty().addListener((o, ov, nv)->{   //拖拉进步条视频同步
+    		ProgressBar_videoProgress.setProgress(Slider_videoProgress.getValue()/100);
+		});    	
+    	ProgressBar_videoProgress.progressProperty().addListener((o, ov, nv)->{  
+    		mediaPlayer.seek(mediaPlayer.getTotalDuration().multiply(ProgressBar_videoProgress.progressProperty().get()));
 		});
     	String media_URL = getClass().getResource("/animal.mp4").toString();
     	Media media = new Media(media_URL);
@@ -141,7 +133,6 @@ public class VideoContainerController implements IController {
 		mediaPlayer.currentTimeProperty().addListener((o, ov, nv)->{
 			double n=nv.toSeconds()/mediaPlayer.getTotalDuration().toSeconds()*100;
 			Slider_videoProgress.setValue(n);
-			ProgressBar_videoProgress.setProgress(n/100);
 		});		
     	mediaView.setMediaPlayer(mediaPlayer);   
     	

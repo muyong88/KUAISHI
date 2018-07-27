@@ -4,15 +4,19 @@ import java.util.ArrayList;
 
 import org.controlsfx.control.CheckListView;
 import com.poac.quickview.MainApp;
+import com.poac.quickview.global.GlobalVariable;
 import com.poac.quickview.model.Group;
 import com.poac.quickview.model.IBaseNode;
 import com.poac.quickview.model.Page;
+import com.poac.quickview.model.CurveParameter;
 import com.poac.quickview.model.DataParameter;
 import com.poac.quickview.model.Topic;
 import com.poac.quickview.model.TreeDataModel;
 import com.poac.quickview.model.Type;
 import com.poac.quickview.util.JsonParserCustomer;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -20,12 +24,16 @@ import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -37,10 +45,11 @@ public class SubscribeController implements IController {
 	@FXML
 	private TreeView treeview_s;
 	@FXML
-	private CheckListView checkListView_1;
-	private ArrayList<DataParameter> parmList;
+	private CheckListView<IBaseNode>  checkListView_1;
     private boolean okClicked = false;
     private Stage dialogStage;
+    private String subType;  //订阅类型
+    private IController containerController=null;   //调用这个订阅的容器Controller
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
@@ -50,10 +59,24 @@ public class SubscribeController implements IController {
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
+    public void setContainerController(IController con) {
+    	containerController=con;
+    }
     @FXML
     private void handleOk() {
-    	for(Object n :checkListView_1.getCheckModel().getCheckedItems()) {
-    		parmList.add(new DataParameter(n.toString()));
+    	for(IBaseNode node :checkListView_1.getItems()) {
+			if (subType.equals(GlobalVariable.data)) {   //目前只实现Table容器
+				TableContainerController tCC=(TableContainerController)containerController;
+				if(checkListView_1.getCheckModel().isChecked(node)) {
+					if(!tCC.dataParameters.contains((DataParameter)node)) {
+						tCC.dataParameters.add((DataParameter)node);
+					}
+				}else {
+					if(tCC.dataParameters.contains((DataParameter)node)) {
+						tCC.dataParameters.remove((DataParameter)node);
+					}
+				}
+			}
     	}
     	okClicked = true; 
     	dialogStage.close();        
@@ -63,6 +86,7 @@ public class SubscribeController implements IController {
         dialogStage.close();
     }
     public void initData(String type) {
+    	subType=type;
     	TreeDataModel rootNode=(new JsonParserCustomer()).getSubscribeData(type);
     	TreeItem<IBaseNode> item = new TreeItem<>(rootNode);    	
     	treeview_s.setRoot(item);
@@ -72,23 +96,40 @@ public class SubscribeController implements IController {
     		childNode.setExpanded(true);
     		item.getChildren().add(childNode);		
     	}
+    	
     	treeview_s.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			@Override
 			public void changed(ObservableValue observable, Object oldValue, Object newValue) {
 				TreeItem<IBaseNode> selectedItem = (TreeItem<IBaseNode>) newValue;	
 				TreeDataModel treeModel=(TreeDataModel)selectedItem.getValue();
 				if(treeModel.getCurNode().getClass().getName().contains("Topic")) {
-			    	ObservableList<String> strList = FXCollections.observableArrayList();  
+			    	ObservableList<IBaseNode> obsList = FXCollections.observableArrayList();  
 			    	for(IBaseNode node : treeModel.getChilds()) {
-			    		strList.add(node.getName());
-			    	}
-					checkListView_1.setItems(strList);					
+			    		obsList.add(node);
+			    	}			    	
+					checkListView_1.setItems(obsList);	
+			    	for(IBaseNode node : treeModel.getChilds()) {
+			    		if(subType.equals(GlobalVariable.data)) {
+			    			if(((TableContainerController)containerController).dataParameters.contains(node)) {
+			    				checkListView_1.getCheckModel().check(node);
+			    			}
+			    		}
+			    		//其他类型以后实现
+			    	}	
 				}
 				else {
 					checkListView_1.getItems().clear();
 				}
 			}
 		});
+    	//客户化checklistview
+    	checkListView_1.setCellFactory(lv -> new CheckBoxListCell<IBaseNode>(checkListView_1::getItemBooleanProperty) {
+    	    @Override
+    	    public void updateItem(IBaseNode node, boolean empty) {
+    	        super.updateItem(node, empty);
+    	        setText(node == null ? "" : node.getName());
+    	    }
+    	});	
     	treeview_s.setCellFactory(new Callback<TreeView<IBaseNode>, TreeCell<IBaseNode>>() {
 			@Override
 			public TreeCell<IBaseNode> call(TreeView<IBaseNode> p) {
@@ -96,9 +137,6 @@ public class SubscribeController implements IController {
 			}
 		});				
     } 
-    public void setParmList( ArrayList<DataParameter> parmList) {
-    	this.parmList=parmList;
-    }
 }
 
 /**

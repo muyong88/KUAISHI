@@ -1,5 +1,7 @@
 package com.poac.quickview.model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -8,6 +10,7 @@ public class ImageParameter implements IBaseNode {
 	private StringProperty  codeName=new SimpleStringProperty();
 	private StringProperty  unit=new SimpleStringProperty();
 	private StringProperty  range=new SimpleStringProperty();
+	private BooleanProperty isSubscribe=new SimpleBooleanProperty();
 	public ImageParameter(String value) {
 		name.set(value);
 	} 
@@ -39,4 +42,5 @@ public class ImageParameter implements IBaseNode {
 	public String getRange() {
 		return range.get();
 	}
+
 }

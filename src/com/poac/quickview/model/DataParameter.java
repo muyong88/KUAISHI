@@ -10,7 +10,6 @@ public class DataParameter implements IBaseNode {
 	private StringProperty  codeName=new SimpleStringProperty();
 	private StringProperty  unit=new SimpleStringProperty();
 	private StringProperty  range=new SimpleStringProperty();
-	private BooleanProperty isSubscribe=new SimpleBooleanProperty();
 	public DataParameter(String value) {
 		name.set(value);
 	} 
@@ -50,14 +49,5 @@ public class DataParameter implements IBaseNode {
 	}
 	public StringProperty rangeProperty() {
 		return range;
-	}
-	public void setIsSubscribe(boolean value) {
-		isSubscribe.set(value);
-	}
-	public boolean getIsSubscribe() {
-		return isSubscribe.get();
-	}
-	public BooleanProperty isSubscribeProperty() {
-		return isSubscribe;
-	}
-}
+	}}
+
