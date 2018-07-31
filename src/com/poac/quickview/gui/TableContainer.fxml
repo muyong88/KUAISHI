@@ -14,7 +14,7 @@
           <TableColumn fx:id="tc_paraName" prefWidth="75.0" text="参数名称" />
             <TableColumn prefWidth="75.0" text="参数意义" />
             <TableColumn prefWidth="75.0" text="源码" />
-            <TableColumn prefWidth="75.0" text="结果" />
+            <TableColumn fx:id="tc_paraResult" prefWidth="75.0" text="结果" />
             <TableColumn fx:id="tc_paraUnit" prefWidth="75.0" text="单位" />
             <TableColumn prefWidth="75.0" text="超限" />
             <TableColumn fx:id="tc_paraRange" prefWidth="75.0" text="范围" />

@@ -46,6 +46,8 @@ public class TableContainerController implements IController {
 	@FXML
 	private TableColumn<DataParameter, String> tc_paraRange;
 	@FXML
+	private TableColumn<DataParameter, String> tc_paraResult;
+	@FXML
 	private HBox hBox_Circles;
 	public ObservableList<DataParameter> dataParameters = FXCollections.observableArrayList();
 	private MainApp mainApp; 	
@@ -109,6 +111,7 @@ public class TableContainerController implements IController {
     	tc_paraCode.setCellValueFactory(cellData -> cellData.getValue().codeNameProperty());
     	tc_paraUnit.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
     	tc_paraRange.setCellValueFactory(cellData -> cellData.getValue().rangeProperty());
+    	tc_paraResult.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
     	tableView.setItems(dataParameters);  	
         //tableView.setContextMenu(addMenu1);
     	anchor_table.setOnMouseClicked(new EventHandler<MouseEvent>() {

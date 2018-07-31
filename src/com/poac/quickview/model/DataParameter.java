@@ -1,7 +1,9 @@
 package com.poac.quickview.model;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -10,6 +12,8 @@ public class DataParameter implements IBaseNode {
 	private StringProperty  codeName=new SimpleStringProperty();
 	private StringProperty  unit=new SimpleStringProperty();
 	private StringProperty  range=new SimpleStringProperty();
+	private StringProperty value=new SimpleStringProperty();
+	private StringProperty  time=new SimpleStringProperty();
 	public DataParameter(String value) {
 		name.set(value);
 	} 
@@ -49,5 +53,24 @@ public class DataParameter implements IBaseNode {
 	}
 	public StringProperty rangeProperty() {
 		return range;
-	}}
+	}
+	public void setValue(String v) {
+		value.set(v);
+	}
+	public String getValue() {
+		return value.get();
+	}
+	public StringProperty valueProperty() {
+		return value;
+	}
+	public void setTime(String value) {
+		time.set(value);
+	}
+	public String getTime() {
+		return time.get();
+	}
+	public StringProperty timeProperty() {
+		return time;
+	}
+	}
 

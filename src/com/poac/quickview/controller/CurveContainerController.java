@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.poac.quickview.MainApp;
+import com.poac.quickview.global.SubscribeParameters;
 import com.poac.quickview.model.Container;
+import com.poac.quickview.model.CurveParameter;
 import com.poac.quickview.model.DataParameter;
 import com.poac.quickview.model.IBaseNode;
+import com.poac.quickview.model.TreeDataModel;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -33,9 +37,7 @@ public class CurveContainerController implements IController {
 	@FXML
 	private AnchorPane anchor_curve;
 	@FXML
-	private LineChart<String,Integer>   lineChart;
-    @FXML
-    private CategoryAxis xAxis;
+	private LineChart<String,Double>   lineChart;
 	@FXML
 	private Label label_head;
 	@FXML
@@ -50,6 +52,8 @@ public class CurveContainerController implements IController {
     private double x;
     private double y;
     private ContextMenu addMenu1 = new ContextMenu();
+    private ObservableList<Series<String,Double>> seriesOblst=FXCollections.observableArrayList();    
+    public ArrayList<CurveParameter> curveParameters = new ArrayList();
     
 	public CurveContainerController() {
 	}
@@ -61,6 +65,19 @@ public class CurveContainerController implements IController {
     } 
     private IController getThis() {
     	return this;
+    }
+    public void initData(TreeDataModel containerModel) {
+    	for(IBaseNode para:containerModel.getChilds()) {
+    		CurveParameter cp=(CurveParameter)para;
+    		curveParameters.add(cp);
+    		Series<String, Double> series = new Series<>();
+    		series.setName(cp.getCodeName());
+    		seriesOblst.add(series);
+    		DataParameter dp=SubscribeParameters.getSubscribeParameters().subParameterMap.get(cp.getCodeName());
+    		dp.timeProperty().addListener((o, ov, nv)->{
+    			Platform.runLater(() ->series.getData().add(new XYChart.Data(dp.getTime(), Double.parseDouble(dp.getValue()))));     			
+    		});		
+    	}
     }
     public void init() {
         MenuItem addMenuItem1 = new MenuItem("数据订阅");    //右击TableView显示添加参数菜单
@@ -91,24 +108,7 @@ public class CurveContainerController implements IController {
             }
         }); 
     	hBox_Circles.getChildren().add(mainApp.loadCirclePanel());
-    	ObservableList<String> xNames = FXCollections.observableArrayList();
-    	xNames.addAll(Arrays.asList(new String[] {"1","2","3","4","5","6","7","9","10","11","12"}));
-    	xAxis.setCategories(xNames);
-    	Series<String, Integer> series = new Series<>();
-        series.getData().add(new XYChart.Data("1", 23));
-        series.getData().add(new XYChart.Data("2", 14));
-        series.getData().add(new XYChart.Data("3", 15));
-        series.getData().add(new XYChart.Data("4", 24));
-        series.getData().add(new XYChart.Data("5", 34));
-        series.getData().add(new XYChart.Data("6", 36));
-        series.getData().add(new XYChart.Data("7", 22));
-        series.getData().add(new XYChart.Data("8", 45));
-        series.getData().add(new XYChart.Data("9", 43));
-        series.getData().add(new XYChart.Data("10", 17));
-        series.getData().add(new XYChart.Data("11", 29));
-        series.getData().add(new XYChart.Data("12", 25));
-        series.setName("DEMO1");
-        lineChart.getData().add(series);
+        lineChart.setData(seriesOblst);
         anchor_curve.setOnMouseClicked(new EventHandler<MouseEvent>() {
           @Override public void handle(MouseEvent event) {
             if (MouseButton.SECONDARY.equals(event.getButton())) {

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonIOException;
@@ -249,7 +250,8 @@ public  class JsonParserCustomer {
 							parameter.setRange(jsonObjTopicData.get("Range").getAsJsonArray().get(0).getAsJsonObject()
 									.get("Content").getAsString());
 						}else if(containerType.equals("curve")) {
-							CurveParameter parameter = new CurveParameter(jsonObjTopicData.get("Codename").getAsJsonArray()
+							CurveParameter parameter = new CurveParameter();
+							parameter.setCodeName(jsonObjTopicData.get("Codename").getAsJsonArray()
 									.get(0).getAsJsonObject().get("Content").getAsString());
 							parameter.setDashstyle(jsonObjTopicData.get("Dashstyle").getAsJsonArray().get(0)
 									.getAsJsonObject().get("Content").getAsString());
@@ -282,3 +284,5 @@ public  class JsonParserCustomer {
 		return itemRoot;
 	}
 }
+
+

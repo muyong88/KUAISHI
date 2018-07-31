@@ -19,10 +19,13 @@ import com.poac.quickview.controller.VideoContainerController;
 import com.poac.quickview.global.GlobalVariable;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.Page;
+import com.poac.quickview.test.DataParserThread;
+import com.poac.quickview.util.JsonParserCustomer;
 import com.poac.quickview.model.DataParameter;
 import com.poac.quickview.model.IBaseNode;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -65,7 +68,9 @@ public class MainApp extends Application {
 			}
 		});
 		initData();
-		//primaryStage.setMaximized(true); 
+		DataParserThread dataParserThread=new DataParserThread();
+		dataParserThread.start();
+		
 	}	
 	public void initData() {
 		tabPaneCon.initData();
