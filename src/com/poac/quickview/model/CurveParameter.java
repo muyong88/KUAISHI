@@ -17,7 +17,6 @@ public class CurveParameter implements IBaseNode {
 		name.set(value);
 		
 	} 
-
 	public CurveParameter() {}
 	public void setName(String value) {
 		name.set(value);

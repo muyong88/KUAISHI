@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.controlsfx.control.CheckListView;
 import com.poac.quickview.MainApp;
 import com.poac.quickview.global.GlobalVariable;
+import com.poac.quickview.global.SubscribeParameters;
 import com.poac.quickview.model.Group;
 import com.poac.quickview.model.IBaseNode;
 import com.poac.quickview.model.Page;
@@ -65,8 +66,19 @@ public class SubscribeController implements IController {
     @FXML
     private void handleOk() {
     	for(IBaseNode node :checkListView_1.getItems()) {
-			if (subType.equals(GlobalVariable.data)) {   //目前只实现Table容器
+			if (subType.equals(GlobalVariable.data)) {   //Table容器订阅
 				TableContainerController tCC=(TableContainerController)containerController;
+				if(checkListView_1.getCheckModel().isChecked(node)) {
+					if(!tCC.dataParameters.contains((DataParameter)node)) {
+						tCC.dataParameters.add((DataParameter)node);
+					}
+				}else {
+					if(tCC.dataParameters.contains((DataParameter)node)) {
+						tCC.dataParameters.remove((DataParameter)node);
+					}
+				}
+			}else if(subType.equals(GlobalVariable.curve)) {   //Curve容器订阅
+				CurveContainerController tCC=(CurveContainerController)containerController;
 				if(checkListView_1.getCheckModel().isChecked(node)) {
 					if(!tCC.dataParameters.contains((DataParameter)node)) {
 						tCC.dataParameters.add((DataParameter)node);
@@ -113,7 +125,12 @@ public class SubscribeController implements IController {
 			    			if(((TableContainerController)containerController).dataParameters.contains(node)) {
 			    				checkListView_1.getCheckModel().check(node);
 			    			}
-			    		}
+			    		}else if(subType.equals(GlobalVariable.curve)) {
+			    			CurveContainerController cc=((CurveContainerController)containerController);
+			    			if(cc.dataParameters.contains((DataParameter)node)) {
+			    				checkListView_1.getCheckModel().check(node);
+			    			}
+		    			}
 			    		//其他类型以后实现
 			    	}	
 				}

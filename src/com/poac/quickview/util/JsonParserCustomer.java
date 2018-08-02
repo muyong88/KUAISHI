@@ -103,11 +103,17 @@ public  class JsonParserCustomer {
 	 */	 
 	public TreeDataModel getSubscribeData(String type) {
 		TreeDataModel rootNode=new TreeDataModel(new Type(type));
-		if(!type.equals(GlobalVariable.data))
+		if(type.equals(GlobalVariable.video)||type.equals(GlobalVariable.image))
 			return rootNode;
+		String jsonFile="";
+		if(type.equals(GlobalVariable.data)) {
+			jsonFile="/datatheme.json";
+		}else if(type.equals(GlobalVariable.curve)) {
+			jsonFile="/curvetheme.json";
+		}
 		JsonParser parse = new JsonParser();
 		try {
-			InputStream inputTheme=getClass().getResourceAsStream("/theme.json");
+			InputStream inputTheme=getClass().getResourceAsStream(jsonFile);
 			 byte b[] = new byte[4096] ; 
 			 int len = inputTheme.read(b) ;
 			JsonObject jsonObjRoot = (JsonObject) parse.parse(new String(b,0,len));
@@ -131,14 +137,18 @@ public  class JsonParserCustomer {
 						rootNode.add(topiNode);
 						createTopicParms(topiNode); // 创建Topic对应的参数
 					}
-					JsonArray jsonArrayPayload = jsonObjCabinet.get("Payload").getAsJsonArray();
-					for (int k = 0; k < jsonArrayPayload.size(); k++) {
-						JsonObject jsonObjPayload = jsonArrayPayload.get(k).getAsJsonObject();
-						if (jsonObjCabinet.has("Topic")) {
-							JsonObject jsonObjTopic = jsonObjPayload.get("Topic").getAsJsonArray().get(0).getAsJsonObject();
-							TreeDataModel topiNode = new TreeDataModel(new Topic(jsonObjTopic.get("Name").getAsString()));
-							rootNode.add(topiNode);
-							createTopicParms(topiNode); // 创建Topic对应的参数
+					if (jsonObjCabinet.has("Payload")) {
+						JsonArray jsonArrayPayload = jsonObjCabinet.get("Payload").getAsJsonArray();
+						for (int k = 0; k < jsonArrayPayload.size(); k++) {
+							JsonObject jsonObjPayload = jsonArrayPayload.get(k).getAsJsonObject();
+							if (jsonObjCabinet.has("Topic")) {
+								JsonObject jsonObjTopic = jsonObjPayload.get("Topic").getAsJsonArray().get(0)
+										.getAsJsonObject();
+								TreeDataModel topiNode = new TreeDataModel(
+										new Topic(jsonObjTopic.get("Name").getAsString()));
+								rootNode.add(topiNode);
+								createTopicParms(topiNode); // 创建Topic对应的参数
+							}
 						}
 					}
 				}
@@ -157,11 +167,17 @@ public  class JsonParserCustomer {
     	return rootNode;
 	}
 	private void createTopicParms(TreeDataModel topiNode) {
-		if(!topiNode.getName().equals("天和-工程数据-"))    //目前只有一个主题
-			return;
 		JsonParser parse = new JsonParser();
+		String fileName = "";
+		if(topiNode.getName().equals("天和-工程数据-")) {    //目前只有二个主题
+			fileName = "/topicparms1.json";;
+		}else if(topiNode.getName().equals("流体实验柜-工程数据-实验柜控制器A1")) { 
+			fileName = "/topicparms2.json";;
+		}else {
+			return;
+		}
 		try {
-			InputStream inputTheme=getClass().getResourceAsStream("/topicparms.json");
+			InputStream inputTheme=getClass().getResourceAsStream(fileName);
 			 byte b[] = new byte[40960] ; 
 			 int len = inputTheme.read(b) ;
 			JsonObject jsonObjRoot = (JsonObject) parse.parse(new String(b,0,len));
@@ -178,7 +194,6 @@ public  class JsonParserCustomer {
                 	DataParameter parameter = new DataParameter(jsonObjParm.getAsJsonArray()
     						.get(0).getAsJsonObject().get("Content").getAsString());
                 	parameter.setCodeName(paraCodeName);
-                	//parameter.setIsSubscribe(false);
                 	parameter.setRange(jsonObjParm.get("Range").getAsJsonArray()
     						.get(0).getAsJsonObject().get("Content").getAsString());
                 	parameter.setUnit(jsonObjParm.get("Unit").getAsJsonArray()

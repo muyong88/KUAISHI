@@ -2,6 +2,8 @@ package com.poac.quickview.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import com.poac.quickview.MainApp;
 import com.poac.quickview.global.SubscribeParameters;
@@ -12,7 +14,10 @@ import com.poac.quickview.model.IBaseNode;
 import com.poac.quickview.model.TreeDataModel;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -53,10 +58,53 @@ public class CurveContainerController implements IController {
     private double y;
     private ContextMenu addMenu1 = new ContextMenu();
     private ObservableList<Series<String,Double>> seriesOblst=FXCollections.observableArrayList();    
-    public ArrayList<CurveParameter> curveParameters = new ArrayList();
+    public ObservableList<CurveParameter> curveParameters = FXCollections.observableArrayList();  //订阅Curve参数列表
+    public ObservableList<DataParameter> dataParameters = FXCollections.observableArrayList();  //订阅Curve参数列表
+    private HashMap<String,ChangeListener> listenerMap=new HashMap<String,ChangeListener>(); //记录codename对应listener
     
 	public CurveContainerController() {
+		//监听curve参数订阅列表
+		dataParameters.addListener(new ListChangeListener<DataParameter>() {
+	        @Override
+	        public void onChanged(ListChangeListener.Change<? extends DataParameter> change) {
+	            while (change.next()) {
+	            	if (change.wasAdded()) {
+	                    for (DataParameter para : change.getAddedSubList()) {
+	                		Series<String, Double> series = new Series<>();
+	                		series.setName(para.getCodeName());
+	                		seriesOblst.add(series);
+	                		DataParameter dp=SubscribeParameters.getSubscribeParameters().subParameterMap.get(para.getCodeName());
+	                		ChangeListener listener=new ChangeListener<String>() {
+	                			 @Override
+	                			    public void changed(ObservableValue<? extends String> o,
+	                			    		String ov, String v) {
+	                				 Platform.runLater(() ->series.getData().add(new XYChart.Data(dp.getTime(), Double.parseDouble(dp.getValue()))));  
+	                			 }
+	                		};
+	                		dp.timeProperty().addListener(listener);
+	                		listenerMap.put(para.getCodeName(), listener);
+	                    }
+	                } else if (change.wasRemoved()) {
+	                    for (DataParameter para : change.getRemoved()) {
+	                    	Iterator<Series<String, Double>> it=seriesOblst.iterator();
+	                    	while(it.hasNext()) {
+	                    		Series<String,Double> series=it.next();
+	                    		if(series.getName().equals(para.getCodeName())) {
+	                    			Platform.runLater(() ->seriesOblst.remove(series));
+	                    			DataParameter dp=SubscribeParameters.getSubscribeParameters().subParameterMap.get(para.getCodeName());
+	                    			dp.timeProperty().removeListener(listenerMap.get(para.getCodeName()));
+	                    			listenerMap.remove(para.getCodeName());
+	                    		}
+	                    	}
+	                    }
+
+	                } 
+	            }
+	        }
+
+	    });
 	}
+	
 	public void setPageName(String pageName) {
 		this.pageName=pageName;
 	}
@@ -68,15 +116,8 @@ public class CurveContainerController implements IController {
     }
     public void initData(TreeDataModel containerModel) {
     	for(IBaseNode para:containerModel.getChilds()) {
-    		CurveParameter cp=(CurveParameter)para;
-    		curveParameters.add(cp);
-    		Series<String, Double> series = new Series<>();
-    		series.setName(cp.getCodeName());
-    		seriesOblst.add(series);
-    		DataParameter dp=SubscribeParameters.getSubscribeParameters().subParameterMap.get(cp.getCodeName());
-    		dp.timeProperty().addListener((o, ov, nv)->{
-    			Platform.runLater(() ->series.getData().add(new XYChart.Data(dp.getTime(), Double.parseDouble(dp.getValue()))));     			
-    		});		
+    		curveParameters.add((CurveParameter)para);
+    		dataParameters.add(SubscribeParameters.getSubscribeParameters().subParameterMap.get(((CurveParameter)para).getCodeName()));
     	}
     }
     public void init() {

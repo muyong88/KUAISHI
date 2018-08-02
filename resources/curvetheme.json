@@ -1,0 +1,24 @@
+{
+    "statuscode": "200",
+    "msg": "获取页面成功",
+    "data": {
+        "Capsules": {
+            "Capsule": [
+                {
+                    "Cabinet": [
+                        {
+                            "Topic": [
+                                {
+                                    "Type": "curve",
+                                    "Name": "流体实验柜-工程数据-实验柜控制器A1"
+                                }
+                            ],
+                            "Name": "流体柜"
+                        }
+                    ],
+                    "Name": "天和"
+                }
+            ]
+        }
+    }
+}

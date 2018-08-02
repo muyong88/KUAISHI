@@ -1,0 +1,65 @@
+{
+    "statuscode": "200",
+    "msg": "获取页面成功",
+    "data": {
+        "Topic": {
+            "Data": [
+                                {
+                                    "Codename": [
+                                        {
+                                            "Content": "DJZA11"
+                                        }
+                                    ],
+                                    "Rank": [
+                                        {
+                                            "Content": "3"
+                                        }
+                                    ],
+                                    "Unit": [
+                                        {
+                                            "Content": "°C"
+                                        }
+                                    ],
+                                    "Range": [
+                                        {
+                                            "Content": "20-30"
+                                        }
+                                    ],
+                                    "Name": [
+                                        {
+                                            "Content": "A1温度1"
+                                        }
+                                    ]
+                                },
+                                                              {
+                                    "Codename": [
+                                        {
+                                            "Content": "DJZA12"
+                                        }
+                                    ],
+                                    "Rank": [
+                                        {
+                                            "Content": "5"
+                                        }
+                                    ],
+                                    "Unit": [
+                                        {
+                                            "Content": "°C"
+                                        }
+                                    ],
+                                    "Range": [
+                                        {
+                                            "Content": "30-35"
+                                        }
+                                    ],
+                                    "Name": [
+                                        {
+                                            "Content": "A1温度2"
+                                        }
+                                    ]
+                                }
+            
+            ]
+        }
+    }
+}
