@@ -38,9 +38,6 @@
 #label_head,#Label_startTime,#Label_endTime,#label_mode1,#label_mode2,#label_mode3,#label_mode4,#label_mode5{
 	-fx-text-fill: #ffffff;
 }
-#imageView{
-	-fx-image:url("imageview.jpg");
-}
 
 .buttonPlay{
 	-fx-background-image: url("PlayDark.png");

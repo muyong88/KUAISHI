@@ -85,7 +85,7 @@ public class TableContainerController implements IController {
             public void handle(Event t) {
             	if(mainApp.showSubscribe("data",getThis())) {
 
-            	}
+            	} 
             } 
         }); 
         MenuItem addMenuItem2 = new MenuItem("调整大小");    //右击TableView显示调整大小菜单

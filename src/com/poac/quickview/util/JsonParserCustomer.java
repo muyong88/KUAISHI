@@ -2,6 +2,7 @@ package com.poac.quickview.util;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -47,7 +48,9 @@ public  class JsonParserCustomer {
 		JsonParser parse = new JsonParser();
 		TreeDataModel itemRoot=null;	 	
 		try {
-			InputStream input=getClass().getResourceAsStream("/navigation.json");
+			File f =new File(getClass().getResource("/navigation.json").getPath());
+			InputStream input=new FileInputStream(f);
+			//InputStream input=getClass().getResourceAsStream("/navigation.json");
 			 byte b[] = new byte[4096] ; 
 			 int len = input.read(b) ;
 			JsonObject jsonObjRoot = (JsonObject) parse.parse(new String(b,0,len));
@@ -105,7 +108,7 @@ public  class JsonParserCustomer {
 		TreeDataModel rootNode=new TreeDataModel(new Type(type));
 		if(type.equals(GlobalVariable.video)||type.equals(GlobalVariable.image))
 			return rootNode;
-		String jsonFile="";
+		String jsonFile=""; 
 		if(type.equals(GlobalVariable.data)) {
 			jsonFile="/datatheme.json";
 		}else if(type.equals(GlobalVariable.curve)) {
@@ -255,15 +258,20 @@ public  class JsonParserCustomer {
 							}
 							containerModel.add(parameter);
 						}else if(containerType.equals("image")) {
-							ImageParameter parameter = new ImageParameter(jsonObjTopicData.get("Name").getAsJsonArray()
+							ImageParameter parameter = new ImageParameter();
+							String codeName=jsonObjTopicData.get("Codename").getAsJsonArray().get(0)
+									.getAsJsonObject().get("Content").getAsString();
+							parameter.setName(jsonObjTopicData.get("Name").getAsJsonArray()
 									.get(0).getAsJsonObject().get("Content").getAsString());
-							parameter.setCodeName(jsonObjTopicData.get("Codename").getAsJsonArray().get(0)
-									.getAsJsonObject().get("Content").getAsString());
+							parameter.setCodeName(codeName);
 							parameter.setUnit(jsonObjTopicData.get("Unit").getAsJsonArray().get(0).getAsJsonObject()
 									.get("Content").getAsString());
-							containerModel.add(parameter);
 							parameter.setRange(jsonObjTopicData.get("Range").getAsJsonArray().get(0).getAsJsonObject()
 									.get("Content").getAsString());
+							if (!SubscribeParameters.getSubscribeParameters().subParameterMap.containsKey(codeName)) {
+								SubscribeParameters.getSubscribeParameters().subParameterMap.put(codeName, parameter);
+							}
+							containerModel.add(parameter);
 						}else if(containerType.equals("curve")) {
 							CurveParameter parameter = new CurveParameter();
 							parameter.setCodeName(jsonObjTopicData.get("Codename").getAsJsonArray()

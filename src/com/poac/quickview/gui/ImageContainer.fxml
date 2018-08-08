@@ -17,9 +17,35 @@
             <Button fx:id="button_print" layoutX="661.0" layoutY="19.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="19.0" />
          </children>
       </HBox>
-      <AnchorPane fx:id="anchor_img" layoutX="59.0" layoutY="76.0" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="57.0" AnchorPane.rightAnchor="66.0" AnchorPane.topAnchor="74.0">
+      <AnchorPane layoutX="59.0" layoutY="76.0" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="57.0" AnchorPane.rightAnchor="66.0" AnchorPane.topAnchor="74.0">
          <children>
-            <ImageView fx:id="imageView" pickOnBounds="true" preserveRatio="true" />
+            <SplitPane dividerPositions="0.6894117647058824" orientation="VERTICAL" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <items>
+                <AnchorPane fx:id="anchor_img" minHeight="0.0" minWidth="0.0" prefHeight="221.0" prefWidth="180.0">
+                     <children>
+                        <ImageView fx:id="imageView" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <TableView fx:id="tableView" prefHeight="321.0" prefWidth="578.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                           <columns>
+                              <TableColumn fx:id="tc_paraCode" prefWidth="75.0" text="参数代号" />
+                              <TableColumn fx:id="tc_paraName" prefWidth="75.0" text="参数名称" />
+                              <TableColumn prefWidth="75.0" text="参数意义" />
+                              <TableColumn prefWidth="75.0" text="源码" />
+                              <TableColumn fx:id="tc_paraResult" prefWidth="75.0" text="结果" />
+                              <TableColumn fx:id="tc_paraUnit" prefWidth="75.0" text="单位" />
+                              <TableColumn prefWidth="75.0" text="超限" />
+                              <TableColumn fx:id="tc_paraRange" prefWidth="75.0" text="范围" />
+                           </columns>
+                        </TableView>
+                     </children></AnchorPane>
+              </items>
+            </SplitPane>
          </children>
       </AnchorPane>
    </children>

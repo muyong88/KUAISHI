@@ -19,7 +19,7 @@ public class DataParameter implements IBaseNode {
 	} 
 	public DataParameter() {}
 	public void setName(String value) {
-		name.set(value);
+		name.set(value); 
 	}
 	public String getName() {
 		return name.get();

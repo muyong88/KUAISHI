@@ -41,9 +41,11 @@ public class TabTemplateController implements IController {
     		((TableContainerController)containerCon.get(containerName)).initData(containerModel);
     	}else if(containerCon.get(containerName).getClass().getName().contains("CurveContainerController")){
     		((CurveContainerController)containerCon.get(containerName)).initData(containerModel);
+    	}else if(containerCon.get(containerName).getClass().getName().contains("ImageContainerController")){
+    		((ImageContainerController)containerCon.get(containerName)).initData(containerModel);
     	}
     	
-    	//图像，视频初始化数据留待以后完成
+    	//视频初始化数据留待以后完成
     }
 	@FXML 
 	private void onTabSelectChanged() {

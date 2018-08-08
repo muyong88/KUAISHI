@@ -4,6 +4,12 @@ package com.poac.quickview.controller;
 import com.poac.quickview.MainApp;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -41,59 +47,64 @@ public class CirclePanelController implements IController  {
 	private Label label_mode5;
 	private MainApp mainApp; 	
 	private int realtimeCircleNum=45;    //直播圈号
-	private int disRightCircleNum=45;    //显示的五个中最右边的圈号，就是五个显示中最大的那个
+	private IntegerProperty disRightCircleNum = new SimpleIntegerProperty();    //显示的五个中最右边的圈号，就是五个显示中最大的那个
+	private IntegerProperty selectedCircleNum= new SimpleIntegerProperty();
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp; 
     } 
     public void setRealTimeCircle(int num) {
     	realtimeCircleNum=num;
-    	disRightCircleNum=num;
+    	disRightCircleNum.set(num);
     }
-    public void setDisRightCircleNum(int num) {        //设置五个中最大圈数
-    	label_circleNum1.setText(String.valueOf(num-4)+"圈" );
-    	label_circleNum2.setText(String.valueOf(num-3) +"圈" );
-    	label_circleNum3.setText(String.valueOf(num-2)+"圈"  );
-    	label_circleNum4.setText(String.valueOf(num-1) +"圈" );
-    	label_circleNum5.setText(String.valueOf(num) +"圈" );
+    public void setDisRightCircleNum() {        //设置五个中最大圈数
+    	label_circleNum1.setText(String.valueOf(disRightCircleNum.get()-4)+"圈" );
+    	label_circleNum2.setText(String.valueOf(disRightCircleNum.get()-3) +"圈" );
+    	label_circleNum3.setText(String.valueOf(disRightCircleNum.get()-2)+"圈"  );
+    	label_circleNum4.setText(String.valueOf(disRightCircleNum.get()-1) +"圈" );
+    	label_circleNum5.setText(String.valueOf(disRightCircleNum.get()) +"圈" );
     }
     @FXML
     public void onLeftArrowBtnClick() {
     	label_mode5.setText("回看");
     	label_mode5.getStyleClass().removeAll(label_mode5.getStyleClass());	
     	label_mode5.getStyleClass().add("replay_mode");
-    	disRightCircleNum--;
-    	setDisRightCircleNum(disRightCircleNum);
+    	disRightCircleNum.set(disRightCircleNum.get()-1);;
+    	setDisRightCircleNum();
     }
     @FXML
     public void onRightArrowBtnClick() {
-    	if(disRightCircleNum==realtimeCircleNum) {           //显示最右面最多到实时圈数
+    	if(disRightCircleNum.get()==realtimeCircleNum) {           //显示最右面最多到实时圈数
     		return;
     	}
-    	disRightCircleNum++;
-    	if(disRightCircleNum==realtimeCircleNum) {            
+    	disRightCircleNum.set(disRightCircleNum.get()+1);;
+    	if(disRightCircleNum.get()==realtimeCircleNum) {            
     		label_mode5.setText("直播");
         	label_mode5.getStyleClass().removeAll(label_mode5.getStyleClass());	
         	label_mode5.getStyleClass().add("realtime_mode");
     	}
-    	setDisRightCircleNum(disRightCircleNum);
+    	setDisRightCircleNum();
     }
     public void init() {
-    	setDisRightCircleNum(disRightCircleNum);
+    	disRightCircleNum.set(45);
+    	setDisRightCircleNum();
+    	selectedCircleNum.addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				// TODO Auto-generated method stub
+				selectVboxCircle();
+			}});
+    	disRightCircleNum.addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				// TODO Auto-generated method stub
+				selectVboxCircle();
+			}});
     	vbox_circle1.setOnMouseClicked(new EventHandler<MouseEvent>() {           //点击时候选择这个控件
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
 				if (MouseButton.PRIMARY.equals(event.getButton())) {
-					vbox_circle1.getStyleClass().removeAll(vbox_circle1.getStyleClass());
-					vbox_circle1.getStyleClass().add("selected");
-					vbox_circle2.getStyleClass().removeAll(vbox_circle1.getStyleClass());
-					vbox_circle2.getStyleClass().add("unselected");
-					vbox_circle3.getStyleClass().removeAll(vbox_circle3.getStyleClass());
-					vbox_circle3.getStyleClass().add("unselected");
-					vbox_circle4.getStyleClass().removeAll(vbox_circle4.getStyleClass());
-					vbox_circle4.getStyleClass().add("unselected");
-					vbox_circle5.getStyleClass().removeAll(vbox_circle5.getStyleClass());	
-					vbox_circle5.getStyleClass().add("unselected");	
+					selectedCircleNum.set(disRightCircleNum.get()-4);
 				}
 			}});
     	vbox_circle2.setOnMouseClicked(new EventHandler<MouseEvent>() {           //点击时候选择这个控件
@@ -101,16 +112,7 @@ public class CirclePanelController implements IController  {
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
 				if (MouseButton.PRIMARY.equals(event.getButton())) {
-					vbox_circle1.getStyleClass().removeAll(vbox_circle1.getStyleClass());
-					vbox_circle1.getStyleClass().add("unselected");
-					vbox_circle2.getStyleClass().removeAll(vbox_circle1.getStyleClass());
-					vbox_circle2.getStyleClass().add("selected");
-					vbox_circle3.getStyleClass().removeAll(vbox_circle3.getStyleClass());
-					vbox_circle3.getStyleClass().add("unselected");
-					vbox_circle4.getStyleClass().removeAll(vbox_circle4.getStyleClass());
-					vbox_circle4.getStyleClass().add("unselected");
-					vbox_circle5.getStyleClass().removeAll(vbox_circle5.getStyleClass());	
-					vbox_circle5.getStyleClass().add("unselected");
+					selectedCircleNum.set(disRightCircleNum.get()-3);
 				}
 			}});
     	vbox_circle3.setOnMouseClicked(new EventHandler<MouseEvent>() {           //点击时候选择这个控件
@@ -118,16 +120,7 @@ public class CirclePanelController implements IController  {
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
 				if (MouseButton.PRIMARY.equals(event.getButton())) {
-					vbox_circle1.getStyleClass().removeAll(vbox_circle1.getStyleClass());
-					vbox_circle1.getStyleClass().add("unselected");
-					vbox_circle2.getStyleClass().removeAll(vbox_circle2.getStyleClass());
-					vbox_circle2.getStyleClass().add("unselected");
-					vbox_circle3.getStyleClass().removeAll(vbox_circle3.getStyleClass());
-					vbox_circle3.getStyleClass().add("selected");
-					vbox_circle4.getStyleClass().removeAll(vbox_circle4.getStyleClass());
-					vbox_circle4.getStyleClass().add("unselected");
-					vbox_circle5.getStyleClass().removeAll(vbox_circle5.getStyleClass());	
-					vbox_circle5.getStyleClass().add("unselected");
+					selectedCircleNum.set(disRightCircleNum.get()-2);
 				}
 			}});
     	vbox_circle4.setOnMouseClicked(new EventHandler<MouseEvent>() {           //点击时候选择这个控件
@@ -135,16 +128,7 @@ public class CirclePanelController implements IController  {
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
 				if (MouseButton.PRIMARY.equals(event.getButton())) {
-					vbox_circle1.getStyleClass().removeAll(vbox_circle1.getStyleClass());
-					vbox_circle1.getStyleClass().add("unselected");
-					vbox_circle2.getStyleClass().removeAll(vbox_circle2.getStyleClass());
-					vbox_circle2.getStyleClass().add("unselected");
-					vbox_circle3.getStyleClass().removeAll(vbox_circle3.getStyleClass());
-					vbox_circle3.getStyleClass().add("unselected");
-					vbox_circle4.getStyleClass().removeAll(vbox_circle4.getStyleClass());
-					vbox_circle4.getStyleClass().add("selected");
-					vbox_circle5.getStyleClass().removeAll(vbox_circle5.getStyleClass());	
-					vbox_circle5.getStyleClass().add("unselected");
+					selectedCircleNum.set(disRightCircleNum.get()-1);
 				}
 			}});
     	vbox_circle5.setOnMouseClicked(new EventHandler<MouseEvent>() {           //点击时候选择这个控件
@@ -152,17 +136,77 @@ public class CirclePanelController implements IController  {
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
 				if (MouseButton.PRIMARY.equals(event.getButton())) {
-					vbox_circle1.getStyleClass().removeAll(vbox_circle1.getStyleClass());
-					vbox_circle1.getStyleClass().add("unselected");
-					vbox_circle2.getStyleClass().removeAll(vbox_circle2.getStyleClass());
-					vbox_circle2.getStyleClass().add("unselected");
-					vbox_circle3.getStyleClass().removeAll(vbox_circle3.getStyleClass());
-					vbox_circle3.getStyleClass().add("unselected");
-					vbox_circle4.getStyleClass().removeAll(vbox_circle4.getStyleClass());
-					vbox_circle4.getStyleClass().add("unselected");
-					vbox_circle5.getStyleClass().removeAll(vbox_circle5.getStyleClass());	
-					vbox_circle5.getStyleClass().add("selected");				
+					selectedCircleNum.set(disRightCircleNum.get());			
 				}
 			}});
+    }
+    private void selectVboxCircle() {
+    	if(selectedCircleNum.get()==disRightCircleNum.get()) {
+			vbox_circle1.getStyleClass().removeAll(vbox_circle1.getStyleClass());
+			vbox_circle1.getStyleClass().add("unselected");
+			vbox_circle2.getStyleClass().removeAll(vbox_circle2.getStyleClass());
+			vbox_circle2.getStyleClass().add("unselected");
+			vbox_circle3.getStyleClass().removeAll(vbox_circle3.getStyleClass());
+			vbox_circle3.getStyleClass().add("unselected");
+			vbox_circle4.getStyleClass().removeAll(vbox_circle4.getStyleClass());
+			vbox_circle4.getStyleClass().add("unselected");
+			vbox_circle5.getStyleClass().removeAll(vbox_circle5.getStyleClass());	
+			vbox_circle5.getStyleClass().add("selected");
+    	}else if(selectedCircleNum.get()==(disRightCircleNum.get()-1)) {
+			vbox_circle1.getStyleClass().removeAll(vbox_circle1.getStyleClass());
+			vbox_circle1.getStyleClass().add("unselected");
+			vbox_circle2.getStyleClass().removeAll(vbox_circle2.getStyleClass());
+			vbox_circle2.getStyleClass().add("unselected");
+			vbox_circle3.getStyleClass().removeAll(vbox_circle3.getStyleClass());
+			vbox_circle3.getStyleClass().add("unselected");
+			vbox_circle4.getStyleClass().removeAll(vbox_circle4.getStyleClass());
+			vbox_circle4.getStyleClass().add("selected");
+			vbox_circle5.getStyleClass().removeAll(vbox_circle5.getStyleClass());	
+			vbox_circle5.getStyleClass().add("unselected");
+    	}else if(selectedCircleNum.get()==(disRightCircleNum.get()-2)) {
+			vbox_circle1.getStyleClass().removeAll(vbox_circle1.getStyleClass());
+			vbox_circle1.getStyleClass().add("unselected");
+			vbox_circle2.getStyleClass().removeAll(vbox_circle2.getStyleClass());
+			vbox_circle2.getStyleClass().add("unselected");
+			vbox_circle3.getStyleClass().removeAll(vbox_circle3.getStyleClass());
+			vbox_circle3.getStyleClass().add("selected");
+			vbox_circle4.getStyleClass().removeAll(vbox_circle4.getStyleClass());
+			vbox_circle4.getStyleClass().add("unselected");
+			vbox_circle5.getStyleClass().removeAll(vbox_circle5.getStyleClass());	
+			vbox_circle5.getStyleClass().add("unselected");
+    	}else if(selectedCircleNum.get()==(disRightCircleNum.get()-3)) {
+			vbox_circle1.getStyleClass().removeAll(vbox_circle1.getStyleClass());
+			vbox_circle1.getStyleClass().add("unselected");
+			vbox_circle2.getStyleClass().removeAll(vbox_circle1.getStyleClass());
+			vbox_circle2.getStyleClass().add("selected");
+			vbox_circle3.getStyleClass().removeAll(vbox_circle3.getStyleClass());
+			vbox_circle3.getStyleClass().add("unselected");
+			vbox_circle4.getStyleClass().removeAll(vbox_circle4.getStyleClass());
+			vbox_circle4.getStyleClass().add("unselected");
+			vbox_circle5.getStyleClass().removeAll(vbox_circle5.getStyleClass());	
+			vbox_circle5.getStyleClass().add("unselected");
+    	}else if(selectedCircleNum.get()==(disRightCircleNum.get()-4)) {
+			vbox_circle1.getStyleClass().removeAll(vbox_circle1.getStyleClass());
+			vbox_circle1.getStyleClass().add("selected");
+			vbox_circle2.getStyleClass().removeAll(vbox_circle1.getStyleClass());
+			vbox_circle2.getStyleClass().add("unselected");
+			vbox_circle3.getStyleClass().removeAll(vbox_circle3.getStyleClass());
+			vbox_circle3.getStyleClass().add("unselected");
+			vbox_circle4.getStyleClass().removeAll(vbox_circle4.getStyleClass());
+			vbox_circle4.getStyleClass().add("unselected");
+			vbox_circle5.getStyleClass().removeAll(vbox_circle5.getStyleClass());	
+			vbox_circle5.getStyleClass().add("unselected");	
+    	}else {
+			vbox_circle1.getStyleClass().removeAll(vbox_circle1.getStyleClass());
+			vbox_circle1.getStyleClass().add("unselected");
+			vbox_circle2.getStyleClass().removeAll(vbox_circle1.getStyleClass());
+			vbox_circle2.getStyleClass().add("unselected");
+			vbox_circle3.getStyleClass().removeAll(vbox_circle3.getStyleClass());
+			vbox_circle3.getStyleClass().add("unselected");
+			vbox_circle4.getStyleClass().removeAll(vbox_circle4.getStyleClass());
+			vbox_circle4.getStyleClass().add("unselected");
+			vbox_circle5.getStyleClass().removeAll(vbox_circle5.getStyleClass());	
+			vbox_circle5.getStyleClass().add("unselected");	
+    	}
     }
 }

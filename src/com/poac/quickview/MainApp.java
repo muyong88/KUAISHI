@@ -20,6 +20,7 @@ import com.poac.quickview.global.GlobalVariable;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.Page;
 import com.poac.quickview.test.DataParserThread;
+import com.poac.quickview.test.ImageParserThread;
 import com.poac.quickview.util.JsonParserCustomer;
 import com.poac.quickview.model.DataParameter;
 import com.poac.quickview.model.IBaseNode;
@@ -70,7 +71,8 @@ public class MainApp extends Application {
 		initData();
 		DataParserThread dataParserThread=new DataParserThread();
 		dataParserThread.start();
-		
+		ImageParserThread imageParserThread=new ImageParserThread();
+		imageParserThread.start();
 	}	
 	public void initData() {
 		tabPaneCon.initData();
@@ -321,8 +323,8 @@ public class MainApp extends Application {
 		ImageContainerController iCC=loader.getController();
 		iCC.setPageName(pageName);
 		iCC.setMainApp(this);
-		iCC.init();
 		iCC.setHeadText(containerName);
+		iCC.init();
 		iCC.setContainerSize(width, height);
 		tabPaneCon.addContainer(pageName, container_AnchorPane,iCC,containerName);
 		tabPaneCon.refresh(pageName);
