@@ -1,0 +1,24 @@
+{
+    "statuscode": "200",
+    "msg": "获取页面成功",
+    "data": {
+        "Capsules": {
+            "Capsule": [
+                {
+                    "Cabinet": [
+                        {
+                            "Topic": [
+                                {
+                                    "Type": "image",
+                                    "Name": "高等植物-应用数据JPEG"
+                                }
+                            ],
+                            "Name": "流体柜"
+                        }
+                    ],
+                    "Name": "天和"
+                }
+            ]
+        }
+    }
+}

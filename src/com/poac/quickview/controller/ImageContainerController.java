@@ -66,6 +66,7 @@ public class ImageContainerController implements IController {
     private int dragging=0;     //0代表不拉 1代表横拉  2代表竖拉 3代表斜拉
     private double x;
     private double y;
+    private boolean needRefresh=false;
     private ContextMenu addMenu1 = new ContextMenu();
 	public ImageContainerController() {
 		
@@ -135,6 +136,24 @@ public class ImageContainerController implements IController {
             }  
           }         
         });
+    	imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent event) {
+                if (MouseButton.SECONDARY.equals(event.getButton())) {
+                	addMenu1.show(anchor_image, event.getScreenX(), event.getScreenY());
+                }else {
+                	addMenu1.hide(); 
+                }  
+              }         
+            });
+    	tableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent event) {
+                if (MouseButton.SECONDARY.equals(event.getButton())) {
+                	addMenu1.show(anchor_image, event.getScreenX(), event.getScreenY());
+                }else {
+                	addMenu1.hide(); 
+                }  
+              }         
+            });
         anchor_image.setOnMousePressed(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
 			@Override
 			public void handle(MouseEvent event) {
@@ -152,13 +171,14 @@ public class ImageContainerController implements IController {
 				}else if(event.getY() > (anchor_image.getHeight() - RESIZE_MARGIN)) {
 					dragging = 2;
 				}
-		        x = event.getX();
+		        x = event.getX(); 
 		        y = event.getY();
 			}
 		});
         anchor_image.setOnMouseDragged(new EventHandler<MouseEvent>() {       //用于拖拉anchorpane
 			@Override
 			public void handle(MouseEvent event) {
+				needRefresh=true;
 				if (dragging == 0) {
 					x=anchor_image.getLayoutX()+event.getX() - xOffset;
 					y=anchor_image.getLayoutY()+event.getY() - yOffset;
@@ -207,7 +227,10 @@ public class ImageContainerController implements IController {
             public void handle(MouseEvent event) {
                 dragging = 0;
                 anchor_image.setCursor(Cursor.DEFAULT);
-                mainApp.getTabPaneController().refresh(pageName);
+				if (needRefresh) {
+					mainApp.getTabPaneController().refresh(pageName);
+				}
+				needRefresh=false;
             }});
     }
     public void setHeadText(String txt) {             //设置容器名Label

@@ -1,0 +1,64 @@
+{
+    "statuscode": "200",
+    "msg": "获取页面成功",
+    "data": {
+        "Topic": {
+            "Data": [
+                                {
+                                    "Codename": [
+                                        {
+                                            "Content": "APC1"
+                                        }
+                                    ],
+                                    "Rank": [
+                                        {
+                                            "Content": "1"
+                                        }
+                                    ],
+                                    "Unit": [
+                                        {
+                                            "Content": "°"
+                                        }
+                                    ],
+                                    "Range": [
+                                        {
+                                            "Content": "20~30"
+                                        }
+                                    ],
+                                    "Name": [
+                                        {
+                                            "Content": "温度1"
+                                        }
+                                    ]
+                                },
+                              {
+                                    "Codename": [
+                                        {
+                                            "Content": "APC2"
+                                        }
+                                    ],
+                                    "Rank": [
+                                        {
+                                            "Content": "2"
+                                        }
+                                    ],
+                                    "Unit": [
+                                        {
+                                            "Content": "°"
+                                        }
+                                    ],
+                                    "Range": [
+                                        {
+                                            "Content": "300~350"
+                                        }
+                                    ],
+                                    "Name": [
+                                        {
+                                            "Content": "温度2"
+                                        }
+                                    ]
+                                }            
+            ]
+        }
+    }
+}

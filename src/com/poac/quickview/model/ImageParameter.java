@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class ImageParameter extends DataParameter implements IBaseNode {
+public class ImageParameter extends DataParameter  {
 
 
 }

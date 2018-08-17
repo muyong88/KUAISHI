@@ -19,6 +19,7 @@ import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 
@@ -28,6 +29,8 @@ public class TabTemplateController implements IController {
 	private JFXMasonryPane masonryPane;
 	@FXML 
 	private ScrollPane scrollpane;
+	@FXML 
+	private  Tab tabTemplate;
 	private HashMap<String,IController> containerCon=new HashMap<>(); //存容器名对应的Controller
 	private HashMap<String,Node> containerAll=new HashMap<>(); //存容器名对应的容器
 	private MainApp mainApp; 
@@ -47,9 +50,10 @@ public class TabTemplateController implements IController {
     	
     	//视频初始化数据留待以后完成
     }
-	@FXML 
+	@FXML  
 	private void onTabSelectChanged() {
-		refresh();
+		System.out.println("refresh from onTabSelectChanged,Tab Name is "+tabTemplate.getText());
+		refresh();		
 	}
     public void addContainer(AnchorPane no,IController tCC,String conName) {   //(容器，容器控制器，容器名称)
     	containerCon.put(conName, tCC);

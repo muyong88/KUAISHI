@@ -78,14 +78,25 @@ public class SubscribeController implements IController {
 					}
 				}
 			}else if(subType.equals(GlobalVariable.curve)) {   //CurveÈÝÆ÷¶©ÔÄ
-				CurveContainerController tCC=(CurveContainerController)containerController;
+				CurveContainerController cCC=(CurveContainerController)containerController;
 				if(checkListView_1.getCheckModel().isChecked(node)) {
-					if(!tCC.dataParameters.contains((DataParameter)node)) {
-						tCC.dataParameters.add((DataParameter)node);
+					if(!cCC.dataParameters.contains((DataParameter)node)) {
+						cCC.dataParameters.add((DataParameter)node);
 					}
 				}else {
-					if(tCC.dataParameters.contains((DataParameter)node)) {
-						tCC.dataParameters.remove((DataParameter)node);
+					if(cCC.dataParameters.contains((DataParameter)node)) {
+						cCC.dataParameters.remove((DataParameter)node);
+					}
+				}
+			}else if(subType.equals(GlobalVariable.image)) {   //CurveÈÝÆ÷¶©ÔÄ
+				ImageContainerController iCC=(ImageContainerController)containerController;
+				if(checkListView_1.getCheckModel().isChecked(node)) {
+					if(!iCC.dataParameters.contains((DataParameter)node)) {
+						iCC.dataParameters.add((DataParameter)node);
+					}
+				}else {
+					if(iCC.dataParameters.contains((DataParameter)node)) {
+						iCC.dataParameters.remove((DataParameter)node);
 					}
 				}
 			}
@@ -127,6 +138,11 @@ public class SubscribeController implements IController {
 			    			}
 			    		}else if(subType.equals(GlobalVariable.curve)) {
 			    			CurveContainerController cc=((CurveContainerController)containerController);
+			    			if(cc.dataParameters.contains((DataParameter)node)) {
+			    				checkListView_1.getCheckModel().check(node);
+			    			}
+		    			}else if(subType.equals(GlobalVariable.image)) {
+		    				ImageContainerController cc=((ImageContainerController)containerController);
 			    			if(cc.dataParameters.contains((DataParameter)node)) {
 			    				checkListView_1.getCheckModel().check(node);
 			    			}

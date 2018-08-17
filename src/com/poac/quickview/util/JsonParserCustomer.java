@@ -48,10 +48,10 @@ public  class JsonParserCustomer {
 		JsonParser parse = new JsonParser();
 		TreeDataModel itemRoot=null;	 	
 		try {
-			File f =new File(getClass().getResource("/navigation.json").getPath());
-			InputStream input=new FileInputStream(f);
-			//InputStream input=getClass().getResourceAsStream("/navigation.json");
-			 byte b[] = new byte[4096] ; 
+// 			File f =new File(getClass().getResource("/navigation.json").getFile());
+//			InputStream input=new FileInputStream(f);
+			InputStream input=getClass().getResourceAsStream("/navigation.json");
+			 byte b[] = new byte[4096] ;  
 			 int len = input.read(b) ;
 			JsonObject jsonObjRoot = (JsonObject) parse.parse(new String(b,0,len));
 			JsonObject jsonObjData = jsonObjRoot.get("data").getAsJsonObject();
@@ -106,16 +106,20 @@ public  class JsonParserCustomer {
 	 */	 
 	public TreeDataModel getSubscribeData(String type) {
 		TreeDataModel rootNode=new TreeDataModel(new Type(type));
-		if(type.equals(GlobalVariable.video)||type.equals(GlobalVariable.image))
+		if(type.equals(GlobalVariable.video))
 			return rootNode;
 		String jsonFile=""; 
 		if(type.equals(GlobalVariable.data)) {
 			jsonFile="/datatheme.json";
 		}else if(type.equals(GlobalVariable.curve)) {
 			jsonFile="/curvetheme.json";
+		}else if(type.equals(GlobalVariable.image)) {
+			jsonFile="/imagetheme.json";
 		}
 		JsonParser parse = new JsonParser();
 		try {
+// 			File f =new File(getClass().getResource(jsonFile).getFile());
+//			InputStream inputTheme=new FileInputStream(f);
 			InputStream inputTheme=getClass().getResourceAsStream(jsonFile);
 			 byte b[] = new byte[4096] ; 
 			 int len = inputTheme.read(b) ;
@@ -176,10 +180,14 @@ public  class JsonParserCustomer {
 			fileName = "/topicparms1.json";;
 		}else if(topiNode.getName().equals("流体实验柜-工程数据-实验柜控制器A1")) { 
 			fileName = "/topicparms2.json";;
+		}else if(topiNode.getName().equals("高等植物-应用数据JPEG")) { 
+			fileName = "/topicparms3.json";;
 		}else {
 			return;
 		}
 		try {
+// 			File f =new File(getClass().getResource(fileName).getFile());
+//			InputStream inputTheme=new FileInputStream(f);
 			InputStream inputTheme=getClass().getResourceAsStream(fileName);
 			 byte b[] = new byte[40960] ; 
 			 int len = inputTheme.read(b) ;
@@ -219,7 +227,8 @@ public  class JsonParserCustomer {
 		JsonParser parse = new JsonParser();
 		TreeDataModel itemRoot=null;
 		try {
-			
+// 			File f =new File(getClass().getResource("/page.json").getFile());
+//			InputStream input=new FileInputStream(f);
 			InputStream input=getClass().getResourceAsStream("/page.json");
 			 byte b[] = new byte[40960] ; 
 			 int len = input.read(b) ;

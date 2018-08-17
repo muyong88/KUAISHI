@@ -6,10 +6,12 @@ import java.util.ArrayList;
 
 
 import com.poac.quickview.MainApp;
+import com.poac.quickview.global.SubscribeParameters;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.DataParameter;
 import com.poac.quickview.model.IBaseNode;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
@@ -46,22 +48,22 @@ public class VideoContainerController implements IController {
 	@FXML
 	private AnchorPane anchor_video;
 	@FXML
-	private Slider Slider_videoProgress; 
+	private Slider Slider_videoProgress;  
 	@FXML
 	private  ProgressBar ProgressBar_videoProgress; 
 	@FXML
 	private Button Button_pause;
 	@FXML
 	private HBox hBox_Circles;
-	private MediaPlayer mediaPlayer;
 	private MainApp mainApp; 	
 	private String pageName=null;
     private String containerName=null;
 	private double xOffset = 0;
 	private double yOffset = 0;
-    private  int RESIZE_MARGIN = 5;
+    private  int RESIZE_MARGIN = 5;      
     private int dragging=0;     //0代表不拉 1代表横拉  2代表竖拉 3代表斜拉
     private int current_state=0; //0代表播放 1代表暂停
+    private boolean needRefresh=false;
     private double x;
     private double y;
     private ContextMenu addMenu1 = new ContextMenu();    
@@ -77,7 +79,13 @@ public class VideoContainerController implements IController {
     	return this;
     }
     public void init() {
-        MenuItem addMenuItem1 = new MenuItem("数据订阅");    //右击TableView显示添加参数菜单
+    	SubscribeParameters.getSubscribeParameters().page_Container_MediaPlayerProperty
+    	                     .put(pageName+containerName, new SimpleObjectProperty<>());
+    	SubscribeParameters.getSubscribeParameters().page_Container_MediaPlayerProperty
+    	                     .get(pageName+containerName).set(new MediaPlayer(new Media(getClass().getResource("/animal.mp4").toString())));
+    	mediaView.mediaPlayerProperty().bind(SubscribeParameters.getSubscribeParameters()
+    			             .page_Container_MediaPlayerProperty.get(pageName+containerName));   
+    	MenuItem addMenuItem1 = new MenuItem("数据订阅");    //右击TableView显示添加参数菜单
         addMenu1.getItems().add(addMenuItem1);
         addMenuItem1.setOnAction(new EventHandler() {
             public void handle(Event t) {
@@ -115,28 +123,22 @@ public class VideoContainerController implements IController {
     		ProgressBar_videoProgress.setProgress(Slider_videoProgress.getValue()/100);
 		});    	
     	ProgressBar_videoProgress.progressProperty().addListener((o, ov, nv)->{  
-    		mediaPlayer.seek(mediaPlayer.getTotalDuration().multiply(ProgressBar_videoProgress.progressProperty().get()));
+    		mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getTotalDuration().multiply(ProgressBar_videoProgress.progressProperty().get()));
 		});
-    	String media_URL = getClass().getResource("/animal.mp4").toString();
-    	Media media = new Media(media_URL);
-    	mediaPlayer = new MediaPlayer(media);
-    	mediaPlayer.setAutoPlay(true); //设置自动播放    
-		mediaPlayer.setOnEndOfMedia(new Runnable() {            //设置video播放结束后事件内容
+    	mediaView.getMediaPlayer().setAutoPlay(true); //设置自动播放    
+    	mediaView.getMediaPlayer().setOnEndOfMedia(new Runnable() {            //设置video播放结束后事件内容
 		    @Override
 		    public void run() {
 				current_state=1;
 				Button_pause.getStyleClass().removeAll(Button_pause.getStyleClass());
 				Button_pause.getStyleClass().add("buttonPlay");
-				mediaPlayer.stop();
+				mediaView.getMediaPlayer().stop();
 		    }
 		});
-		mediaPlayer.currentTimeProperty().addListener((o, ov, nv)->{
-			double n=nv.toSeconds()/mediaPlayer.getTotalDuration().toSeconds()*100;
+		mediaView.getMediaPlayer().currentTimeProperty().addListener((o, ov, nv)->{
+			double n=nv.toSeconds()/mediaView.getMediaPlayer().getTotalDuration().toSeconds()*100;
 			Slider_videoProgress.setValue(n);
-		});		
-    	mediaView.setMediaPlayer(mediaPlayer);   
-    	
-    	
+		});		  	
     	anchor_mediaview.setOnMouseClicked(new EventHandler<MouseEvent>() {
           @Override public void handle(MouseEvent event) {
             if (MouseButton.SECONDARY.equals(event.getButton())) {
@@ -170,6 +172,7 @@ public class VideoContainerController implements IController {
         anchor_mediaview.setOnMouseDragged(new EventHandler<MouseEvent>() {       //用于拖拉anchorpane
 			@Override
 			public void handle(MouseEvent event) {
+				needRefresh=true;
 				if (dragging == 0) {
 					x=anchor_mediaview.getLayoutX()+event.getX() - xOffset;
 					y=anchor_mediaview.getLayoutY()+event.getY() - yOffset;
@@ -218,7 +221,10 @@ public class VideoContainerController implements IController {
             public void handle(MouseEvent event) {
                 dragging = 0;
                 anchor_mediaview.setCursor(Cursor.DEFAULT);
-                mainApp.getTabPaneController().refresh(pageName);
+				if (needRefresh) {
+					mainApp.getTabPaneController().refresh(pageName);
+				}
+				needRefresh=false;
             }});
     }
     public void setHeadText(String txt) {             //设置容器名Label
@@ -231,12 +237,12 @@ public class VideoContainerController implements IController {
     @FXML
     private void onButtonPause() {
 		if (current_state == 0) {
-			mediaPlayer.pause();
+			mediaView.getMediaPlayer().pause();
 			current_state=1;
 			Button_pause.getStyleClass().removeAll(Button_pause.getStyleClass());
 			Button_pause.getStyleClass().add("buttonPlay");
 		}else if (current_state == 1) {
-			mediaPlayer.play();		
+			mediaView.getMediaPlayer().play();		
 			current_state=0;
 			Button_pause.getStyleClass().removeAll(Button_pause.getStyleClass());
 			Button_pause.getStyleClass().add("buttonPause");

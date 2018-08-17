@@ -23,6 +23,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -57,6 +58,7 @@ public class CurveContainerController implements IController {
     private double x;
     private double y;
     private ContextMenu addMenu1 = new ContextMenu();
+    private boolean needRefresh=false;
     private ObservableList<Series<String,Double>> seriesOblst=FXCollections.observableArrayList();    
     public ObservableList<CurveParameter> curveParameters = FXCollections.observableArrayList();  //订阅Curve参数列表
     public ObservableList<DataParameter> dataParameters = FXCollections.observableArrayList();  //订阅Curve参数列表
@@ -79,7 +81,7 @@ public class CurveContainerController implements IController {
 	                			    public void changed(ObservableValue<? extends String> o,
 	                			    		String ov, String v) {
 	                				 Platform.runLater(() ->series.getData().add(new XYChart.Data(dp.getTime(), Double.parseDouble(dp.getValue()))));  
-	                			 }
+	                			 } 
 	                		};
 	                		dp.timeProperty().addListener(listener);
 	                		listenerMap.put(para.getCodeName(), listener);
@@ -118,7 +120,9 @@ public class CurveContainerController implements IController {
     	for(IBaseNode para:containerModel.getChilds()) {
     		curveParameters.add((CurveParameter)para);
     		dataParameters.add(SubscribeParameters.getSubscribeParameters().subParameterMap.get(((CurveParameter)para).getCodeName()));
-    	}
+    	}  
+    //	lineChart.lookup(".default-color0.chart-series-line").setStyle(("-fx-stroke-width: 2; -fx-stroke: #00FF00; -fx-stroke-dash-array: 8 8;"));
+    
     }
     public void init() {
         MenuItem addMenuItem1 = new MenuItem("数据订阅");    //右击TableView显示添加参数菜单
@@ -149,7 +153,7 @@ public class CurveContainerController implements IController {
             }
         }); 
     	hBox_Circles.getChildren().add(mainApp.loadCirclePanel());
-        lineChart.setData(seriesOblst);
+        lineChart.setData(seriesOblst);        
         anchor_curve.setOnMouseClicked(new EventHandler<MouseEvent>() {
           @Override public void handle(MouseEvent event) {
             if (MouseButton.SECONDARY.equals(event.getButton())) {
@@ -184,13 +188,13 @@ public class CurveContainerController implements IController {
     	anchor_curve.setOnMouseDragged(new EventHandler<MouseEvent>() {       //用于拖拉anchorpane
 			@Override
 			public void handle(MouseEvent event) {
+				needRefresh=true;
 				if (dragging == 0) {
 					x=anchor_curve.getLayoutX()+event.getX() - xOffset;
 					y=anchor_curve.getLayoutY()+event.getY() - yOffset;
 					anchor_curve.setLayoutX(x);
 					anchor_curve.setLayoutY(y);
 					mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(y,anchor_curve.getHeight());
-					
 					return;
 				} else if (dragging == 1) {
 					double mousex = event.getX();
@@ -232,8 +236,11 @@ public class CurveContainerController implements IController {
             @Override
             public void handle(MouseEvent event) {
                 dragging = 0;
-                anchor_curve.setCursor(Cursor.DEFAULT);
-                mainApp.getTabPaneController().refresh(pageName);
+                anchor_curve.setCursor(Cursor.DEFAULT);   
+				if (needRefresh) {
+					mainApp.getTabPaneController().refresh(pageName);
+				}
+				needRefresh=false;
             }});
     }
     public void setHeadText(String txt) {             //设置容器名Label

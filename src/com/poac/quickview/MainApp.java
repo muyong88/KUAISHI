@@ -78,7 +78,7 @@ public class MainApp extends Application {
 		tabPaneCon.initData();
 		tabPaneCon.setDefaultTab();
 	}
-	/**
+	/** 
 	 * Initializes the root layout.
 	 */			
 	public void initRootLayout() {

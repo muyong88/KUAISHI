@@ -60,6 +60,7 @@ public class TableContainerController implements IController {
     private double x;
     private double y;
     private ContextMenu addMenu1 = new ContextMenu();
+    private boolean needRefresh=false;
     private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
 	public TableContainerController() {
 
@@ -198,12 +199,12 @@ public class TableContainerController implements IController {
 				}
 		        x = event.getX();
 		        y = event.getY();
-
 			}
 		});        
         anchor_table.setOnMouseDragged(new EventHandler<MouseEvent>() {       //用于拖拉anchorpane
 			@Override
 			public void handle(MouseEvent event) {
+				needRefresh=true;
 				if (dragging == 0) {
 					x=anchor_table.getLayoutX()+event.getX() - xOffset;
 					y=anchor_table.getLayoutY()+event.getY() - yOffset;
@@ -252,7 +253,10 @@ public class TableContainerController implements IController {
             public void handle(MouseEvent event) {
                 dragging = 0;
                 anchor_table.setCursor(Cursor.DEFAULT);
-                mainApp.getTabPaneController().refresh(pageName);
+				if (needRefresh) {
+					mainApp.getTabPaneController().refresh(pageName);
+				}
+				needRefresh=false;
             }});
     }
     public void setHeadText(String txt) {             //设置容器名Label

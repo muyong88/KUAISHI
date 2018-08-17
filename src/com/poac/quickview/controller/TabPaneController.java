@@ -41,7 +41,7 @@ public class TabPaneController implements IController {
 		}
 		SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();	
 		selectionModel.select(tabMap.get(tabName));
-		refresh(tabName);
+		//refresh(tabName);
 	}
 	public void closeTab(String tabName) {            //关闭TAB
 		if(!tabMap.containsKey(tabName))
@@ -99,7 +99,8 @@ public class TabPaneController implements IController {
 		tabCMap.get(pageName).addContainer(container,tcc,conName);
 	} 
 	public void refresh(String pageName) {	
-		Platform.runLater(() -> tabCMap.get(pageName).refresh());
+		System.out.println("refresh from "+pageName+" refresh");
+		Platform.runLater(() ->tabCMap.get(pageName).refresh()); 
 	} 
 	//判断tab里是否存在容器名
 	public boolean isExsitContainerName(String tabName,String containName) {

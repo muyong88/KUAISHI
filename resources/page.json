@@ -241,7 +241,7 @@
                             "Name": "流体实验柜-遥测数据-空间三相多液滴迁移"
                         }
                     ],
-                    "Width": "916",
+                    "Width": "700",
                     "Positionx": "4",
                     "Name": "1023数据"
                 },
@@ -345,7 +345,7 @@
                     "Axisname": "数值",
                     "Positiony": "70",
                     "Type": "curve",
-                    "Height": "678",
+                    "Height": "800",
                     "Topic": [
                         {
                             "Data": [
@@ -397,7 +397,7 @@
                             "Name": "流体实验柜-工程数据-实验柜控制器A1"
                         }
                     ],
-                    "Width": "918",
+                    "Width": "700",
                     "Positionx": "0",
                     "Name": "中转站曲线"
                 }
