@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import org.controlsfx.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="AnchorPane_1" prefHeight="338.0" prefWidth="329.0" styleClass="black-backgroud" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.poac.quickview.controller.SearchListController">
+   <children>
+      <HBox layoutX="53.0" layoutY="295.0" prefHeight="33.0" prefWidth="227.0" spacing="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="49.0">
+         <children>
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#handleOk" prefHeight="33.0" prefWidth="110.0" styleClass="button_WhiteBorder" text="确定" />
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#handleCancel" prefHeight="33.0" prefWidth="110.0" styleClass="button_WhiteBorder" text="取消" />
+         </children>
+      </HBox>
+      <ListView fx:id="searchListView" layoutX="15.0" layoutY="21.0" prefHeight="250.0" prefWidth="299.0" />
+   </children>
+   <stylesheets>
+      <URL value="@../css/subscribe/SubscribeCss.css" />
+      <URL value="@../css/common/DarkThemCss.css" />
+   </stylesheets>
+</AnchorPane>

@@ -1,19 +1,27 @@
 package com.poac.quickview.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.poac.quickview.MainApp;
+import com.poac.quickview.global.SubscribeParameters;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.IBaseNode;
 import com.poac.quickview.model.DataParameter;
 import com.poac.quickview.model.TreeDataModel;
 
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -78,8 +86,28 @@ public class TableContainerController implements IController {
     }
     private IController getThis() {
     	return this;
-    }    
+    }  
+    public String getPageContainerName() {
+    	return (pageName+":"+containerName);
+    }
+    public void selectTableViewRow(String paraCode) {
+    	tableView.getSelectionModel().select(SubscribeParameters.getSubscribeParameters().subParameterMap.get(paraCode));
+    }
     public void init() {
+    	dataParameters.addListener(new ListChangeListener<DataParameter>() {
+	        @Override
+	        public void onChanged(ListChangeListener.Change<? extends DataParameter> change) {
+	            while (change.next()) {
+	            	if (change.wasAdded()) {
+	                    for (DataParameter para : change.getAddedSubList()) {
+	                    	if(!para.subscrbeContainer.contains(getThis())){
+	                    		para.subscrbeContainer.add(getThis());
+	                    	}
+	                    }
+	                }
+	            }
+	        }
+	    });
         MenuItem addMenuItem1 = new MenuItem("数据订阅");    //右击TableView显示添加参数菜单
         addMenu1.getItems().add(addMenuItem1);
         addMenuItem1.setOnAction(new EventHandler() {
@@ -210,7 +238,7 @@ public class TableContainerController implements IController {
 					y=anchor_table.getLayoutY()+event.getY() - yOffset;
 					anchor_table.setLayoutX(x);
 					anchor_table.setLayoutY(y);
-					mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(y,y+anchor_table.getHeight());
+					mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(y);
 					return;
 				} else if (dragging == 1) {
 					double mousex = event.getX();

@@ -194,7 +194,7 @@ public class CurveContainerController implements IController {
 					y=anchor_curve.getLayoutY()+event.getY() - yOffset;
 					anchor_curve.setLayoutX(x);
 					anchor_curve.setLayoutY(y);
-					mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(y,anchor_curve.getHeight());
+					mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(y);
 					return;
 				} else if (dragging == 1) {
 					double mousex = event.getX();

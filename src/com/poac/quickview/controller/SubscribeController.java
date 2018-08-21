@@ -41,7 +41,6 @@ import javafx.util.Callback;
 
 public class SubscribeController implements IController {
 	
-	@FXML
 	private MainApp mainApp; 
 	@FXML
 	private TreeView treeview_s;

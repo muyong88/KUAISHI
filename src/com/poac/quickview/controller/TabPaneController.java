@@ -31,7 +31,7 @@ public class TabPaneController implements IController {
 	private Tab defaultTab;
 	private MainApp mainApp; 	
 	private HashMap<String,Tab> tabMap=new HashMap<>();  //存tab名（page名）对应Tab
-	private HashMap<String,TabTemplateController> tabCMap=new HashMap<>(); //存tab名（page名）对应Controller
+	public HashMap<String,TabTemplateController> tabCMap=new HashMap<>(); //存tab名（page名）对应Controller
 	private ContextMenu addMenu1 = new ContextMenu();
 	public void openTab(String tabName) {           //打开TAb
 		if(!tabMap.containsKey(tabName))
@@ -99,7 +99,7 @@ public class TabPaneController implements IController {
 		tabCMap.get(pageName).addContainer(container,tcc,conName);
 	} 
 	public void refresh(String pageName) {	
-		System.out.println("refresh from "+pageName+" refresh");
+//		System.out.println("refresh from "+pageName+" refresh");
 		Platform.runLater(() ->tabCMap.get(pageName).refresh()); 
 	} 
 	//判断tab里是否存在容器名

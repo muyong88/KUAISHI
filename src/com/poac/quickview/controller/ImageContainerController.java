@@ -14,6 +14,7 @@ import com.poac.quickview.model.TreeDataModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -86,7 +87,27 @@ public class ImageContainerController implements IController {
     			dataParameters.add((DataParameter)para);
     	}
     }
+    public String getPageContainerName() {
+    	return (pageName+":"+containerName);
+    }
+    public void selectTableViewRow(String paraCode) {    //选择某参数行
+    	tableView.getSelectionModel().select(SubscribeParameters.getSubscribeParameters().subParameterMap.get(paraCode));
+    }
     public void init() {
+    	dataParameters.addListener(new ListChangeListener<DataParameter>() {
+	        @Override
+	        public void onChanged(ListChangeListener.Change<? extends DataParameter> change) {
+	            while (change.next()) {
+	            	if (change.wasAdded()) {
+	                    for (DataParameter para : change.getAddedSubList()) {
+	                    	if(!para.subscrbeContainer.contains(getThis())){
+	                    		para.subscrbeContainer.add(getThis());
+	                    	}
+	                    }
+	                }
+	            }
+	        }
+	    });
     	tc_paraName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
     	tc_paraCode.setCellValueFactory(cellData -> cellData.getValue().codeNameProperty());
     	tc_paraUnit.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
@@ -124,9 +145,9 @@ public class ImageContainerController implements IController {
     	imageView.setPreserveRatio(false);
     	imageView.fitWidthProperty().bind(anchor_img.widthProperty());
     	imageView.fitHeightProperty().bind(anchor_img.heightProperty());
-    	SubscribeParameters.getSubscribeParameters().page_Container_ImageProperty.put(pageName+containerName, new SimpleObjectProperty<>());
+    	SubscribeParameters.getSubscribeParameters().page_Container_ImageProperty.put(pageName+":"+containerName, new SimpleObjectProperty<>());
     	imageView.imageProperty().bind(SubscribeParameters.getSubscribeParameters()
-    			.page_Container_ImageProperty.get(pageName+containerName));
+    			.page_Container_ImageProperty.get(pageName+":"+containerName));
     	anchor_image.setOnMouseClicked(new EventHandler<MouseEvent>() {
           @Override public void handle(MouseEvent event) {
             if (MouseButton.SECONDARY.equals(event.getButton())) {
@@ -184,7 +205,7 @@ public class ImageContainerController implements IController {
 					y=anchor_image.getLayoutY()+event.getY() - yOffset;
 					anchor_image.setLayoutX(x);
 					anchor_image.setLayoutY(y);
-					mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(y,y+anchor_image.getHeight());					
+					mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(y);					
 					return;
 				} else if (dragging == 1) {
 					double mousex = event.getX();

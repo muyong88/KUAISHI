@@ -1,5 +1,9 @@
 package com.poac.quickview.model;
 
+import java.util.ArrayList;
+
+import com.poac.quickview.controller.IController;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -14,6 +18,7 @@ public class DataParameter implements IBaseNode {
 	private StringProperty  range=new SimpleStringProperty();
 	private StringProperty value=new SimpleStringProperty();
 	private StringProperty  time=new SimpleStringProperty();
+	public  ArrayList<IController> subscrbeContainer = new ArrayList<>();	
 	public DataParameter(String value) {
 		name.set(value);
 	} 
@@ -32,7 +37,7 @@ public class DataParameter implements IBaseNode {
 	}
 	public String getCodeName() {
 		return codeName.get();
-	}
+	}  
 	public StringProperty codeNameProperty() {
 		return codeName;
 	}

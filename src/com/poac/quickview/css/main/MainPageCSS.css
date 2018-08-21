@@ -16,7 +16,11 @@
 	-fx-border-width: 2 0 0 0;
 	-fx-border-color: #bfbfbf;
 }
-
+.list-view, .list-cell {
+    -fx-background-color: -fx-box-border, -fx-control-inner-background,#1b1d20 ;
+    -fx-text-fill: #ffffff ;
+   
+}
 
 .menu-item >.label {
     -fx-text-fill:  #1b1d20 ;

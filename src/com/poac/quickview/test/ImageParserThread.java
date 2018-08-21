@@ -31,7 +31,7 @@ public class ImageParserThread extends Thread  {
 				JsonObject parm=parmRoot.get("Params").getAsJsonObject();
 				String time=parmRoot.get("Time").getAsString();
 				String imageName=parm.get("Image").getAsString();
-				SubscribeParameters.getSubscribeParameters().page_Container_ImageProperty.get("自定义页面1zwj123").set(
+				SubscribeParameters.getSubscribeParameters().page_Container_ImageProperty.get("自定义页面1:zwj123").set(
 						new Image(getClass().getResourceAsStream("/"+imageName)));
 				Iterator<String> iterator = parm.keySet().iterator();
 				while(iterator.hasNext()) {

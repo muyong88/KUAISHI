@@ -40,8 +40,8 @@
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="62.0" prefWidth="279.0" styleClass="black-backgroud" SplitPane.resizableWithParent="false">
                            <children>
-                              <TextField layoutX="24.0" layoutY="22.0" prefHeight="31.0" prefWidth="195.0" promptText="参数代号" />
-                              <Button fx:id="button_Search" layoutX="227.0" layoutY="25.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="31.0" />
+                              <TextField fx:id="paraCodeTextField" layoutX="24.0" layoutY="22.0" onKeyPressed="#onKeyPressed" prefHeight="31.0" prefWidth="195.0" promptText="参数代号" />
+                              <Button fx:id="button_Search" layoutX="227.0" layoutY="25.0" mnemonicParsing="false" onAction="#onSearch" prefHeight="30.0" prefWidth="31.0" />
                            </children></AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="black-backgroud">
                            <children>
@@ -63,6 +63,9 @@
                                                 <String fx:value="black-backgroud" />
                                                 <String fx:value="noborder" />
                                              </styleClass>
+                                             <children>
+                                                <ListView fx:id="listView_Assist" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                             </children>
                                           </AnchorPane>
                                     </content>
                                   </TitledPane>

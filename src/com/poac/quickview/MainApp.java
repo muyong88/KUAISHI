@@ -12,6 +12,7 @@ import com.poac.quickview.controller.IController;
 import com.poac.quickview.controller.ImageContainerController;
 import com.poac.quickview.controller.LogonController;
 import com.poac.quickview.controller.MainFormController;
+import com.poac.quickview.controller.SearchListController;
 import com.poac.quickview.controller.SubscribeController;
 import com.poac.quickview.controller.TabPaneController;
 import com.poac.quickview.controller.TableContainerController;
@@ -255,6 +256,31 @@ public class MainApp extends Application {
 			changeHWSizeCon.setContainer(container);
 			dialogStage.showAndWait();			
 			return changeHWSizeCon.isOkClicked();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}	
+	/**
+	 * 显示搜索列表窗口
+	 */	
+	public boolean showSearchList(String paraCode) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("gui/SearchList.fxml"));
+			AnchorPane page_AnchorPane = (AnchorPane) loader.load();
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("搜索结果");
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(page_AnchorPane);
+			dialogStage.setScene(scene);
+			SearchListController  searchListControllerCon = loader.getController();
+			searchListControllerCon.setDialogStage(dialogStage);
+			searchListControllerCon.setMainApp(this);
+			searchListControllerCon.initData(paraCode);
+			searchListControllerCon.init();
+			dialogStage.showAndWait();			
+			return searchListControllerCon.isOkClicked();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;

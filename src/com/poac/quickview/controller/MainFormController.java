@@ -16,16 +16,21 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -59,6 +64,8 @@ public class MainFormController  implements IController{
 	@FXML
 	private TreeView treeView_project;	
 	@FXML
+	private ListView listView_Assist;
+	@FXML
 	private Accordion accordion_1;	
 	@FXML
 	private TitledPane titledPane;	
@@ -67,6 +74,8 @@ public class MainFormController  implements IController{
 	private BorderPane borderPane;
 	@FXML
 	private AnchorPane split_RightAnchor;
+	@FXML
+	private TextField paraCodeTextField;
 	private Stage dialogStage;
 	private ArrayList<String> pageList = new ArrayList<>();	
 	private String curNodeName=null;
@@ -79,11 +88,22 @@ public class MainFormController  implements IController{
 		System.exit(0);
 	}	
 	@FXML
+	private void onSearch(ActionEvent event){    //搜索按钮响应事件
+		mainApp.showSearchList(paraCodeTextField.getText());
+	}
+	@FXML
 	private void onButtonMaxmize(ActionEvent event) {
 		if(dialogStage.isMaximized()) {
 			dialogStage.setMaximized(false);
 		}else {
 			dialogStage.setMaximized(true);
+		}
+	} 
+	@FXML
+	private void onKeyPressed(KeyEvent e) {
+		if (e.getCode() == KeyCode.ENTER) // 判断按下的键是否是回车键
+		{
+			mainApp.showSearchList(paraCodeTextField.getText());
 		}
 	}
 	@FXML
@@ -92,7 +112,7 @@ public class MainFormController  implements IController{
 	}
 	@FXML
 	private void onLogonClick(ActionEvent event) {
-		mainApp.showLogon();
+		mainApp.showLogon(); 
 	}
 	@FXML
 	private void initialize() {
@@ -111,10 +131,20 @@ public class MainFormController  implements IController{
 					}
 				});
 				return tC;
-			}
-		});				
+			} 
+		});			
+		listView_Assist.setOnMouseClicked(new EventHandler<MouseEvent>() {
+    	    @Override
+    	    public void handle(MouseEvent event) {
+    	        if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 ) {
+    	        	mainApp.getTabPaneController().openTab(listView_Assist.getSelectionModel().getSelectedItem().toString().trim());
+    	         }    
+    	    }
+    	});
 	}	
 	public void initData() {
+		listView_Assist.getItems().add("  消息留言");
+		listView_Assist.getItems().add("  操作日志");
 		TreeDataModel rootM=(new JsonParserCustomer()).getNavationData(pageList);
 		TreeItem<IBaseNode> itemRoot = new TreeItem<>(rootM); 
 		itemRoot.setExpanded(true);
@@ -149,6 +179,8 @@ public class MainFormController  implements IController{
 		for(String pageName:pageList) {
 			mainApp.getTabPaneController().createTab(pageName);
 		}
+		mainApp.getTabPaneController().createTab("消息留言");
+		mainApp.getTabPaneController().createTab("操作日志");
 	}
 	public boolean isExsitPageName(String pageName) {
 		if(pageList.contains(pageName))

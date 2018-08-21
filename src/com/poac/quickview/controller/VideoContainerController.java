@@ -80,9 +80,9 @@ public class VideoContainerController implements IController {
     }
     public void init() {
     	SubscribeParameters.getSubscribeParameters().page_Container_MediaPlayerProperty
-    	                     .put(pageName+containerName, new SimpleObjectProperty<>());
+    	                     .put(pageName+":"+containerName, new SimpleObjectProperty<>());
     	SubscribeParameters.getSubscribeParameters().page_Container_MediaPlayerProperty
-    	                     .get(pageName+containerName).set(new MediaPlayer(new Media(getClass().getResource("/animal.mp4").toString())));
+    	                     .get(pageName+":"+containerName).set(new MediaPlayer(new Media(getClass().getResource("/animal.mp4").toString())));
     	mediaView.mediaPlayerProperty().bind(SubscribeParameters.getSubscribeParameters()
     			             .page_Container_MediaPlayerProperty.get(pageName+containerName));   
     	MenuItem addMenuItem1 = new MenuItem("数据订阅");    //右击TableView显示添加参数菜单
@@ -178,7 +178,7 @@ public class VideoContainerController implements IController {
 					y=anchor_mediaview.getLayoutY()+event.getY() - yOffset;
 					anchor_mediaview.setLayoutX(x);
 					anchor_mediaview.setLayoutY(y);
-					mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(y,y+anchor_mediaview.getHeight());
+					mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(y);
 					return;
 				} else if (dragging == 1) {
 					double mousex = event.getX();

@@ -31,10 +31,10 @@ public class TabTemplateController implements IController {
 	private ScrollPane scrollpane;
 	@FXML 
 	private  Tab tabTemplate;
-	private HashMap<String,IController> containerCon=new HashMap<>(); //存容器名对应的Controller
-	private HashMap<String,Node> containerAll=new HashMap<>(); //存容器名对应的容器
+	public HashMap<String,IController> containerCon=new HashMap<>(); //存容器名对应的Controller
+	private HashMap<String,AnchorPane> containerAll=new HashMap<>(); //存容器名对应的容器
 	private MainApp mainApp; 
-	private ObservableList<Node> anchorCollection = FXCollections.observableArrayList(); //存tab里所有容器
+	private ObservableList<AnchorPane> anchorCollection = FXCollections.observableArrayList(); //存tab里所有容器
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     } 
@@ -46,13 +46,12 @@ public class TabTemplateController implements IController {
     		((CurveContainerController)containerCon.get(containerName)).initData(containerModel);
     	}else if(containerCon.get(containerName).getClass().getName().contains("ImageContainerController")){
     		((ImageContainerController)containerCon.get(containerName)).initData(containerModel);
-    	}
-    	
+    	}    	
     	//视频初始化数据留待以后完成
     }
 	@FXML  
 	private void onTabSelectChanged() {
-		System.out.println("refresh from onTabSelectChanged,Tab Name is "+tabTemplate.getText());
+//		System.out.println("refresh from onTabSelectChanged,Tab Name is "+tabTemplate.getText());
 		refresh();		
 	}
     public void addContainer(AnchorPane no,IController tCC,String conName) {   //(容器，容器控制器，容器名称)
@@ -82,23 +81,15 @@ public class TabTemplateController implements IController {
     	containerCon.remove(name);
     	containerAll.remove(name);
     }
-    public void setScrollVaule(double dragTopValue,double dragBottomValue) {
+    public void setScrollVaule(double dragTopValue) {
     	double newValue=0;
     	Bounds visibleBounds = scrollpane.getViewportBounds();
     	double totalHeight = scrollpane.getContent().getBoundsInLocal().getHeight();//总高度
-    	double vValue = scrollpane.getVvalue();
-    	double vMinHeight=vValue*totalHeight;
-    	double vMaxHeight=vValue*totalHeight+visibleBounds.getHeight();
-    	double scrollWidth = totalHeight - visibleBounds.getHeight();//待滚动宽度
-    	//System.out.println(vMinHeight+" setScrollVaule  "+vMaxHeight);
-    	if(dragBottomValue<=vMaxHeight&&dragTopValue>=vMinHeight)
-    		return;
-    	if(dragTopValue<vMinHeight) {
-    		newValue=vValue-(vMinHeight-dragTopValue)/totalHeight;
-    	}else if(dragBottomValue>vMaxHeight) {
-    		newValue=vValue+(dragBottomValue-vMaxHeight)/totalHeight;
-    	}
+    	newValue=dragTopValue/(totalHeight-visibleBounds.getHeight());
     	scrollpane.setVvalue(newValue);
+    }
+    public void selectScroll(String containerName) {
+    	setScrollVaule(containerAll.get(containerName).getLayoutY());
     }
     private void sortContainer() {
     	Collections.sort(anchorCollection, new NodeComparator());
