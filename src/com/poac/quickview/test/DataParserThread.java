@@ -1,8 +1,10 @@
 package com.poac.quickview.test;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Iterator;
 
 import com.google.gson.JsonArray;
@@ -20,10 +22,15 @@ public class DataParserThread extends Thread  {
 	public void run() { 
 		JsonParser parse = new JsonParser();
 		try {
-			InputStream inputTheme=getClass().getResourceAsStream("/paradata.json");
-			 byte b[] = new byte[40960] ; 
-			 int len = inputTheme.read(b) ;
-			JsonArray jsonObjRoot = (JsonArray) parse.parse(new String(b,0,len));
+			InputStream input=getClass().getResourceAsStream("/paradata.json");
+			BufferedReader br = new BufferedReader(new InputStreamReader(input));
+	        String line;
+	        String allText="";
+	        do {
+	            line = br.readLine();
+	            if (line != null) allText+=line;
+	        } while (line != null);
+	        JsonArray jsonObjRoot = (JsonArray) parse.parse(allText);
 			for(int i=0;i<jsonObjRoot.size();i++) {
 				JsonObject parmRoot=jsonObjRoot.get(i).getAsJsonObject();
 				JsonObject parm=parmRoot.get("Params").getAsJsonObject();

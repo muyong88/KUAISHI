@@ -2,6 +2,7 @@ package com.poac.quickview;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import com.poac.quickview.controller.AddContainerController;
 import com.poac.quickview.controller.AddPageController;
@@ -23,6 +24,7 @@ import com.poac.quickview.model.Page;
 import com.poac.quickview.test.DataParserThread;
 import com.poac.quickview.test.ImageParserThread;
 import com.poac.quickview.util.JsonParserCustomer;
+import com.poac.quickview.util.LogFactory;
 import com.poac.quickview.model.DataParameter;
 import com.poac.quickview.model.IBaseNode;
 
@@ -74,6 +76,14 @@ public class MainApp extends Application {
 		dataParserThread.start();
 		ImageParserThread imageParserThread=new ImageParserThread();
 		imageParserThread.start();
+		Logger log = LogFactory.getGlobalLog();
+        log.severe("severe-->   this is severe!");
+        log.warning("warning-->   this is warning!");
+        log.info("info-->   this is info!");
+        log.config("config-->   this is config!");
+        log.fine("fine-->   this is fine!");
+        log.finer("finer-->   this is finer!");
+        log.finest("finest-->   this is finest!");
 	}	
 	public void initData() {
 		tabPaneCon.initData();

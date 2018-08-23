@@ -43,6 +43,7 @@ import javafx.util.Callback;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import com.google.gson.JsonIOException;
@@ -168,8 +169,7 @@ public class MainFormController  implements IController{
 				}
 			}
 		}
-	}
-	
+	}	
 	public void LoadTabPanel(TabPane tabPanel) {	
 		split_RightAnchor.getChildren().add(tabPanel);
 		split_RightAnchor.setTopAnchor(tabPanel,0.0);		
@@ -180,7 +180,7 @@ public class MainFormController  implements IController{
 			mainApp.getTabPaneController().createTab(pageName);
 		}
 		mainApp.getTabPaneController().createTab("消息留言");
-		mainApp.getTabPaneController().createTab("操作日志");
+		mainApp.getTabPaneController().createTabLog("操作日志");
 	}
 	public boolean isExsitPageName(String pageName) {
 		if(pageList.contains(pageName))

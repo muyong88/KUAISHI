@@ -48,12 +48,15 @@ public  class JsonParserCustomer {
 		JsonParser parse = new JsonParser();
 		TreeDataModel itemRoot=null;	 	
 		try {
-// 			File f =new File(getClass().getResource("/navigation.json").getFile());
-//			InputStream input=new FileInputStream(f);
 			InputStream input=getClass().getResourceAsStream("/navigation.json");
-			 byte b[] = new byte[4096] ;  
-			 int len = input.read(b) ;
-			JsonObject jsonObjRoot = (JsonObject) parse.parse(new String(b,0,len));
+			BufferedReader br = new BufferedReader(new InputStreamReader(input));
+	        String line;
+	        String allText="";
+	        do {
+	            line = br.readLine();
+	            if (line != null) allText+=line;
+	        } while (line != null);
+	        JsonObject jsonObjRoot = (JsonObject) parse.parse(allText);
 			JsonObject jsonObjData = jsonObjRoot.get("data").getAsJsonObject();
 			JsonObject jsonObjCapsules = jsonObjData.get("Capsules").getAsJsonObject();
 			JsonArray jsonArrayCapsule = jsonObjCapsules.get("Capsule").getAsJsonArray();
@@ -118,12 +121,15 @@ public  class JsonParserCustomer {
 		}
 		JsonParser parse = new JsonParser();
 		try {
-// 			File f =new File(getClass().getResource(jsonFile).getFile());
-//			InputStream inputTheme=new FileInputStream(f);
-			InputStream inputTheme=getClass().getResourceAsStream(jsonFile);
-			 byte b[] = new byte[4096] ; 
-			 int len = inputTheme.read(b) ;
-			JsonObject jsonObjRoot = (JsonObject) parse.parse(new String(b,0,len));
+			InputStream input=getClass().getResourceAsStream(jsonFile);
+			BufferedReader br = new BufferedReader(new InputStreamReader(input));
+	        String line;
+	        String allText="";
+	        do {
+	            line = br.readLine();
+	            if (line != null) allText+=line;
+	        } while (line != null);
+	        JsonObject jsonObjRoot = (JsonObject) parse.parse(allText);
 			JsonObject jsonObjData = jsonObjRoot.get("data").getAsJsonObject();
 			JsonObject jsonObjCapsules = jsonObjData.get("Capsules").getAsJsonObject();
 			JsonArray jsonArrayCapsule = jsonObjCapsules.get("Capsule").getAsJsonArray();
@@ -186,12 +192,15 @@ public  class JsonParserCustomer {
 			return;
 		}
 		try {
-// 			File f =new File(getClass().getResource(fileName).getFile());
-//			InputStream inputTheme=new FileInputStream(f);
-			InputStream inputTheme=getClass().getResourceAsStream(fileName);
-			 byte b[] = new byte[40960] ; 
-			 int len = inputTheme.read(b) ;
-			JsonObject jsonObjRoot = (JsonObject) parse.parse(new String(b,0,len));
+			InputStream input=getClass().getResourceAsStream(fileName);
+			BufferedReader br = new BufferedReader(new InputStreamReader(input));
+	        String line;
+	        String allText="";
+	        do {
+	            line = br.readLine();
+	            if (line != null) allText+=line;
+	        } while (line != null);
+	        JsonObject jsonObjRoot = (JsonObject) parse.parse(allText);
 			JsonObject jsonObjData = jsonObjRoot.get("data").getAsJsonObject();
 			JsonObject jsonObjTopic = jsonObjData.get("Topic").getAsJsonObject();
 			JsonArray jsonArrayTopicData = jsonObjTopic.get("Data").getAsJsonArray();
@@ -227,12 +236,15 @@ public  class JsonParserCustomer {
 		JsonParser parse = new JsonParser();
 		TreeDataModel itemRoot=null;
 		try {
-// 			File f =new File(getClass().getResource("/page.json").getFile());
-//			InputStream input=new FileInputStream(f);
 			InputStream input=getClass().getResourceAsStream("/page.json");
-			 byte b[] = new byte[40960] ; 
-			 int len = input.read(b) ;
-			JsonObject jsonObjRoot = (JsonObject) parse.parse(new String(b,0,len));
+			BufferedReader br = new BufferedReader(new InputStreamReader(input));
+	        String line;
+	        String allText="";
+	        do {
+	            line = br.readLine();
+	            if (line != null) allText+=line;
+	        } while (line != null);
+	        JsonObject jsonObjRoot = (JsonObject) parse.parse(allText);
 			JsonObject jsonObjData = jsonObjRoot.get("data").getAsJsonObject(); 
 			JsonObject jsonObjPage=jsonObjData.get("Page").getAsJsonObject();
 			itemRoot=new TreeDataModel(new Page(jsonObjPage.get("Name").getAsString()));

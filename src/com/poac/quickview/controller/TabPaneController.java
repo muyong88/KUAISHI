@@ -72,7 +72,7 @@ public class TabPaneController implements IController {
 		}
     }
 	/**
-	 * 创建TAB
+	 * 创建TAB 
 	 */		
 	public  void createTab(String tabName) {               
 		try {
@@ -84,6 +84,23 @@ public class TabPaneController implements IController {
 			TabTemplateController  tT=loader.getController();
 			tabCMap.put(tabName, tT);
 			tT.setMainApp(mainApp);	
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 创建TAB
+	 */		
+	public  void createTabLog(String tabName) {               
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("gui/TabTemplateLog.fxml"));
+			Tab tab= loader.load();
+			tab.setText(tabName);
+			tabMap.put(tabName, tab);
+			TabTemplateLogController  tTL=loader.getController();
+			tTL.setMainApp(mainApp);	
+			tTL.init();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

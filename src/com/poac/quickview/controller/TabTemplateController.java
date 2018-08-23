@@ -88,7 +88,7 @@ public class TabTemplateController implements IController {
     	newValue=dragTopValue/(totalHeight-visibleBounds.getHeight());
     	scrollpane.setVvalue(newValue);
     }
-    public void selectScroll(String containerName) {
+    public void selectScroll(String containerName) { //被参数搜索定位参数调用
     	setScrollVaule(containerAll.get(containerName).getLayoutY());
     }
     private void sortContainer() {
