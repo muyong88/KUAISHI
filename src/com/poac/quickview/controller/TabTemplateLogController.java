@@ -7,6 +7,7 @@ import com.poac.quickview.util.TextAreaConsole;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
+import javafx.scene.text.Font;
 
 public class TabTemplateLogController implements IController {
 	@FXML
@@ -21,5 +22,4 @@ public class TabTemplateLogController implements IController {
         System.setOut(ps);
         System.setErr(ps);
     }
-
 }

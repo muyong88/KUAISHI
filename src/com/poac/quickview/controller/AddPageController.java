@@ -2,6 +2,8 @@ package com.poac.quickview.controller;
 
 import com.poac.quickview.MainApp;
 import com.poac.quickview.model.Page;
+import com.poac.quickview.util.LogFactory;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -36,6 +38,7 @@ public class AddPageController implements IController {
     		label_exist.setText("页面不可为空!");
     		return;
     	}
+    	LogFactory.getGlobalLog().info("Add Page: "+page_TextField.getText());
     	okClicked = true;
     	page.setName(page_TextField.getText());
     	dialogStage.close();        

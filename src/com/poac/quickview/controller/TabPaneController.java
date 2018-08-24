@@ -26,24 +26,31 @@ import javafx.scene.layout.AnchorPane;
 
 public class TabPaneController implements IController {
 	@FXML
-	private TabPane tabPane;
+	private TabPane tabPane;  
 	@FXML
-	private Tab defaultTab;
+	private Tab defaultTab;  //默认Tab，即使用说明Tab
 	private MainApp mainApp; 	
 	private HashMap<String,Tab> tabMap=new HashMap<>();  //存tab名（page名）对应Tab
 	public HashMap<String,TabTemplateController> tabCMap=new HashMap<>(); //存tab名（page名）对应Controller
-	private ContextMenu addMenu1 = new ContextMenu();
-	public void openTab(String tabName) {           //打开TAb
+	private ContextMenu addMenu1 = new ContextMenu();   //定义右击菜单
+    /**
+     * 打开Tab,如果tabMap包含tabName对应Tab则打开，并选择这个Tab，否则直接return
+     * @param tabName
+     */
+	public void openTab(String tabName) {            
 		if(!tabMap.containsKey(tabName))
 			return;
-		if(!tabPane.getTabs().contains(tabMap.get(tabName))) {
+		if(!tabPane.getTabs().contains(tabMap.get(tabName))) {   //tabPane中加入Tab
 			tabPane.getTabs().add(tabMap.get(tabName));
 		}
 		SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();	
-		selectionModel.select(tabMap.get(tabName));
-		//refresh(tabName);
+		selectionModel.select(tabMap.get(tabName));    //选择这个Tab
 	}
-	public void closeTab(String tabName) {            //关闭TAB
+    /**
+     * 关闭TAB
+     * @param tabName
+     */
+	public void closeTab(String tabName) {            
 		if(!tabMap.containsKey(tabName))
 			return;
 		tabPane.getTabs().remove(tabMap.get(tabName));
@@ -51,7 +58,10 @@ public class TabPaneController implements IController {
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
-    //根据返回PYTHON，初始化容器和对应数据
+    /**
+     * 根据返回PYTHON，初始化容器和对应数据
+     *  
+     */
     public void initData() {
     	TreeDataModel rootM=(new JsonParserCustomer()).getPageData();
     	String pageName = rootM.getName();

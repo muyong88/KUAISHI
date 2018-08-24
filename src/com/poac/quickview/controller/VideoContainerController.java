@@ -78,13 +78,16 @@ public class VideoContainerController implements IController {
     private IController getThis() {
     	return this;
     }
+    public String getPageContainerName() {
+    	return (pageName+":"+containerName);
+    }
     public void init() {
     	SubscribeParameters.getSubscribeParameters().page_Container_MediaPlayerProperty
-    	                     .put(pageName+":"+containerName, new SimpleObjectProperty<>());
+    	                     .put(getPageContainerName(), new SimpleObjectProperty<>());
     	SubscribeParameters.getSubscribeParameters().page_Container_MediaPlayerProperty
-    	                     .get(pageName+":"+containerName).set(new MediaPlayer(new Media(getClass().getResource("/animal.mp4").toString())));
+    	                     .get(getPageContainerName()).set(new MediaPlayer(new Media(getClass().getResource("/animal.mp4").toString())));
     	mediaView.mediaPlayerProperty().bind(SubscribeParameters.getSubscribeParameters()
-    			             .page_Container_MediaPlayerProperty.get(pageName+containerName));   
+    			             .page_Container_MediaPlayerProperty.get(getPageContainerName()));   
     	MenuItem addMenuItem1 = new MenuItem("数据订阅");    //右击TableView显示添加参数菜单
         addMenu1.getItems().add(addMenuItem1);
         addMenuItem1.setOnAction(new EventHandler() {

@@ -1,9 +1,6 @@
 package com.poac.quickview;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Logger;
-
 import com.poac.quickview.controller.AddContainerController;
 import com.poac.quickview.controller.AddPageController;
 import com.poac.quickview.controller.ChangeHWSizeController;
@@ -23,33 +20,25 @@ import com.poac.quickview.model.Container;
 import com.poac.quickview.model.Page;
 import com.poac.quickview.test.DataParserThread;
 import com.poac.quickview.test.ImageParserThread;
-import com.poac.quickview.util.JsonParserCustomer;
 import com.poac.quickview.util.LogFactory;
-import com.poac.quickview.model.DataParameter;
-import com.poac.quickview.model.IBaseNode;
-
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle; 
 
 public class MainApp extends Application {	
-	private Stage primaryStage;
-	private BorderPane rootLayout;
-	private double xOffset = 0;
-	private double yOffset = 0;
+	private Stage primaryStage;            
+	private BorderPane rootLayout;      //MainForm
+	private double xOffset = 0;        //rootLayout的x坐标
+	private double yOffset = 0;         //rootLayout的y坐标
 	private MainFormController mainCon = null;
 	private TabPaneController tabPaneCon = null;
 	private AddContainerController  addContainerCon;
@@ -72,25 +61,18 @@ public class MainApp extends Application {
 			}
 		});
 		initData();
-		DataParserThread dataParserThread=new DataParserThread();
+		DataParserThread dataParserThread=new DataParserThread();   //发送数据线程
 		dataParserThread.start();
-		ImageParserThread imageParserThread=new ImageParserThread();
+		ImageParserThread imageParserThread=new ImageParserThread(); //发送数据线程
 		imageParserThread.start();
-		Logger log = LogFactory.getGlobalLog();
-        log.severe("severe-->   this is severe!");
-        log.warning("warning-->   this is warning!");
-        log.info("info-->   this is info!");
-        log.config("config-->   this is config!");
-        log.fine("fine-->   this is fine!");
-        log.finer("finer-->   this is finer!");
-        log.finest("finest-->   this is finest!");
+		LogFactory.getGlobalLog().info("System is Started!");
 	}	
 	public void initData() {
-		tabPaneCon.initData();
-		tabPaneCon.setDefaultTab();
+		tabPaneCon.initData();          //初始化TabPane数据
+		tabPaneCon.setDefaultTab();   //设置TabPane默认TAB
 	}
 	/** 
-	 * Initializes the root layout.
+	 * Initializes the root layout. 加载MainForm界面
 	 */			
 	public void initRootLayout() {
 		try {
@@ -150,9 +132,12 @@ public class MainApp extends Application {
 	}
 	/**
 	 * 显示订阅数据窗口
+	 * @param type  订阅容器类型
+     * @param con   定期容器的Controller
 	 */	
 	public boolean showSubscribe(String type,IController con) {
 		try {
+			LogFactory.getGlobalLog().info("load Subscribe Form:");
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("gui/Subscribe.fxml"));
 			AnchorPane page = (AnchorPane) loader.load();
@@ -176,9 +161,11 @@ public class MainApp extends Application {
 	}	
 	/**
 	 * 显示增加页面窗口
+	 * @param Page  Page模型，用于记录page名称
 	 */	
 	public boolean showAddPage(Page page) {
 		try {
+			LogFactory.getGlobalLog().info("load AddPage Form！");			
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("gui/AddPage.fxml"));
 			AnchorPane page_AnchorPane = (AnchorPane) loader.load();
@@ -201,9 +188,11 @@ public class MainApp extends Application {
 	}
 	/**
 	 * 显示增加表格容器窗口
+	 * @param pageName  传入page名称，判断page是否重复
 	 */	
 	public boolean showAddContainer(String pageName) {
 		try {
+			LogFactory.getGlobalLog().info("load AddContainer Form！");
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("gui/AddContainer.fxml"));
 			AnchorPane container_AnchorPane = (AnchorPane) loader.load();
@@ -225,8 +214,12 @@ public class MainApp extends Application {
 			return false;
 		}
 	}	
+	/**
+	 * 显示登录框
+	 */	
 	public boolean showLogon() {
 		try {
+			LogFactory.getGlobalLog().info("load Logon Form！");
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("gui/Logon.fxml"));
 			AnchorPane page_AnchorPane = (AnchorPane) loader.load();
@@ -248,9 +241,11 @@ public class MainApp extends Application {
 	}	
 	/**
 	 * 显示修改容器大小窗口
+	 * @param container  传入container模型，记录容器属性（Width，Height）
 	 */	
 	public boolean showChangeHWSize(Container container) {
 		try {
+			LogFactory.getGlobalLog().info("load ChangeHWSize Form！");
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("gui/ChangeHWSize.fxml"));
 			AnchorPane page_AnchorPane = (AnchorPane) loader.load();
@@ -273,9 +268,11 @@ public class MainApp extends Application {
 	}	
 	/**
 	 * 显示搜索列表窗口
+	 * @param paraCode  参数代号，支持模糊匹配
 	 */	
 	public boolean showSearchList(String paraCode) {
 		try {
+			LogFactory.getGlobalLog().info("load SearchList Form！");
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("gui/SearchList.fxml"));
 			AnchorPane page_AnchorPane = (AnchorPane) loader.load();
@@ -301,6 +298,7 @@ public class MainApp extends Application {
 	 *
 	 */	
 	public void addTableContainer(String pageName) {
+		LogFactory.getGlobalLog().info("add TableContainer in page:"+pageName+"   ContainerName:"+addContainerCon.getConName());
 		addTableContainer(pageName,addContainerCon.getWidth(),addContainerCon.getHeight(),addContainerCon.getConName());
 	}	
 	public void addTableContainer(String pageName,double width,double height,String containerName) {
@@ -322,9 +320,10 @@ public class MainApp extends Application {
 	}
 	/**
 	 * 在TabPane中增加曲线容器
-	 *
+	 * @param pageName
 	 */	
 	public void addCurveContainer(String pageName) {
+		LogFactory.getGlobalLog().info("add CurveContainer in page:"+pageName+"  ContainerName:"+addContainerCon.getConName());
 		addCurveContainer(pageName,addContainerCon.getWidth(),addContainerCon.getHeight(),addContainerCon.getConName());
 	}	
 	public void addCurveContainer(String pageName,double width,double height,String containerName) {
@@ -346,9 +345,10 @@ public class MainApp extends Application {
 	}
 	/**
 	 * 在TabPane中增加图像容器
-	 *
+	 * @param pageName
 	 */	
 	public void addImageContainer(String pageName) { 
+		LogFactory.getGlobalLog().info("add ImageContainer in page:"+pageName+"  ContainerName:"+addContainerCon.getConName());
 		addImageContainer(pageName,addContainerCon.getWidth(),addContainerCon.getHeight(),addContainerCon.getConName());
 	}
 	public void addImageContainer(String pageName,double width,double height,String containerName) {
@@ -370,9 +370,10 @@ public class MainApp extends Application {
 	}
 	/**
 	 * 在TabPane中视频容器
-	 * 
+	 * @param pageName
 	 */	
 	public void addVideoContainer(String pageName) { 
+		LogFactory.getGlobalLog().info("add VideoContainer in page:"+pageName+"  ContainerName:"+addContainerCon.getConName());
 		addVideoContainer(pageName,addContainerCon.getWidth(),addContainerCon.getHeight(),addContainerCon.getConName());
 	}	
 	public void addVideoContainer(String pageName,double width,double height,String containerName) {
@@ -392,6 +393,10 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}	 
 	}
+	/**
+	 * 添加容器，根据controller类型，判断调用增加何种容器
+	 * @param pageName
+	 */	
 	public void addContainer(String pageName) {
 		if(addContainerCon.getType().equals(GlobalVariable.data)) {
 			addTableContainer(pageName);
@@ -403,9 +408,15 @@ public class MainApp extends Application {
 			addVideoContainer(pageName);
 		}
 	}
+	/**
+	 * 返回TabPaneController
+	 */	
 	public TabPaneController getTabPaneController() {
 		return tabPaneCon;
 	}
+	/**
+	 * 返回MainFormController
+	 */	
 	public MainFormController getMainFormController() {
 		return mainCon;
 	}

@@ -21,7 +21,13 @@ public class TextAreaConsole extends OutputStream{
         Platform.runLater(new Runnable() {
             public void run() {
                 output.appendText(String.valueOf((char) i));
+//                int[] bytes = {i};
+//                write(bytes, 0, bytes.length);
             }
         });
     }
+//    public void write(int[] bytes, int offset, int length) {
+//        String s = new String(bytes, offset, length);
+//        output.appendText(s);
+//    }
 }

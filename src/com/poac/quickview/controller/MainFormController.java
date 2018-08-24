@@ -3,26 +3,15 @@ package com.poac.quickview.controller;
 
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Accordion;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SingleSelectionModel;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeCell;
@@ -33,53 +22,32 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
-
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
-import com.jfoenix.controls.JFXMasonryPane;
 import com.poac.quickview.MainApp;
 import com.poac.quickview.model.IBaseNode;
-import com.poac.quickview.model.Cabinet;
-import com.poac.quickview.model.Capsule;
-import com.poac.quickview.model.Container;
 import com.poac.quickview.model.Page;
-import com.poac.quickview.model.Payload;
 import com.poac.quickview.model.TreeDataModel;
-import com.poac.quickview.util.JsonParserCustomer;;
+import com.poac.quickview.util.JsonParserCustomer;
+import com.poac.quickview.util.LogFactory;;
 
 public class MainFormController  implements IController{		
 	@FXML
-	private TreeView treeView_project;	
+	private TreeView<IBaseNode> treeView_project;	  //导航TreeView
 	@FXML
-	private ListView listView_Assist;
+	private ListView<String> listView_Assist;     //复制功能LIstView
 	@FXML
-	private Accordion accordion_1;	
+	private Accordion accordion_1;	 //Accordion控件对TitledPane进行分组，Accordion控件可以让你创建多个面板并且每次显示其中一个      
 	@FXML
-	private TitledPane titledPane;	
-	private MainApp mainApp; 	
-	@FXML
-	private BorderPane borderPane;
+	private TitledPane titledPane;	//带标题的面板
+	private MainApp mainApp; 	 //用于访问其他Controller
 	@FXML
 	private AnchorPane split_RightAnchor;
 	@FXML
 	private TextField paraCodeTextField;
 	private Stage dialogStage;
 	private ArrayList<String> pageList = new ArrayList<>();	
-	private String curNodeName=null;
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }    
@@ -90,6 +58,9 @@ public class MainFormController  implements IController{
 	}	
 	@FXML
 	private void onSearch(ActionEvent event){    //搜索按钮响应事件
+		if(paraCodeTextField.getText().isEmpty())
+			return;
+		LogFactory.getGlobalLog().info("Search Field:"+paraCodeTextField.getText());
 		mainApp.showSearchList(paraCodeTextField.getText());
 	}
 	@FXML
@@ -102,8 +73,9 @@ public class MainFormController  implements IController{
 	} 
 	@FXML
 	private void onKeyPressed(KeyEvent e) {
-		if (e.getCode() == KeyCode.ENTER) // 判断按下的键是否是回车键
+		if (e.getCode() == KeyCode.ENTER&&!paraCodeTextField.getText().isEmpty()) // 判断按下的键是否是回车键
 		{
+			LogFactory.getGlobalLog().info("Search Field:"+paraCodeTextField.getText());
 			mainApp.showSearchList(paraCodeTextField.getText());
 		}
 	}
@@ -126,7 +98,7 @@ public class MainFormController  implements IController{
 					@Override
 					public void handle(MouseEvent event) {
 						if (event.getClickCount() == 2) {
-							TreeCell c = (TreeCell) event.getSource();
+							TreeCell<IBaseNode> c = (TreeCell<IBaseNode>) event.getSource();
 							mainApp.getTabPaneController().openTab(c.getText());
 						}
 					}
@@ -170,6 +142,7 @@ public class MainFormController  implements IController{
 			}
 		}
 	}	
+	@SuppressWarnings("static-access")
 	public void LoadTabPanel(TabPane tabPanel) {	
 		split_RightAnchor.getChildren().add(tabPanel);
 		split_RightAnchor.setTopAnchor(tabPanel,0.0);		
