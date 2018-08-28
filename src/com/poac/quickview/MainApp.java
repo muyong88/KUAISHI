@@ -33,12 +33,12 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle; 
-
+//程序入口访问接口类
 public class MainApp extends Application {	
 	private Stage primaryStage;            
 	private BorderPane rootLayout;      //MainForm
-	private double xOffset = 0;        //rootLayout的x坐标
-	private double yOffset = 0;         //rootLayout的y坐标
+	private double xOffset = 0;        //鼠标按下时x坐标
+	private double yOffset = 0;         //鼠标按下时y坐标
 	private MainFormController mainCon = null;
 	private TabPaneController tabPaneCon = null;
 	private AddContainerController  addContainerCon;
@@ -78,11 +78,6 @@ public class MainApp extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("gui/MainForm.fxml"));
-//			Alert alert = new Alert(AlertType.INFORMATION);
-//			alert.setTitle("Information Dialog");
-//			alert.setHeaderText("Look, an Information Dialog");
-//			alert.setContentText(MainApp.class.getResource("gui/MainForm.fxml").getFile());
-//			alert.showAndWait();
 			rootLayout = (BorderPane) loader.load();
 			mainCon = loader.getController();
 			mainCon.initData();
@@ -137,7 +132,7 @@ public class MainApp extends Application {
 	 */	
 	public boolean showSubscribe(String type,IController con) {
 		try {
-			LogFactory.getGlobalLog().info("load Subscribe Form:");
+			LogFactory.getGlobalLog().info("load Subscribe Form！");
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("gui/Subscribe.fxml"));
 			AnchorPane page = (AnchorPane) loader.load();
@@ -206,7 +201,7 @@ public class MainApp extends Application {
 			addContainerCon.setDialogStage(dialogStage);
 			addContainerCon.setMainApp(this);
 			addContainerCon.setPageName(pageName);
-			addContainerCon.init();
+			addContainerCon.initData();
 			dialogStage.showAndWait();	
 			return addContainerCon.isOkClicked();
 		} catch (IOException e) {

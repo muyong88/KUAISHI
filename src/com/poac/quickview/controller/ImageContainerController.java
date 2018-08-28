@@ -10,6 +10,7 @@ import com.poac.quickview.model.Container;
 import com.poac.quickview.model.DataParameter;
 import com.poac.quickview.model.IBaseNode;
 import com.poac.quickview.model.TreeDataModel;
+import com.poac.quickview.util.DragUtil;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -61,13 +62,6 @@ public class ImageContainerController implements IController {
 	private MainApp mainApp; 	
 	private String pageName=null;
     private String containerName=null;
-	private double xOffset = 0;
-	private double yOffset = 0;
-    private  int RESIZE_MARGIN = 5;
-    private int dragging=0;     //0代表不拉 1代表横拉  2代表竖拉 3代表斜拉
-    private double x;
-    private double y;
-    private boolean needRefresh=false;
     private ContextMenu addMenu1 = new ContextMenu();
 	public ImageContainerController() {
 		
@@ -175,84 +169,7 @@ public class ImageContainerController implements IController {
                 }  
               }         
             });
-        anchor_image.setOnMousePressed(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
-			@Override
-			public void handle(MouseEvent event) {
-				if (!(event.getY() > (anchor_image.getHeight() - RESIZE_MARGIN))&&
-						!(event.getX() > (anchor_image.getWidth() - RESIZE_MARGIN))) {     //判断不改变大小范围
-					xOffset = event.getX();
-					yOffset = event.getY();						
-					 return;
-				}
-                if((event.getY() > (anchor_image.getHeight() - RESIZE_MARGIN))&&
-                		(event.getX() > (anchor_image.getWidth() - RESIZE_MARGIN))) {
-                	dragging = 3;
-                }else if(event.getX() > (anchor_image.getWidth() - RESIZE_MARGIN)) {
-					dragging = 1;
-				}else if(event.getY() > (anchor_image.getHeight() - RESIZE_MARGIN)) {
-					dragging = 2;
-				}
-		        x = event.getX(); 
-		        y = event.getY();
-			}
-		});
-        anchor_image.setOnMouseDragged(new EventHandler<MouseEvent>() {       //用于拖拉anchorpane
-			@Override
-			public void handle(MouseEvent event) {
-				needRefresh=true;
-				if (dragging == 0) {
-					x=anchor_image.getLayoutX()+event.getX() - xOffset;
-					y=anchor_image.getLayoutY()+event.getY() - yOffset;
-					anchor_image.setLayoutX(x);
-					anchor_image.setLayoutY(y);
-					mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(y);					
-					return;
-				} else if (dragging == 1) {
-					double mousex = event.getX();
-					double newWidth = anchor_image.getPrefWidth() + (mousex - x);
-					anchor_image.setPrefWidth(newWidth);
-					x = mousex;
-				}else if (dragging == 2) {
-					double mousey = event.getY();
-					double newHeight = anchor_image.getPrefHeight() + (mousey - y);
-					anchor_image.setPrefHeight(newHeight);
-					y = mousey;
-				} else if(dragging == 3) {
-					double mousex = event.getX();
-					double mousey = event.getY();
-					double newWidth = anchor_image.getPrefWidth() + (mousex - x);
-					double newHeight = anchor_image.getPrefHeight() + (mousey - y);
-					anchor_image.setPrefWidth(newWidth);
-					anchor_image.setPrefHeight(newHeight);
-					x = mousex;
-					y = mousey;
-				}
-			}});
-        anchor_image.setOnMouseMoved(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
-            @Override
-            public void handle(MouseEvent event) {
-                if((event.getY() > (anchor_image.getHeight() - RESIZE_MARGIN))&&
-                		(event.getX() > (anchor_image.getWidth() - RESIZE_MARGIN))) {
-                	anchor_image.setCursor(Cursor.NW_RESIZE);
-                }else if((event.getY() > (anchor_image.getHeight() - RESIZE_MARGIN))) {
-                	anchor_image.setCursor(Cursor.S_RESIZE);
-                }else if((event.getX() > (anchor_image.getWidth() - RESIZE_MARGIN))) {
-                	anchor_image.setCursor(Cursor.H_RESIZE);
-                }
-                else {
-                	anchor_image.setCursor(Cursor.DEFAULT);
-                }
-            }});
-        anchor_image.setOnMouseReleased(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
-            @Override
-            public void handle(MouseEvent event) {
-                dragging = 0;
-                anchor_image.setCursor(Cursor.DEFAULT);
-				if (needRefresh) {
-					mainApp.getTabPaneController().refresh(pageName);
-				}
-				needRefresh=false;
-            }});
+    	DragUtil.addDragListener(anchor_image, mainApp, pageName);
     }
     public void setHeadText(String txt) {             //设置容器名Label
     	containerName=txt;

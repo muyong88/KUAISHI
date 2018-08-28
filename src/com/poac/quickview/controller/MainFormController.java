@@ -40,19 +40,19 @@ public class MainFormController  implements IController{
 	@FXML
 	private Accordion accordion_1;	 //Accordion控件对TitledPane进行分组，Accordion控件可以让你创建多个面板并且每次显示其中一个      
 	@FXML
-	private TitledPane titledPane;	//带标题的面板
+	private TitledPane titledPane;	//工程名称Pane
 	private MainApp mainApp; 	 //用于访问其他Controller
 	@FXML
-	private AnchorPane split_RightAnchor;
+	private AnchorPane split_RightAnchor;   //用于放TabPane
 	@FXML
-	private TextField paraCodeTextField;
+	private TextField paraCodeTextField;     //搜索参数代码文本框
 	private Stage dialogStage;
-	private ArrayList<String> pageList = new ArrayList<>();	
+	private ArrayList<String> pageList = new ArrayList<>();	  //页面列表，存错所有页面名称
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }    
 	@FXML
-	private void onButtonClose(ActionEvent event){
+	private void onButtonClose(ActionEvent event){  //关闭窗口
 		Platform.exit();
 		System.exit(0);
 	}	
@@ -64,7 +64,7 @@ public class MainFormController  implements IController{
 		mainApp.showSearchList(paraCodeTextField.getText());
 	}
 	@FXML
-	private void onButtonMaxmize(ActionEvent event) {
+	private void onButtonMaxmize(ActionEvent event) {    //最大化窗口
 		if(dialogStage.isMaximized()) {
 			dialogStage.setMaximized(false);
 		}else {
@@ -72,7 +72,7 @@ public class MainFormController  implements IController{
 		}
 	} 
 	@FXML
-	private void onKeyPressed(KeyEvent e) {
+	private void onKeyPressed(KeyEvent e) {       //按键事件 
 		if (e.getCode() == KeyCode.ENTER&&!paraCodeTextField.getText().isEmpty()) // 判断按下的键是否是回车键
 		{
 			LogFactory.getGlobalLog().info("Search Field:"+paraCodeTextField.getText());
@@ -80,41 +80,47 @@ public class MainFormController  implements IController{
 		}
 	}
 	@FXML
-	private void onButtonMinimize(ActionEvent event) {
+	private void onButtonMinimize(ActionEvent event) {  //最小化窗口
 		dialogStage.setIconified(true);
 	}
 	@FXML
-	private void onLogonClick(ActionEvent event) {
+	private void onLogonClick(ActionEvent event) {       //登录窗口
 		mainApp.showLogon(); 
 	}
 	@FXML
 	private void initialize() {
-		accordion_1.setExpandedPane(titledPane);
-		treeView_project.setCellFactory(new Callback<TreeView<IBaseNode>, TreeCell<IBaseNode>>() {
+		accordion_1.setExpandedPane(titledPane); //打开工程名称Pane
+		//工厂方法客户化TreeView 
+		treeView_project.setCellFactory(new Callback<TreeView<IBaseNode>, TreeCell<IBaseNode>>() { 
 			@Override
 			public TreeCell<IBaseNode> call(TreeView<IBaseNode> p) {
 				TreeViewCellImpl tC = new TreeViewCellImpl(mainApp);
 				tC.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						if (event.getClickCount() == 2) {
+						if (event.getClickCount() == 2) {   //双击打开Tab
 							TreeCell<IBaseNode> c = (TreeCell<IBaseNode>) event.getSource();
 							mainApp.getTabPaneController().openTab(c.getText());
+							LogFactory.getGlobalLog().info("Open Tab:"+c.getText());
 						}
 					}
 				});
 				return tC;
 			} 
 		});			
-		listView_Assist.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		//辅助功能ListView双击事件，打开Tab
+		listView_Assist.setOnMouseClicked(new EventHandler<MouseEvent>() {  
     	    @Override
     	    public void handle(MouseEvent event) {
     	        if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 ) {
-    	        	mainApp.getTabPaneController().openTab(listView_Assist.getSelectionModel().getSelectedItem().toString().trim());
+    	        	String tabName=listView_Assist.getSelectionModel().getSelectedItem().toString().trim();
+    	        	mainApp.getTabPaneController().openTab(tabName);    	        	
+    	        	LogFactory.getGlobalLog().info("Open Tab:"+tabName);
     	         }    
     	    }
     	});
 	}	
+	//初始化MainForm数据:工程名称，辅助功能对应导航数据
 	public void initData() {
 		listView_Assist.getItems().add("  消息留言");
 		listView_Assist.getItems().add("  操作日志");
@@ -142,7 +148,11 @@ public class MainFormController  implements IController{
 			}
 		}
 	}	
-	@SuppressWarnings("static-access")
+	/**
+	 * 加载TabPane,设置ANCHOR，并打开辅助功能对应Tab
+	 * @param tabPanel  
+	 */	
+	@SuppressWarnings("static-access")	
 	public void LoadTabPanel(TabPane tabPanel) {	
 		split_RightAnchor.getChildren().add(tabPanel);
 		split_RightAnchor.setTopAnchor(tabPanel,0.0);		
@@ -155,14 +165,26 @@ public class MainFormController  implements IController{
 		mainApp.getTabPaneController().createTab("消息留言");
 		mainApp.getTabPaneController().createTabLog("操作日志");
 	}
+	/**
+	 * 判断Page名是否存在
+	 * @param pageName  
+	 */	
 	public boolean isExsitPageName(String pageName) {
 		if(pageList.contains(pageName))
 			return true;
 		return false;
 	}	
+	/**
+	 * 增加Page名
+	 * @param pageName  
+	 */	
 	public void addPageName(String pageName) {
 		pageList.add(pageName);
-	}		
+	}	
+	/**
+	 * 删除Page名
+	 * @param pageName  
+	 */	
 	public void removePageName(String pageName) {
 		pageList.remove(pageName);
 	}
@@ -174,8 +196,8 @@ public class MainFormController  implements IController{
  * define cell factory to customize tableview.
  */	
 final class TreeViewCellImpl extends TreeCell<IBaseNode> {	 
-    private ContextMenu addMenu1 = new ContextMenu();
-    private ContextMenu addMenu2 = new ContextMenu();
+    private ContextMenu addMenu1 = new ContextMenu();  //右击菜单
+    private ContextMenu addMenu2 = new ContextMenu();  //右击菜单
     private MainApp mainApp; 
     public TreeViewCellImpl(MainApp mainApp) {
     	this.mainApp=mainApp;
@@ -185,7 +207,7 @@ final class TreeViewCellImpl extends TreeCell<IBaseNode> {
         addMenu1.getItems().add(addMenuItem1);
         addMenu2.getItems().add(addMenuItem2);
         addMenu2.getItems().add(addMenuItem3);
-        addMenuItem1.setOnAction(new EventHandler() {
+        addMenuItem1.setOnAction(new EventHandler() {   //添加页面事件
             public void handle(Event t) {
             	Page page=new Page();
             	if(mainApp.showAddPage(page)) {
@@ -196,18 +218,19 @@ final class TreeViewCellImpl extends TreeCell<IBaseNode> {
             	mainApp.getMainFormController().addPageName(page.getName());
             }
         }); 
-        addMenuItem2.setOnAction(new EventHandler() {
+        addMenuItem2.setOnAction(new EventHandler() {   //添加容器事件
             public void handle(Event t) {
             	if(mainApp.showAddContainer(getString())) {
-            		mainApp.addContainer(getString());            		
+            		mainApp.addContainer(getString());     
             	}
             }
         });   
-        addMenuItem3.setOnAction(new EventHandler() {
+        addMenuItem3.setOnAction(new EventHandler() {     //删除页面事件
             public void handle(Event t) {
             	getTreeItem().getParent().getChildren().remove(getTreeItem());
             	mainApp.getTabPaneController().removeTab(getString());
             	mainApp.getMainFormController().removePageName(getString());
+            	LogFactory.getGlobalLog().info("Delete Page:"+getString());
             }
         });   
     }          

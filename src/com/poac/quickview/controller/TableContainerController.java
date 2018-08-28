@@ -9,6 +9,7 @@ import com.poac.quickview.model.Container;
 import com.poac.quickview.model.IBaseNode;
 import com.poac.quickview.model.DataParameter;
 import com.poac.quickview.model.TreeDataModel;
+import com.poac.quickview.util.DragUtil;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -61,14 +62,7 @@ public class TableContainerController implements IController {
 	private MainApp mainApp; 	
 	private String pageName=null;
     private String containerName=null;
-	private double xOffset = 0;
-	private double yOffset = 0;
-    private  int RESIZE_MARGIN = 5; 
-    private int dragging=0;     //0代表不拉 1代表横拉  2代表竖拉 3代表斜拉
-    private double x;
-    private double y;
     private ContextMenu addMenu1 = new ContextMenu();
-    private boolean needRefresh=false;
     private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
 	public TableContainerController() {
 
@@ -206,86 +200,7 @@ public class TableContainerController implements IController {
             });
             return row ;
         });
-        anchor_table.setOnMousePressed(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
-			@Override
-			public void handle(MouseEvent event) {
-				if (!(event.getY() > (anchor_table.getHeight() - RESIZE_MARGIN))&&
-						!(event.getX() > (anchor_table.getWidth() - RESIZE_MARGIN))) {     //判断不改变大小范围
-					xOffset = event.getX();
-					yOffset = event.getY();		
-					dragging=0;
-					//System.out.println(anchor_table.getHeight()+" setOnMousePressed "+anchor_table.getLayoutY());
-					 return;
-				}
-                if((event.getY() > (anchor_table.getHeight() - RESIZE_MARGIN))&&
-                		(event.getX() > (anchor_table.getWidth() - RESIZE_MARGIN))) {
-                	dragging = 3;
-                }else if(event.getX() > (anchor_table.getWidth() - RESIZE_MARGIN)) {
-					dragging = 1;
-				}else if(event.getY() > (anchor_table.getHeight() - RESIZE_MARGIN)) {
-					dragging = 2;
-				}
-		        x = event.getX();
-		        y = event.getY();
-			}
-		});        
-        anchor_table.setOnMouseDragged(new EventHandler<MouseEvent>() {       //用于拖拉anchorpane
-			@Override
-			public void handle(MouseEvent event) {
-				needRefresh=true;
-				if (dragging == 0) {
-					x=anchor_table.getLayoutX()+event.getX() - xOffset;
-					y=anchor_table.getLayoutY()+event.getY() - yOffset;
-					anchor_table.setLayoutX(x);
-					anchor_table.setLayoutY(y);
-					mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(y);
-					return;
-				} else if (dragging == 1) {
-					double mousex = event.getX();
-					double newWidth = anchor_table.getPrefWidth() + (mousex - x);
-					anchor_table.setPrefWidth(newWidth);
-					x = mousex;
-				}else if (dragging == 2) {
-					double mousey = event.getY();
-					double newHeight = anchor_table.getPrefHeight() + (mousey - y);
-					anchor_table.setPrefHeight(newHeight);
-					y = mousey;
-				} else if(dragging == 3) {
-					double mousex = event.getX();
-					double mousey = event.getY();
-					double newWidth = anchor_table.getPrefWidth() + (mousex - x);
-					double newHeight = anchor_table.getPrefHeight() + (mousey - y);
-					anchor_table.setPrefWidth(newWidth);
-					anchor_table.setPrefHeight(newHeight);
-					x = mousex;
-					y = mousey;
-				}
-			}});
-        anchor_table.setOnMouseMoved(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
-            @Override
-            public void handle(MouseEvent event) {
-                if((event.getY() > (anchor_table.getHeight() - RESIZE_MARGIN))&&
-                		(event.getX() > (anchor_table.getWidth() - RESIZE_MARGIN))) {
-                	anchor_table.setCursor(Cursor.NW_RESIZE);
-                }else if((event.getY() > (anchor_table.getHeight() - RESIZE_MARGIN))) {
-                	anchor_table.setCursor(Cursor.S_RESIZE);
-                }else if((event.getX() > (anchor_table.getWidth() - RESIZE_MARGIN))) {
-                	anchor_table.setCursor(Cursor.H_RESIZE);
-                }
-                else {
-                	anchor_table.setCursor(Cursor.DEFAULT);
-                }
-            }});
-        anchor_table.setOnMouseReleased(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
-            @Override
-            public void handle(MouseEvent event) {
-                dragging = 0;
-                anchor_table.setCursor(Cursor.DEFAULT);
-				if (needRefresh) {
-					mainApp.getTabPaneController().refresh(pageName);
-				}
-				needRefresh=false;
-            }});
+        DragUtil.addDragListener(anchor_table, mainApp, pageName);
     }
     public void setHeadText(String txt) {             //设置容器名Label
     	containerName=txt;

@@ -1,7 +1,5 @@
 package com.poac.quickview.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -12,6 +10,7 @@ import com.poac.quickview.model.CurveParameter;
 import com.poac.quickview.model.DataParameter;
 import com.poac.quickview.model.IBaseNode;
 import com.poac.quickview.model.TreeDataModel;
+import com.poac.quickview.util.DragUtil;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -19,103 +18,97 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
-import javafx.scene.Node;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 public class CurveContainerController implements IController {
 	@FXML
-	private AnchorPane anchor_curve;
+	private AnchorPane anchor_curve;                      //曲线容器
 	@FXML
-	private LineChart<String,Double>   lineChart;
+	private LineChart<String,Double>   lineChart;         //曲线图
 	@FXML
-	private Label label_head;
+	private Label label_head;                             //容器标题
 	@FXML
-	private HBox hBox_Circles;
-	private MainApp mainApp; 	
-	private String pageName=null;
-    private String containerName=null;
-	private double xOffset = 0;
-	private double yOffset = 0;
-    private  int RESIZE_MARGIN = 5;
-    private int dragging=0;     //0代表不拉 1代表横拉  2代表竖拉 3代表斜拉
-    private double x;
-    private double y;
-    private ContextMenu addMenu1 = new ContextMenu();
-    private boolean needRefresh=false;
-    private ObservableList<Series<String,Double>> seriesOblst=FXCollections.observableArrayList();    
-    public ObservableList<CurveParameter> curveParameters = FXCollections.observableArrayList();  //订阅Curve参数列表
-    public ObservableList<DataParameter> dataParameters = FXCollections.observableArrayList();  //订阅Curve参数列表
-    private HashMap<String,ChangeListener> listenerMap=new HashMap<String,ChangeListener>(); //记录codename对应listener
-    
+	private HBox hBox_Circles;                            //用于加载圈数PANE
+	private MainApp mainApp; 	                          //程序访问接口类
+	private String pageName=null;                         //页名
+    private String containerName=null;                    //容器名
+    private ContextMenu addMenu1 = new ContextMenu();     //右击菜单
+    private ObservableList<Series<String,Double>> seriesOblst=FXCollections.observableArrayList();           //曲线列表，每个Series对应一条曲线
+    public ObservableList<CurveParameter> curveParameters = FXCollections.observableArrayList();             //订阅参数列表，与dataParameters保持一致，只是反应数据的维度不一样
+    public ObservableList<DataParameter> dataParameters = FXCollections.observableArrayList();               //订阅参数列表，与curveParameters保持一致，只是反应数据的维度不一样
+    private HashMap<String,ChangeListener<String>> listenerMap=new HashMap<String,ChangeListener<String>>(); //记录codename对应listener
 	public CurveContainerController() {
-		//监听curve参数订阅列表
+		//监听dataParameters列表数据变化
 		dataParameters.addListener(new ListChangeListener<DataParameter>() {
-	        @Override
-	        public void onChanged(ListChangeListener.Change<? extends DataParameter> change) {
-	            while (change.next()) {
-	            	if (change.wasAdded()) {
-	                    for (DataParameter para : change.getAddedSubList()) {
-	                		Series<String, Double> series = new Series<>();
-	                		series.setName(para.getCodeName());
-	                		seriesOblst.add(series);
-	                		DataParameter dp=SubscribeParameters.getSubscribeParameters().subParameterMap.get(para.getCodeName());
-	                		ChangeListener listener=new ChangeListener<String>() {
-	                			 @Override
-	                			    public void changed(ObservableValue<? extends String> o,
-	                			    		String ov, String v) {
-	                				 Platform.runLater(() ->series.getData().add(new XYChart.Data(dp.getTime(), Double.parseDouble(dp.getValue()))));  
-	                			 } 
-	                		};
-	                		dp.timeProperty().addListener(listener);
-	                		listenerMap.put(para.getCodeName(), listener);
-	                    }
-	                } else if (change.wasRemoved()) {
-	                    for (DataParameter para : change.getRemoved()) {
-	                    	Iterator<Series<String, Double>> it=seriesOblst.iterator();
-	                    	while(it.hasNext()) {
-	                    		Series<String,Double> series=it.next();
-	                    		if(series.getName().equals(para.getCodeName())) {
-	                    			Platform.runLater(() ->seriesOblst.remove(series));
-	                    			DataParameter dp=SubscribeParameters.getSubscribeParameters().subParameterMap.get(para.getCodeName());
-	                    			dp.timeProperty().removeListener(listenerMap.get(para.getCodeName()));
-	                    			listenerMap.remove(para.getCodeName());
-	                    		}
-	                    	}
-	                    }
+			/**
+			 * 1、当dataParameters增加数据时，初始化Series，增加到seriesOblst列表，并对参数的time属性监听
+			 * 2、当dataParameters删除数据时，seriesOblst中删除对应Series，并且删除对time属性的监听
+			 */	
+			@Override
+			public void onChanged(ListChangeListener.Change<? extends DataParameter> change) {
+				while (change.next()) {
+					if (change.wasAdded()) {
+						for (DataParameter para : change.getAddedSubList()) {
+							Series<String, Double> series = new Series<>();
+							series.setName(para.getCodeName());
+							seriesOblst.add(series);
+							DataParameter dp = SubscribeParameters.getSubscribeParameters().subParameterMap
+									.get(para.getCodeName());
+							ChangeListener<String> listener = new ChangeListener<String>() {
+								@Override
+								public void changed(ObservableValue<? extends String> o, String ov, String v) {
+									Platform.runLater(() -> series.getData()
+											.add(new XYChart.Data<String,Double>(dp.getTime(), Double.parseDouble(dp.getValue()))));
+								}
+							};
+							dp.timeProperty().addListener(listener);
+							listenerMap.put(para.getCodeName(), listener);
+						}
+					} else if (change.wasRemoved()) {
+						for (DataParameter para : change.getRemoved()) {
+			   				Iterator<Series<String, Double>> it = seriesOblst.iterator();
+							while (it.hasNext()) {
+								Series<String, Double> series = it.next();
+								if (series.getName().equals(para.getCodeName())) {
+									Platform.runLater(() -> seriesOblst.remove(series));
+									DataParameter dp = SubscribeParameters.getSubscribeParameters().subParameterMap
+											.get(para.getCodeName());
+									dp.timeProperty().removeListener(listenerMap.get(para.getCodeName()));
+									listenerMap.remove(para.getCodeName());
+								}
+							}
+						}
 
-	                } 
-	            }
-	        }
+					}
+				}
+			}
 
-	    });
+		});
 	}
-	
+
+	//设置Page名
 	public void setPageName(String pageName) {
 		this.pageName=pageName;
 	}
+	//设置程序访问接口类
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp; 
     } 
+    //返回本类对象
     private IController getThis() {
     	return this;
     }
+    //初始化curveParameters和dataParameters数据
     public void initData(TreeDataModel containerModel) {
     	for(IBaseNode para:containerModel.getChilds()) {
     		curveParameters.add((CurveParameter)para);
@@ -124,37 +117,38 @@ public class CurveContainerController implements IController {
     //	lineChart.lookup(".default-color0.chart-series-line").setStyle(("-fx-stroke-width: 2; -fx-stroke: #00FF00; -fx-stroke-dash-array: 8 8;"));
     
     }
+	/**
+	 * 1、右击TableView显示添加参数，调整大小，删除容器菜单，并定义相关单击事件
+	 * 2、初始化hBox_Circles内容
+	 * 3、设置lineChart数据
+	 * 4、初始化anchor_curve右击菜单
+	 * 5、实现anchor_curve拖拽实现移动和改变大小
+	 */	
     public void init() {
         MenuItem addMenuItem1 = new MenuItem("数据订阅");    //右击TableView显示添加参数菜单
         addMenu1.getItems().add(addMenuItem1);
-        addMenuItem1.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-            	if(mainApp.showSubscribe("curve",getThis())) {
+        addMenuItem1.setOnAction((event) ->  {
+            	if(mainApp.showSubscribe("curve",getThis())) {     //显示订阅窗口
             		
             	}
-            }
         }); 
         MenuItem addMenuItem2 = new MenuItem("调整大小");    //右击TableView显示调整大小菜单
         addMenu1.getItems().add(addMenuItem2);
-        addMenuItem2.setOnAction(new EventHandler() {
-            public void handle(Event t) {
+        addMenuItem2.setOnAction((event) ->  {
             	Container container=new Container();
-            	if(mainApp.showChangeHWSize(container))
+            	if(mainApp.showChangeHWSize(container))   //显示改变窗体大小窗口
             		setContainerSize(container.getWidth(), container.getHeight());
-            	    mainApp.getTabPaneController().refresh(pageName);
-            }
+            	    mainApp.getTabPaneController().refresh(pageName);            
         });
-        MenuItem addMenuItem3 = new MenuItem("删除容器");    //右击TableView显示调整大小菜单
+        MenuItem addMenuItem3 = new MenuItem("删除容器");    //右击TableView显示删除容器菜单
         addMenu1.getItems().add(addMenuItem3);
-        addMenuItem3.setOnAction(new EventHandler() {
-            public void handle(Event t) {
+        addMenuItem3.setOnAction((event) ->  {
             	mainApp.getTabPaneController().removeConatiner(pageName, containerName);
             	mainApp.getTabPaneController().refresh(pageName);
-            }
         }); 
-    	hBox_Circles.getChildren().add(mainApp.loadCirclePanel());
-        lineChart.setData(seriesOblst);        
-        anchor_curve.setOnMouseClicked(new EventHandler<MouseEvent>() {
+    	hBox_Circles.getChildren().add(mainApp.loadCirclePanel());    //初始化hBox_Circles内容
+        lineChart.setData(seriesOblst);                               //设置lineChart数据
+        anchor_curve.setOnMouseClicked(new EventHandler<MouseEvent>() { //初始化anchor_curve右击菜单
           @Override public void handle(MouseEvent event) {
             if (MouseButton.SECONDARY.equals(event.getButton())) {
             	addMenu1.show(anchor_curve, event.getScreenX(), event.getScreenY());
@@ -163,85 +157,7 @@ public class CurveContainerController implements IController {
             }  
           } 
         });
-    	anchor_curve.setOnMousePressed(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
-			@Override
-			public void handle(MouseEvent event) {
-				if (!(event.getY() > (anchor_curve.getHeight() - RESIZE_MARGIN))&&
-						!(event.getX() > (anchor_curve.getWidth() - RESIZE_MARGIN))) {     //判断不改变大小范围
-					xOffset = event.getX();
-					yOffset = event.getY();	
-					//System.out.println(anchor_curve.getLayoutX()+" setOnMousePressed "+anchor_curve.getLayoutY());
-					 return;
-				}
-                if((event.getY() > (anchor_curve.getHeight() - RESIZE_MARGIN))&&
-                		(event.getX() > (anchor_curve.getWidth() - RESIZE_MARGIN))) {
-                	dragging = 3;
-                }else if(event.getX() > (anchor_curve.getWidth() - RESIZE_MARGIN)) {
-					dragging = 1;
-				}else if(event.getY() > (anchor_curve.getHeight() - RESIZE_MARGIN)) {
-					dragging = 2;
-				}
-		        x = event.getX();
-		        y = event.getY();
-			}
-		});
-    	anchor_curve.setOnMouseDragged(new EventHandler<MouseEvent>() {       //用于拖拉anchorpane
-			@Override
-			public void handle(MouseEvent event) {
-				needRefresh=true;
-				if (dragging == 0) {
-					x=anchor_curve.getLayoutX()+event.getX() - xOffset;
-					y=anchor_curve.getLayoutY()+event.getY() - yOffset;
-					anchor_curve.setLayoutX(x);
-					anchor_curve.setLayoutY(y);
-					mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(y);
-					return;
-				} else if (dragging == 1) {
-					double mousex = event.getX();
-					double newWidth = anchor_curve.getPrefWidth() + (mousex - x);
-					anchor_curve.setPrefWidth(newWidth);
-					x = mousex;
-				}else if (dragging == 2) {
-					double mousey = event.getY();
-					double newHeight = anchor_curve.getPrefHeight() + (mousey - y);
-					anchor_curve.setPrefHeight(newHeight);
-					y = mousey;
-				} else if(dragging == 3) {
-					double mousex = event.getX();
-					double mousey = event.getY();
-					double newWidth = anchor_curve.getPrefWidth() + (mousex - x);
-					double newHeight = anchor_curve.getPrefHeight() + (mousey - y);
-					anchor_curve.setPrefWidth(newWidth);
-					anchor_curve.setPrefHeight(newHeight);
-					x = mousex;
-					y = mousey;
-				}
-			}});
-        anchor_curve.setOnMouseMoved(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
-            @Override
-            public void handle(MouseEvent event) {
-                if((event.getY() > (anchor_curve.getHeight() - RESIZE_MARGIN))&&
-                		(event.getX() > (anchor_curve.getWidth() - RESIZE_MARGIN))) {
-                	anchor_curve.setCursor(Cursor.NW_RESIZE);
-                }else if((event.getY() > (anchor_curve.getHeight() - RESIZE_MARGIN))) {
-                	anchor_curve.setCursor(Cursor.S_RESIZE);
-                }else if((event.getX() > (anchor_curve.getWidth() - RESIZE_MARGIN))) {
-                	anchor_curve.setCursor(Cursor.H_RESIZE);
-                }
-                else {
-                	anchor_curve.setCursor(Cursor.DEFAULT);
-                }
-            }});
-        anchor_curve.setOnMouseReleased(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
-            @Override
-            public void handle(MouseEvent event) {
-                dragging = 0;
-                anchor_curve.setCursor(Cursor.DEFAULT);   
-				if (needRefresh) {
-					mainApp.getTabPaneController().refresh(pageName);
-				}
-				needRefresh=false;
-            }});
+        DragUtil.addDragListener(anchor_curve, mainApp, pageName);   //实现anchor_curve拖拽实现移动和改变大小
     }
     public void setHeadText(String txt) {             //设置容器名Label
     	containerName=txt;

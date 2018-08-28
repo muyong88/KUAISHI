@@ -17,9 +17,9 @@ public class TabTemplateLogController implements IController {
         this.mainApp = mainApp;
     } 
     public void init() {
-    	TextAreaConsole console = new TextAreaConsole(log_TextArea);
-        PrintStream ps = new PrintStream(console, true);
-        System.setOut(ps);
-        System.setErr(ps);
-    }
+//    	TextAreaConsole console = new TextAreaConsole(log_TextArea);
+//        PrintStream ps = new PrintStream(console, true);
+//        System.setOut(ps);
+//        System.setErr(ps);
+    }    
 }

@@ -10,6 +10,7 @@ import com.poac.quickview.global.SubscribeParameters;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.DataParameter;
 import com.poac.quickview.model.IBaseNode;
+import com.poac.quickview.util.DragUtil;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -58,14 +59,7 @@ public class VideoContainerController implements IController {
 	private MainApp mainApp; 	
 	private String pageName=null;
     private String containerName=null;
-	private double xOffset = 0;
-	private double yOffset = 0;
-    private  int RESIZE_MARGIN = 5;      
-    private int dragging=0;     //0代表不拉 1代表横拉  2代表竖拉 3代表斜拉
     private int current_state=0; //0代表播放 1代表暂停
-    private boolean needRefresh=false;
-    private double x;
-    private double y;
     private ContextMenu addMenu1 = new ContextMenu();    
 	public VideoContainerController() {
 	}   
@@ -151,84 +145,7 @@ public class VideoContainerController implements IController {
             }
           }         
         });
-        anchor_mediaview.setOnMousePressed(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
-			@Override
-			public void handle(MouseEvent event) {
-				if (!(event.getY() > (anchor_mediaview.getHeight() - RESIZE_MARGIN))&&
-						!(event.getX() > (anchor_mediaview.getWidth() - RESIZE_MARGIN))) {     //判断不改变大小范围
-					xOffset = event.getX();
-					yOffset = event.getY();	
-					 return;
-				}
-                if((event.getY() > (anchor_mediaview.getHeight() - RESIZE_MARGIN))&&
-                		(event.getX() > (anchor_mediaview.getWidth() - RESIZE_MARGIN))) {
-                	dragging = 3;
-                }else if(event.getX() > (anchor_mediaview.getWidth() - RESIZE_MARGIN)) {
-					dragging = 1;
-				}else if(event.getY() > (anchor_mediaview.getHeight() - RESIZE_MARGIN)) {
-					dragging = 2;
-				}
-		        x = event.getX();
-		        y = event.getY();
-			}
-		});
-        anchor_mediaview.setOnMouseDragged(new EventHandler<MouseEvent>() {       //用于拖拉anchorpane
-			@Override
-			public void handle(MouseEvent event) {
-				needRefresh=true;
-				if (dragging == 0) {
-					x=anchor_mediaview.getLayoutX()+event.getX() - xOffset;
-					y=anchor_mediaview.getLayoutY()+event.getY() - yOffset;
-					anchor_mediaview.setLayoutX(x);
-					anchor_mediaview.setLayoutY(y);
-					mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(y);
-					return;
-				} else if (dragging == 1) {
-					double mousex = event.getX();
-					double newWidth = anchor_mediaview.getPrefWidth() + (mousex - x);
-					anchor_mediaview.setPrefWidth(newWidth);
-					x = mousex;
-				}else if (dragging == 2) {
-					double mousey = event.getY();
-					double newHeight = anchor_mediaview.getPrefHeight() + (mousey - y);
-					anchor_mediaview.setPrefHeight(newHeight);
-					y = mousey;
-				} else if(dragging == 3) {
-					double mousex = event.getX();
-					double mousey = event.getY();
-					double newWidth = anchor_mediaview.getPrefWidth() + (mousex - x);
-					double newHeight = anchor_mediaview.getPrefHeight() + (mousey - y);
-					anchor_mediaview.setPrefWidth(newWidth);
-					anchor_mediaview.setPrefHeight(newHeight);
-					x = mousex;
-					y = mousey;
-				}
-			}});
-        anchor_mediaview.setOnMouseMoved(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
-            @Override
-            public void handle(MouseEvent event) {
-                if((event.getY() > (anchor_mediaview.getHeight() - RESIZE_MARGIN))&&
-                		(event.getX() > (anchor_mediaview.getWidth() - RESIZE_MARGIN))) {
-                	anchor_mediaview.setCursor(Cursor.NW_RESIZE);
-                }else if((event.getY() > (anchor_mediaview.getHeight() - RESIZE_MARGIN))) {
-                	anchor_mediaview.setCursor(Cursor.S_RESIZE);
-                }else if((event.getX() > (anchor_mediaview.getWidth() - RESIZE_MARGIN))) {
-                	anchor_mediaview.setCursor(Cursor.H_RESIZE);
-                }
-                else {
-                	anchor_mediaview.setCursor(Cursor.DEFAULT);
-                }
-            }});
-        anchor_mediaview.setOnMouseReleased(new EventHandler<MouseEvent>() {      //用于拖拉anchorpane
-            @Override
-            public void handle(MouseEvent event) {
-                dragging = 0;
-                anchor_mediaview.setCursor(Cursor.DEFAULT);
-				if (needRefresh) {
-					mainApp.getTabPaneController().refresh(pageName);
-				}
-				needRefresh=false;
-            }});
+    	DragUtil.addDragListener(anchor_mediaview, mainApp, pageName);
     }
     public void setHeadText(String txt) {             //设置容器名Label
     	containerName=txt;
