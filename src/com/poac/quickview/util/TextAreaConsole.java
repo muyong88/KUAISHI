@@ -3,7 +3,6 @@ package com.poac.quickview.util;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import com.poac.quickview.MainApp;
 
 import javafx.application.Platform;
 import javafx.scene.control.TextArea;

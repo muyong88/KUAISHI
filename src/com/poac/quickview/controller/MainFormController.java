@@ -4,7 +4,6 @@ package com.poac.quickview.controller;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
@@ -34,37 +33,37 @@ import com.poac.quickview.util.LogFactory;;
 
 public class MainFormController  implements IController{		
 	@FXML
-	private TreeView<IBaseNode> treeView_project;	  //导航TreeView
+	private TreeView<IBaseNode> treeView_project;	       //导航TreeView
 	@FXML
-	private ListView<String> listView_Assist;     //复制功能LIstView
+	private ListView<String> listView_Assist;              //复制功能LIstView
 	@FXML
-	private Accordion accordion_1;	 //Accordion控件对TitledPane进行分组，Accordion控件可以让你创建多个面板并且每次显示其中一个      
+	private Accordion accordion_1;	                       //Accordion控件对TitledPane进行分组，Accordion控件可以让你创建多个面板并且每次显示其中一个      
 	@FXML
-	private TitledPane titledPane;	//工程名称Pane
-	private MainApp mainApp; 	 //用于访问其他Controller
+	private TitledPane titledPane;	                       //工程名称Pane
+	private MainApp mainApp; 	                           //用于访问其他Controller
 	@FXML
-	private AnchorPane split_RightAnchor;   //用于放TabPane
+	private AnchorPane split_RightAnchor;                  //用于放TabPane
 	@FXML
-	private TextField paraCodeTextField;     //搜索参数代码文本框
+	private TextField paraCodeTextField;                   //搜索参数代码文本框
 	private Stage dialogStage;
-	private ArrayList<String> pageList = new ArrayList<>();	  //页面列表，存错所有页面名称
+	private ArrayList<String> pageList = new ArrayList<>();	//页面列表，存错所有页面名称
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }    
 	@FXML
-	private void onButtonClose(ActionEvent event){  //关闭窗口
+	private void onButtonClose(ActionEvent event){           //关闭窗口
 		Platform.exit();
 		System.exit(0);
 	}	
 	@FXML
-	private void onSearch(ActionEvent event){    //搜索按钮响应事件
+	private void onSearch(ActionEvent event){                 //搜索按钮响应事件
 		if(paraCodeTextField.getText().isEmpty())
 			return;
 		LogFactory.getGlobalLog().info("Search Field:"+paraCodeTextField.getText());
-		mainApp.showSearchList(paraCodeTextField.getText());
+		mainApp.showSearchList(paraCodeTextField.getText());  //显示搜索列表窗口
 	}
 	@FXML
-	private void onButtonMaxmize(ActionEvent event) {    //最大化窗口
+	private void onButtonMaxmize(ActionEvent event) {         //最大化窗口
 		if(dialogStage.isMaximized()) {
 			dialogStage.setMaximized(false);
 		}else {
@@ -72,11 +71,11 @@ public class MainFormController  implements IController{
 		}
 	} 
 	@FXML
-	private void onKeyPressed(KeyEvent e) {       //按键事件 
+	private void onKeyPressed(KeyEvent e) {                     //按键事件 
 		if (e.getCode() == KeyCode.ENTER&&!paraCodeTextField.getText().isEmpty()) // 判断按下的键是否是回车键
 		{
 			LogFactory.getGlobalLog().info("Search Field:"+paraCodeTextField.getText());
-			mainApp.showSearchList(paraCodeTextField.getText());
+			mainApp.showSearchList(paraCodeTextField.getText());  //显示搜索列表窗口
 		}
 	}
 	@FXML
@@ -99,6 +98,7 @@ public class MainFormController  implements IController{
 					@Override
 					public void handle(MouseEvent event) {
 						if (event.getClickCount() == 2) {   //双击打开Tab
+							@SuppressWarnings("unchecked")
 							TreeCell<IBaseNode> c = (TreeCell<IBaseNode>) event.getSource();
 							mainApp.getTabPaneController().openTab(c.getText());
 							LogFactory.getGlobalLog().info("Open Tab:"+c.getText());
@@ -198,17 +198,14 @@ public class MainFormController  implements IController{
 final class TreeViewCellImpl extends TreeCell<IBaseNode> {	 
     private ContextMenu addMenu1 = new ContextMenu();  //右击菜单
     private ContextMenu addMenu2 = new ContextMenu();  //右击菜单
-    private MainApp mainApp; 
     public TreeViewCellImpl(MainApp mainApp) {
-    	this.mainApp=mainApp;
-        MenuItem addMenuItem1 = new MenuItem("添加页面");
+    	MenuItem addMenuItem1 = new MenuItem("添加页面");
         MenuItem addMenuItem2 = new MenuItem("添加容器");   
         MenuItem addMenuItem3 = new MenuItem("删除页面");
         addMenu1.getItems().add(addMenuItem1);
         addMenu2.getItems().add(addMenuItem2);
         addMenu2.getItems().add(addMenuItem3);
-        addMenuItem1.setOnAction(new EventHandler() {   //添加页面事件
-            public void handle(Event t) {
+        addMenuItem1.setOnAction((event) ->{
             	Page page=new Page();
             	if(mainApp.showAddPage(page)) {
             		TreeItem<IBaseNode> newPage = new TreeItem<>(page);
@@ -216,26 +213,21 @@ final class TreeViewCellImpl extends TreeCell<IBaseNode> {
                     mainApp.getTabPaneController().createTab(page.getName());
             	}
             	mainApp.getMainFormController().addPageName(page.getName());
-            }
         }); 
-        addMenuItem2.setOnAction(new EventHandler() {   //添加容器事件
-            public void handle(Event t) {
+        addMenuItem2.setOnAction((event) -> {
             	if(mainApp.showAddContainer(getString())) {
             		mainApp.addContainer(getString());     
             	}
-            }
         });   
-        addMenuItem3.setOnAction(new EventHandler() {     //删除页面事件
-            public void handle(Event t) {
+        addMenuItem3.setOnAction((event) -> {
             	getTreeItem().getParent().getChildren().remove(getTreeItem());
             	mainApp.getTabPaneController().removeTab(getString());
             	mainApp.getMainFormController().removePageName(getString());
             	LogFactory.getGlobalLog().info("Delete Page:"+getString());
-            }
         });   
     }          
 	@Override
-	public void updateItem(IBaseNode item, boolean empty) {
+	public void updateItem(IBaseNode item, boolean empty) {   //重载treeitem
 		super.updateItem(item, empty);
 
 		if (empty) {

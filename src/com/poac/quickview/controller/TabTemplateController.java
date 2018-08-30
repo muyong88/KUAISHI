@@ -7,37 +7,30 @@ import java.util.HashMap;
 import com.jfoenix.controls.JFXMasonryPane;
 import com.jfoenix.controls.JFXScrollPane;
 import com.poac.quickview.MainApp;
-import com.poac.quickview.global.SubscribeParameters;
-import com.poac.quickview.model.Container;
 import com.poac.quickview.model.TreeDataModel;
-
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.FlowPane;
 
 public class TabTemplateController implements IController {
 
 	@FXML
-	private JFXMasonryPane masonryPane;
+	private JFXMasonryPane masonryPane;                 //flowPane
 	@FXML 
-	private ScrollPane scrollpane;
+	private ScrollPane scrollpane;                      //滚动条pane
 	@FXML 
-	private  Tab tabTemplate;
+	private  Tab tabTemplate;                           //模板tab
 	public HashMap<String,IController> containerCon=new HashMap<>(); //存容器名对应的Controller
-	private HashMap<String,AnchorPane> containerAll=new HashMap<>(); //存容器名对应的容器
-	private MainApp mainApp; 
+	private HashMap<String,AnchorPane> containerAll=new HashMap<>(); //存容器名对应的容器AnchorPane
 	private ObservableList<AnchorPane> anchorCollection = FXCollections.observableArrayList(); //存tab里所有容器
     public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
     } 
+    //初始化数据，调用容器控制器初始化数据
     public void initData(TreeDataModel containerModel) {
     	String containerName=containerModel.getName();
     	if(containerCon.get(containerName).getClass().getName().contains("TableContainerController")){
@@ -50,11 +43,12 @@ public class TabTemplateController implements IController {
     	//视频初始化数据留待以后完成
     }
 	@FXML  
-	private void onTabSelectChanged() {
+	private void onTabSelectChanged() {             //Tab选择变化时响应事件
 //		System.out.println("refresh from onTabSelectChanged,Tab Name is "+tabTemplate.getText());
 		refresh();		
 	}
-    public void addContainer(AnchorPane no,IController tCC,String conName) {   //(容器，容器控制器，容器名称)
+	//增加容器，参数(容器，容器控制器，容器名称)
+    public void addContainer(AnchorPane no,IController tCC,String conName) { 
     	containerCon.put(conName, tCC);
     	containerAll.put(conName, no);
     	anchorCollection.add(no);
@@ -63,7 +57,6 @@ public class TabTemplateController implements IController {
 	/**
 	 * 1、用于根据anchorCollection内容刷新Tab
 	 * 2、根据layoutX,layoutY排序容器
-	 * 
 	 */		
     public void refresh() {   
     	sortContainer();
@@ -71,16 +64,19 @@ public class TabTemplateController implements IController {
     	scrollpane.requestLayout();
     	JFXScrollPane.smoothScrolling(scrollpane);
     }
+    //判断是否存在容器名
     public boolean isExsitContainerName(String name) {
     	if(containerCon.containsKey(name))
     		return true;
     	return false;
     }
+    //删除容器
     public void removeContainer(String name) {    	
     	anchorCollection.remove(containerAll.get(name));
     	containerCon.remove(name);
     	containerAll.remove(name);
     }
+    //设置滚动条位置
     public void setScrollVaule(double dragTopValue) {
     	double newValue=0;
     	Bounds visibleBounds = scrollpane.getViewportBounds();
@@ -88,9 +84,11 @@ public class TabTemplateController implements IController {
     	newValue=dragTopValue/(totalHeight-visibleBounds.getHeight());
     	scrollpane.setVvalue(newValue);
     }
-    public void selectScroll(String containerName) { //被参数搜索定位参数调用
+    //用于参数搜索功能模块定位参数
+    public void selectScroll(String containerName) { 
     	setScrollVaule(containerAll.get(containerName).getLayoutY());
     }
+    //排序容器
     private void sortContainer() {
     	Collections.sort(anchorCollection, new NodeComparator());
     	masonryPane.getChildren().setAll(anchorCollection); 

@@ -5,34 +5,24 @@ import java.util.HashMap;
 
 import com.poac.quickview.MainApp;
 import com.poac.quickview.model.Container;
-import com.poac.quickview.model.IBaseNode;
-import com.poac.quickview.model.Page;
 import com.poac.quickview.model.TreeDataModel;
 import com.poac.quickview.util.JsonParserCustomer;
-
 import javafx.application.Platform;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
 
 public class TabPaneController implements IController {
 	@FXML
-	private TabPane tabPane;  
+	private TabPane tabPane;     //选项板控件               
 	@FXML
-	private Tab defaultTab;  //默认Tab，即使用说明Tab
-	private MainApp mainApp; 	
+	private Tab defaultTab;      //默认Tab，即使用说明Tab
+	private MainApp mainApp; 	 //应用程序接口
 	private HashMap<String,Tab> tabMap=new HashMap<>();  //存tab名（page名）对应Tab
 	public HashMap<String,TabTemplateController> tabCMap=new HashMap<>(); //存tab名（page名）对应Controller
-	private ContextMenu addMenu1 = new ContextMenu();   //定义右击菜单
     /**
      * 打开Tab,如果tabMap包含tabName对应Tab则打开，并选择这个Tab，否则直接return
      * @param tabName
@@ -55,12 +45,12 @@ public class TabPaneController implements IController {
 			return;
 		tabPane.getTabs().remove(tabMap.get(tabName));
 	}
+	//设置应用程序访问接口
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
     /**
      * 根据返回PYTHON，初始化容器和对应数据
-     *  
      */
     public void initData() {
     	TreeDataModel rootM=(new JsonParserCustomer()).getPageData();
@@ -99,7 +89,7 @@ public class TabPaneController implements IController {
 		}
 	}
 	/**
-	 * 创建TAB
+	 * 创建日志TAB
 	 */		
 	public  void createTabLog(String tabName) {               
 		try {
@@ -121,10 +111,11 @@ public class TabPaneController implements IController {
 		tabMap.remove(tabName);
 		tabCMap.remove(tabName);
 	}
-	//增加容器,(页面名称，容器，容器Controller,容器名称)
+	//增加容器,参数(页面名称，容器，容器Controller,容器名称)
 	public void addContainer(String pageName,AnchorPane  container,IController tcc,String conName) {		
 		tabCMap.get(pageName).addContainer(container,tcc,conName);
 	} 
+	//刷新容器
 	public void refresh(String pageName) {	
 //		System.out.println("refresh from "+pageName+" refresh");
 		Platform.runLater(() ->tabCMap.get(pageName).refresh()); 
@@ -137,10 +128,12 @@ public class TabPaneController implements IController {
 	public void removeConatiner(String tabName,String containName) {
 		tabCMap.get(tabName).removeContainer(containName);
 	}
+	//设置默认打开Tab
 	public void setDefaultTab() {
 		SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();	
 		selectionModel.select(defaultTab);
 	}
+	//返回TabTemplate控制器
 	public TabTemplateController getTabTemplateController(String tabName) {
 		return tabCMap.get(tabName);
 	}

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import com.poac.quickview.MainApp;
+import com.poac.quickview.global.GlobalVariable;
 import com.poac.quickview.global.SubscribeParameters;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.CurveParameter;
@@ -11,6 +12,7 @@ import com.poac.quickview.model.DataParameter;
 import com.poac.quickview.model.IBaseNode;
 import com.poac.quickview.model.TreeDataModel;
 import com.poac.quickview.util.DragUtil;
+import com.poac.quickview.util.LogFactory;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -118,17 +120,18 @@ public class CurveContainerController implements IController {
     
     }
 	/**
-	 * 1、右击TableView显示添加参数，调整大小，删除容器菜单，并定义相关单击事件
+	 * 1、右击显示添加参数，调整大小，删除容器菜单，并定义相关单击事件
 	 * 2、初始化hBox_Circles内容
-	 * 3、设置lineChart数据
-	 * 4、初始化anchor_curve右击菜单
-	 * 5、实现anchor_curve拖拽实现移动和改变大小
+	 * 3、lineChart绑定数据
+	 * 4、实现anchor_curve拖拽实现移动和改变大小
+	 * 5、设置anchor_curve的UserData为容器名
 	 */	
     public void init() {
+    	//1、右击TableView显示添加参数，调整大小，删除容器菜单，并定义相关单击事件
         MenuItem addMenuItem1 = new MenuItem("数据订阅");    //右击TableView显示添加参数菜单
         addMenu1.getItems().add(addMenuItem1);
         addMenuItem1.setOnAction((event) ->  {
-            	if(mainApp.showSubscribe("curve",getThis())) {     //显示订阅窗口
+            	if(mainApp.showSubscribe(GlobalVariable.curve,getThis())) {     //显示订阅窗口
             		
             	}
         }); 
@@ -138,26 +141,34 @@ public class CurveContainerController implements IController {
             	Container container=new Container();
             	if(mainApp.showChangeHWSize(container))   //显示改变窗体大小窗口
             		setContainerSize(container.getWidth(), container.getHeight());
+        		LogFactory.getGlobalLog().info("Input Change Container Size! PageName:"+pageName+" ContainerName:"+
+        				containerName+" New Width:"+container.getWidth()+" New Height:"+container.getHeight());
             	    mainApp.getTabPaneController().refresh(pageName);            
         });
         MenuItem addMenuItem3 = new MenuItem("删除容器");    //右击TableView显示删除容器菜单
         addMenu1.getItems().add(addMenuItem3);
         addMenuItem3.setOnAction((event) ->  {
             	mainApp.getTabPaneController().removeConatiner(pageName, containerName);
+            	LogFactory.getGlobalLog().info("Delete Container! ContainerName:"+containerName);
             	mainApp.getTabPaneController().refresh(pageName);
         }); 
-    	hBox_Circles.getChildren().add(mainApp.loadCirclePanel());    //初始化hBox_Circles内容
-        lineChart.setData(seriesOblst);                               //设置lineChart数据
         anchor_curve.setOnMouseClicked(new EventHandler<MouseEvent>() { //初始化anchor_curve右击菜单
-          @Override public void handle(MouseEvent event) {
-            if (MouseButton.SECONDARY.equals(event.getButton())) {
-            	addMenu1.show(anchor_curve, event.getScreenX(), event.getScreenY());
-            }else {
-            	addMenu1.hide();
-            }  
-          } 
-        });
-        DragUtil.addDragListener(anchor_curve, mainApp, pageName);   //实现anchor_curve拖拽实现移动和改变大小
+            @Override public void handle(MouseEvent event) {
+              if (MouseButton.SECONDARY.equals(event.getButton())) {
+              	addMenu1.show(anchor_curve, event.getScreenX(), event.getScreenY());
+              }else {
+              	addMenu1.hide();
+              }  
+            } 
+          });
+        //2、初始化hBox_Circles内容
+    	hBox_Circles.getChildren().add(mainApp.loadCirclePanel());    
+        //3、lineChart绑定数据
+    	lineChart.setData(seriesOblst);                                
+    	//4、实现anchor_curve拖拽实现移动和改变大小
+        DragUtil.addDragListener(anchor_curve, mainApp, pageName);    
+        //5、设置anchor_curve的UserData为容器名
+        anchor_curve.setUserData(containerName);
     }
     public void setHeadText(String txt) {             //设置容器名Label
     	containerName=txt;

@@ -1,30 +1,24 @@
 package com.poac.quickview.util;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import com.poac.quickview.MainApp;
 import com.poac.quickview.global.GlobalVariable;
 import com.poac.quickview.global.SubscribeParameters;
 import com.poac.quickview.model.Cabinet;
 import com.poac.quickview.model.Capsule;
 import com.poac.quickview.model.Container;
 import com.poac.quickview.model.CurveParameter;
-import com.poac.quickview.model.Group;
-import com.poac.quickview.model.IBaseNode;
 import com.poac.quickview.model.ImageParameter;
 import com.poac.quickview.model.Page;
 import com.poac.quickview.model.DataParameter;
@@ -32,12 +26,8 @@ import com.poac.quickview.model.Payload;
 import com.poac.quickview.model.Topic;
 import com.poac.quickview.model.TreeDataModel;
 import com.poac.quickview.model.Type;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 
 import javafx.scene.control.Alert;
-import javafx.scene.control.TreeItem;
 import javafx.scene.control.Alert.AlertType;
 
 public  class JsonParserCustomer {

@@ -304,8 +304,8 @@ public class MainApp extends Application {
 		TableContainerController tCC=loader.getController();
 		tCC.setPageName(pageName);
 		tCC.setMainApp(this);
-		tCC.init();
 		tCC.setHeadText(containerName);
+		tCC.init();
 		tCC.setContainerSize(width, height);
 		tabPaneCon.addContainer(pageName, container_AnchorPane,tCC,containerName);
 		tabPaneCon.refresh(pageName);
@@ -329,8 +329,8 @@ public class MainApp extends Application {
 		CurveContainerController cCC=loader.getController();
 		cCC.setPageName(pageName);
 		cCC.setMainApp(this);
-		cCC.init();
 		cCC.setHeadText(containerName);
+		cCC.init();
 		cCC.setContainerSize(width, height);
 		tabPaneCon.addContainer(pageName, container_AnchorPane,cCC,containerName);
 		tabPaneCon.refresh(pageName);
@@ -379,8 +379,8 @@ public class MainApp extends Application {
 		VideoContainerController vCC=loader.getController();
 		vCC.setPageName(pageName);
 		vCC.setMainApp(this);
-		vCC.init();
 		vCC.setHeadText(containerName);
+		vCC.init();
 		vCC.setContainerSize(width, height);
 		tabPaneCon.addContainer(pageName, container_AnchorPane,vCC,containerName);
 		tabPaneCon.refresh(pageName);

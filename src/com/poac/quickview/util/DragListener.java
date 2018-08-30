@@ -4,7 +4,6 @@ import com.poac.quickview.MainApp;
 
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -59,16 +58,22 @@ public class DragListener  implements EventHandler<MouseEvent> {
 				anchorP.setLayoutX(xTemp);
 				anchorP.setLayoutY(yTemp);
 				mainApp.getTabPaneController().getTabTemplateController(pageName).setScrollVaule(yTemp);
+				LogFactory.getGlobalLog().info("Drag Change Position! PageName:"+pageName+" ContainerName:"
+						+anchorP.getUserData()+" New LayoutX:"+xTemp+" New LayoutY:"+yTemp);
 				return;
 			} else if (dragging == 1) {
 				double mousex = event.getX();
 				double newWidth = anchorP.getPrefWidth() + (mousex - x);
 				anchorP.setPrefWidth(newWidth);
 				x = mousex;
+				LogFactory.getGlobalLog().info("Drag Change Container Width! PageName:"+pageName+" ContainerName:"
+						+anchorP.getUserData()+" New Width:"+newWidth);
 			}else if (dragging == 2) {
 				double mousey = event.getY();
 				double newHeight = anchorP.getPrefHeight() + (mousey - y);
 				anchorP.setPrefHeight(newHeight);
+				LogFactory.getGlobalLog().info("Drag Change Container Height! PageName:"+pageName+" ContainerName:"
+						+anchorP.getUserData()+" New Height:"+newHeight);
 				y = mousey;
 			} else if(dragging == 3) {
 				double mousex = event.getX();
@@ -79,6 +84,8 @@ public class DragListener  implements EventHandler<MouseEvent> {
 				anchorP.setPrefHeight(newHeight);
 				x = mousex;
 				y = mousey;
+				LogFactory.getGlobalLog().info("Drag Change Container Size! PageName:"+pageName+" ContainerName:"
+						+anchorP.getUserData()+" New Width:"+newWidth+" New Height:"+newHeight);
 			}
         }else if (event.getEventType() == MouseEvent.MOUSE_MOVED) {
             if((event.getY() > (anchorP.getHeight() - RESIZE_MARGIN))&&
@@ -99,8 +106,7 @@ public class DragListener  implements EventHandler<MouseEvent> {
 				mainApp.getTabPaneController().refresh(pageName);
 			}
 			needRefresh=false;
-        }
-		
+        }		
     }
 
 }
