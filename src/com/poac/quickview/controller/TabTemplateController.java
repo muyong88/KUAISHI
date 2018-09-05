@@ -54,6 +54,15 @@ public class TabTemplateController implements IController {
     	anchorCollection.add(no);
     	masonryPane.getChildren().setAll(anchorCollection); 
     }    
+    //添加消息留言板
+    public void addMessageBoard(AnchorPane  no) {
+    	anchorCollection.add(no);
+    }
+    //删除消息留言板
+    public void removeMessageBoard(AnchorPane  no) {
+    	anchorCollection.remove(no);
+    	masonryPane.getChildren().setAll(anchorCollection); 
+    }
 	/**
 	 * 1、用于根据anchorCollection内容刷新Tab
 	 * 2、根据layoutX,layoutY排序容器

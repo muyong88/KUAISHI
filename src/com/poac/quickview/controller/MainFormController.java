@@ -8,7 +8,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
@@ -18,14 +17,16 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import java.util.ArrayList;
 import com.poac.quickview.MainApp;
+import com.poac.quickview.model.AssistRoot;
 import com.poac.quickview.model.IBaseNode;
+import com.poac.quickview.model.MessageBorad;
+import com.poac.quickview.model.OperLog;
 import com.poac.quickview.model.Page;
 import com.poac.quickview.model.TreeDataModel;
 import com.poac.quickview.util.JsonParserCustomer;
@@ -35,7 +36,7 @@ public class MainFormController  implements IController{
 	@FXML
 	private TreeView<IBaseNode> treeView_project;	       //导航TreeView
 	@FXML
-	private ListView<String> listView_Assist;              //复制功能LIstView
+	private TreeView<IBaseNode> treeView_Assist;              //辅助功能TreeView_Assist
 	@FXML
 	private Accordion accordion_1;	                       //Accordion控件对TitledPane进行分组，Accordion控件可以让你创建多个面板并且每次显示其中一个      
 	@FXML
@@ -89,7 +90,7 @@ public class MainFormController  implements IController{
 	@FXML
 	private void initialize() {
 		accordion_1.setExpandedPane(titledPane); //打开工程名称Pane
-		//工厂方法客户化TreeView 
+		//工厂方法客户化treeView_project 
 		treeView_project.setCellFactory(new Callback<TreeView<IBaseNode>, TreeCell<IBaseNode>>() { 
 			@Override
 			public TreeCell<IBaseNode> call(TreeView<IBaseNode> p) {
@@ -97,33 +98,50 @@ public class MainFormController  implements IController{
 				tC.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						if (event.getClickCount() == 2) {   //双击打开Tab
+						if (event.getClickCount() == 2) { // 双击打开Tab
 							@SuppressWarnings("unchecked")
 							TreeCell<IBaseNode> c = (TreeCell<IBaseNode>) event.getSource();
-							mainApp.getTabPaneController().openTab(c.getText());
-							LogFactory.getGlobalLog().info("Open Tab:"+c.getText());
+							if (!c.isEmpty()) {
+								mainApp.getTabPaneController().openTab(c.getText());
+								LogFactory.getGlobalLog().info("Open  Tab:" + c.getText());
+							}
 						}
 					}
 				});
 				return tC;
 			} 
 		});			
-		//辅助功能ListView双击事件，打开Tab
-		listView_Assist.setOnMouseClicked(new EventHandler<MouseEvent>() {  
-    	    @Override
-    	    public void handle(MouseEvent event) {
-    	        if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 ) {
-    	        	String tabName=listView_Assist.getSelectionModel().getSelectedItem().toString().trim();
-    	        	mainApp.getTabPaneController().openTab(tabName);    	        	
-    	        	LogFactory.getGlobalLog().info("Open Tab:"+tabName);
-    	         }    
-    	    }
-    	});
+		//工厂方法客户化treeView_Assist 
+		treeView_Assist.setCellFactory(new Callback<TreeView<IBaseNode>, TreeCell<IBaseNode>>() { 
+			@Override
+			public TreeCell<IBaseNode> call(TreeView<IBaseNode> p) {
+				TreeViewCellImpl tC = new TreeViewCellImpl(mainApp);
+				tC.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent event) {
+						if (event.getClickCount() == 2) { // 双击打开Tab
+							@SuppressWarnings("unchecked")
+							TreeCell<IBaseNode> c = (TreeCell<IBaseNode>) event.getSource();
+							if (!c.isEmpty()) {
+								mainApp.getTabPaneController().openTab(c.getText());
+								LogFactory.getGlobalLog().info("Open  Tab:" + c.getText());
+							}
+						}
+					}
+				});
+				return tC;
+			} 
+		});	
 	}	
 	//初始化MainForm数据:工程名称，辅助功能对应导航数据
 	public void initData() {
-		listView_Assist.getItems().add("  消息留言");
-		listView_Assist.getItems().add("  操作日志");
+		TreeItem<IBaseNode> itemRootAssist = new TreeItem<>(new AssistRoot("")); 
+		TreeItem<IBaseNode> itemLog = new TreeItem<>(new OperLog("操作日志")); 
+		TreeItem<IBaseNode> itemMes = new TreeItem<>(new MessageBorad("消息留言")); 
+		itemRootAssist.getChildren().add(itemMes);
+		itemRootAssist.getChildren().add(itemLog);
+		treeView_Assist.setRoot(itemRootAssist);
+		treeView_Assist.setShowRoot(false);
 		TreeDataModel rootM=(new JsonParserCustomer()).getNavationData(pageList);
 		TreeItem<IBaseNode> itemRoot = new TreeItem<>(rootM); 
 		itemRoot.setExpanded(true);
@@ -164,6 +182,7 @@ public class MainFormController  implements IController{
 		}
 		mainApp.getTabPaneController().createTab("消息留言");
 		mainApp.getTabPaneController().createTabLog("操作日志");
+		mainApp.addMessageBoard();
 	}
 	/**
 	 * 判断Page名是否存在
@@ -198,33 +217,39 @@ public class MainFormController  implements IController{
 final class TreeViewCellImpl extends TreeCell<IBaseNode> {	 
     private ContextMenu addMenu1 = new ContextMenu();  //右击菜单
     private ContextMenu addMenu2 = new ContextMenu();  //右击菜单
+	private ContextMenu addMenu3 = new ContextMenu();            //右键菜单
     public TreeViewCellImpl(MainApp mainApp) {
     	MenuItem addMenuItem1 = new MenuItem("添加页面");
         MenuItem addMenuItem2 = new MenuItem("添加容器");   
         MenuItem addMenuItem3 = new MenuItem("删除页面");
+        MenuItem addMenuItem4 = new MenuItem("添加留言板");
         addMenu1.getItems().add(addMenuItem1);
         addMenu2.getItems().add(addMenuItem2);
-        addMenu2.getItems().add(addMenuItem3);
-        addMenuItem1.setOnAction((event) ->{
-            	Page page=new Page();
-            	if(mainApp.showAddPage(page)) {
-            		TreeItem<IBaseNode> newPage = new TreeItem<>(page);
-                    getTreeItem().getChildren().add(0,newPage);
-                    mainApp.getTabPaneController().createTab(page.getName());
-            	}
-            	mainApp.getMainFormController().addPageName(page.getName());
-        }); 
-        addMenuItem2.setOnAction((event) -> {
-            	if(mainApp.showAddContainer(getString())) {
-            		mainApp.addContainer(getString());     
-            	}
-        });   
-        addMenuItem3.setOnAction((event) -> {
-            	getTreeItem().getParent().getChildren().remove(getTreeItem());
-            	mainApp.getTabPaneController().removeTab(getString());
-            	mainApp.getMainFormController().removePageName(getString());
-            	LogFactory.getGlobalLog().info("Delete Page:"+getString());
-        });   
+        addMenu2.getItems().add(addMenuItem3); 
+        addMenu3.getItems().add(addMenuItem4);
+		addMenuItem1.setOnAction((event) -> {
+			Page page = new Page();
+			if (mainApp.showAddPage(page)) {
+				TreeItem<IBaseNode> newPage = new TreeItem<>(page);
+				getTreeItem().getChildren().add(0, newPage);
+				mainApp.getTabPaneController().createTab(page.getName());
+			}
+			mainApp.getMainFormController().addPageName(page.getName());
+		});
+		addMenuItem2.setOnAction((event) -> {
+			if (mainApp.showAddContainer(getString())) {
+				mainApp.addContainer(getString());
+			}
+		});
+		addMenuItem3.setOnAction((event) -> {
+			getTreeItem().getParent().getChildren().remove(getTreeItem());
+			mainApp.getTabPaneController().removeTab(getString());
+			mainApp.getMainFormController().removePageName(getString());
+			LogFactory.getGlobalLog().info("Delete Page:" + getString());
+		});
+		addMenuItem4.setOnAction((event) -> {
+			mainApp.addMessageBoard();
+		});
     }          
 	@Override
 	public void updateItem(IBaseNode item, boolean empty) {   //重载treeitem
@@ -242,7 +267,11 @@ final class TreeViewCellImpl extends TreeCell<IBaseNode> {
 				setGraphic(getTreeItem().getGraphic());
 				if (item.getClass().getName().contains("Page")) {
 					setContextMenu(addMenu2);
-				} else {
+				}else if(item.getClass().getName().contains("MessageBorad")) {
+					setContextMenu(addMenu3);
+				}else if(item.getClass().getName().contains("OperLog")) {
+					 
+				}else {
 					setContextMenu(addMenu1);
 				}
 			}

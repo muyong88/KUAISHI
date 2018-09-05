@@ -1,7 +1,5 @@
 package com.poac.quickview.global;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 public class GlobalVariable {
 	public static String data ="data";

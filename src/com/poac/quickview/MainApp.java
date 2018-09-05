@@ -10,6 +10,7 @@ import com.poac.quickview.controller.IController;
 import com.poac.quickview.controller.ImageContainerController;
 import com.poac.quickview.controller.LogonController;
 import com.poac.quickview.controller.MainFormController;
+import com.poac.quickview.controller.MessageBoardController;
 import com.poac.quickview.controller.SearchListController;
 import com.poac.quickview.controller.SubscribeController;
 import com.poac.quickview.controller.TabPaneController;
@@ -402,6 +403,23 @@ public class MainApp extends Application {
 		}else if(addContainerCon.getType().equals(GlobalVariable.video)){
 			addVideoContainer(pageName);
 		}
+	}
+	/**
+	 * 添加消息留言板 
+	 * @param pageName
+	 */	
+	public void addMessageBoard() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("gui/MessageBoard.fxml"));
+			AnchorPane messageBoard_AnchorPane = (AnchorPane) loader.load();
+			MessageBoardController mbc=loader.getController();
+			mbc.setMainApp(this);
+			tabPaneCon.addMessageBoard("消息留言", messageBoard_AnchorPane);
+			tabPaneCon.refresh("消息留言");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
 	}
 	/**
 	 * 返回TabPaneController

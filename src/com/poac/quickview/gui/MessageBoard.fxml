@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="messageBoardAnchorpane" prefHeight="227.0" prefWidth="260.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.poac.quickview.controller.MessageBoardController">
+   <children>
+      <TextArea fx:id="message_TextArea" layoutX="30.0" layoutY="-21.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="34.0" />
+      <JFXButton fx:id="closeMesBtn" layoutX="195.0" layoutY="3.0" onAction="#handleClose" prefHeight="21.0" prefWidth="21.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+      <JFXButton fx:id="addMesBtn" layoutX="167.0" layoutY="20.0" onAction="#handleAdd" prefHeight="21.0" prefWidth="21.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
+   </children>
+</AnchorPane>

@@ -115,6 +115,14 @@ public class TabPaneController implements IController {
 	public void addContainer(String pageName,AnchorPane  container,IController tcc,String conName) {		
 		tabCMap.get(pageName).addContainer(container,tcc,conName);
 	} 
+	//增加留言板,参数(页面名称，容器)
+	public void addMessageBoard(String pageName,AnchorPane  container) {		
+		tabCMap.get(pageName).addMessageBoard(container);
+	} 
+	//删除留言板,参数(页面名称，容器)
+	public void removeMessageBoard(AnchorPane  container) {
+		tabCMap.get("消息留言").removeMessageBoard(container);
+	}
 	//刷新容器
 	public void refresh(String pageName) {	
 //		System.out.println("refresh from "+pageName+" refresh");

@@ -131,12 +131,45 @@
 .tree-view, .tree-cell {
     -fx-background-color: -fx-box-border, -fx-control-inner-background,#1b1d20 ;
     -fx-text-fill: #ffffff ;
-   
+    
 }
 .tree-cell .tree-disclosure-node .arrow {
  -fx-background-color:#ffffff;
   -fx-border-color: #ffffff;
-}
-.text-area{
+} 
+#log_TextArea{ 
 	   -fx-text-fill: red;
+}   
+.root {
+    -jewelsea-lined-notepad:
+        linear-gradient(
+            from 0px 0px to 0px 11px, 
+            repeat,
+            gainsboro,
+            gainsboro 6.25%,
+            cornsilk 6.25%,
+            cornsilk
+        );
+}
+ 
+#message_TextArea {
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 15px;
+}
+
+#message_TextArea .content {
+    -fx-background-color: -jewelsea-lined-notepad;
+}
+
+#message_TextArea:focused .content {
+    -fx-background-color:
+        -fx-control-inner-background,
+        -fx-faint-focus-color,
+        -jewelsea-lined-notepad;
+}
+#addMesBtn{
+	-fx-background-image: url("addMes.jpg");
+}
+#closeMesBtn{
+	-fx-background-image: url("closeMes.jpg");
 }

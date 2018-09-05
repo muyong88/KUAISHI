@@ -45,7 +45,7 @@
                            </children></AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="black-backgroud">
                            <children>
-                              <Accordion fx:id="accordion_1" prefHeight="162.0" prefWidth="201.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
+                              <Accordion fx:id="accordion_1" layoutX="14.0" prefHeight="162.0" prefWidth="201.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <panes>
                                   <TitledPane fx:id="titledPane" animated="false" prefHeight="405.0" prefWidth="264.0" styleClass="black-backgroud" text="工程名称">
                                        <content>
@@ -64,7 +64,7 @@
                                                 <String fx:value="noborder" />
                                              </styleClass>
                                              <children>
-                                                <ListView fx:id="listView_Assist" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <TreeView fx:id="treeView_Assist" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children>
                                           </AnchorPane>
                                     </content>
