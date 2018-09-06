@@ -1,13 +1,8 @@
 package com.poac.quickview.global;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.poac.quickview.controller.IController;
 import com.poac.quickview.model.DataParameter;
-
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 import javafx.scene.media.MediaPlayer;
 
