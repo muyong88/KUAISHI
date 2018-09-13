@@ -248,7 +248,8 @@ final class TreeViewCellImpl extends TreeCell<IBaseNode> {
 			LogFactory.getGlobalLog().info("Delete Page:" + getString());
 		});
 		addMenuItem4.setOnAction((event) -> {
-			mainApp.addMessageBoard();
+			mainApp.addMessageBoard();		
+			LogFactory.getGlobalLog().info("‘ˆº”¡Ù—‘∞Â");
 		});
     }          
 	@Override

@@ -33,7 +33,7 @@ import com.poac.quickview.util.LogFactory;
  * This class aimed to supply some methods to easily build a HTTPS connection
  *
  */
-public class Connection {
+public class HTTPSConnection {
 	
 	/**
 	 * Define method name based on HTTP 1.1

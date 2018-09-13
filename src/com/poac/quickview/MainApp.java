@@ -416,7 +416,7 @@ public class MainApp extends Application {
 			MessageBoardController mbc=loader.getController();
 			mbc.setMainApp(this);
 			tabPaneCon.addMessageBoard("消息留言", messageBoard_AnchorPane);
-			tabPaneCon.refresh("消息留言");
+			tabPaneCon.refresh("消息留言");			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
